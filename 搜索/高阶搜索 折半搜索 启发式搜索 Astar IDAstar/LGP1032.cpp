@@ -27,7 +27,7 @@ void bfs() {
 	std::cin >> s >> t;
 	if (s == "((T+F)+(F+F))+(F+T)" and t == "F") {
 		std::cout  << 9 << "\n";
-; return;
+		return;
 	}
 	while (std::cin >> ss >> tt) {
 		ch1[ss] = tt; ch2[tt] = ss;
@@ -89,7 +89,7 @@ void bfs() {
 		puts("NO ANSWER!");
 	} else {
 		std::cout  << ans << "\n";
-;
+		;
 	}
 }
 int main() {
