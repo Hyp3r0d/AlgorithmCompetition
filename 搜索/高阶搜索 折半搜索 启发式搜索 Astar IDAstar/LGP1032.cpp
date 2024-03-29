@@ -25,10 +25,6 @@ unordered_map<string, i64>d1, d2;
 string s, t, ss, tt;
 void bfs() {
 	std::cin >> s >> t;
-	if (s == "((T+F)+(F+F))+(F+T)" and t == "F") {
-		std::cout  << 9 << "\n";
-		return;
-	}
 	while (std::cin >> ss >> tt) {
 		ch1[ss] = tt; ch2[tt] = ss;
 	}
