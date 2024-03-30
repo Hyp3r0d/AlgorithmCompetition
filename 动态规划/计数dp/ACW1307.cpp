@@ -26,7 +26,7 @@ void solve() {
 	vector<i64>pre(n + 5, 0);
 	for (i64 i = 1; i <= n; i++) {
 		//if (i >= k + 1)
-		dp[i] = (dp[i] % mod + dp[max(0i64, i - k - 1)]) % mod;
+		dp[i] = (dp[i] % mod + dp[max(0ll, i - k - 1)]) % mod;
 		//选择放一头公牛
 		dp[i] = (dp[i] % mod + dp[i - 1]) % mod;
 	}

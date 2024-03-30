@@ -22,8 +22,10 @@ using i128 = __int128_t;
 using u128 = __uint128_t;
 using f128 = long double;
 
+
+using namespace std;
 constexpr i64 mod = 998244353;
-constexpr i64 maxn = 3e4 + 5;
+constexpr i64 maxn = 5e4 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 
@@ -32,42 +34,48 @@ struct cmp {
     return x.second > y.second;
   }
 };
-std::priority_queue<std::pair<i64, i64>, std::vector<std::pair<i64, i64>>, cmp>q;
-i64 f[maxn]; i64 dis[maxn]; bool vis[maxn];
-std::vector<std::pair<i64, i64>>g[maxn];
 int main() {
+
   i64 n, m, b; std::cin >> n >> m >> b;
+  vector<i64>f(n + 1), dis(n + 1);
+  std::vector<bool>vis(n + 1, false);
+  std::vector<vector<pair<i64, i64>>>g(n + 1);
+  i64 l = 0, r = 0;
   for (i64 i = 1; i <= n; i++) {
-    std::cin >> f[i];
+    std::cin >> f[i]; r = max(r, f[i]);
   }
+  l = max(f[1], f[n]);
+  // l = 0 ,r = 1e10也可
   for (i64 i = 1; i <= m; i++) {
     i64 x, y, z; std::cin >> x >> y >> z;
     g[x].push_back({y, z});
     g[y].push_back({x, z});
   }
   auto check = [&](i64 x) {
-    while (q.size())q.pop();
-    std::fill(dis + 1, dis + 1 + n, inf);
-    dis[1] = 0;
+    queue<i64>q;
+    std::fill(dis.begin() + 1, dis.begin() + 1 + n, inf);
+    std::fill(vis.begin() + 1, vis.begin() + 1 + n, false);
+    dis[1] = 0; vis[1] = true; q.push(1);
     if (f[1] > x)return false;
-    std::fill(vis + 1, vis + 1 + n, false);
-    q.push({1, 0});
+
     while (q.size()) {
-      auto [u, d] = q.top(); q.pop(); vis[u] = true;
+      auto u = q.front(); q.pop(); vis[u] = false;
       for (auto [v, w] : g[u]) {
         if (f[v] > x)continue; //  ban掉这个点
         if (dis[v] > dis[u] + w) {
           dis[v] = dis[u] + w;
           if (not vis[v]) {
-            q.push({dis[v], v});
+            q.push(v); vis[v] = true;
           }
         }
       }
     }
     return dis[n] <= b;
   };
+  if (not check(r)) {
+    puts("AFK"); return 0;
+  }
   i64 ans = -1;
-  i64 l = 0, r = 1e15;
   while (l <= r) {
     i64 mid = (l + r) >> 1;
     if (check(mid))r = mid - 1, ans = mid;

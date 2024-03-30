@@ -42,7 +42,7 @@ public:
         dfs(v, u, fs);
       }
     };
-    dfs(0, -1, 0i64);
+    dfs(0, -1, 0ll);
     return res;
   }
 };

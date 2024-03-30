@@ -35,7 +35,7 @@ public:
     for (auto c : s) {
       cnt[c - 'a']++;
     }
-    if (cnt.size() < k)return 0i64;
+    if (cnt.size() < k)return 0ll;
     std::sort(f.begin(), f.begin() + 26, [&](int a, int b)->bool{
       return cnt[a] > cnt[b];
     });

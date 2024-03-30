@@ -30,7 +30,7 @@ void solve() {
 	idx[++tot] = n + 1;
 	i64 cnt = tot - 1;
 	auto get = [&](i64 i) {
-		if (cnt - i + 1 + (m - 1)*cnt < k)return 0i64;
+		if (cnt - i + 1 + (m - 1)*cnt < k)return 0ll;
 		i64 tmp = k;
 		i64 ret = 0; i64 cur = 0;
 		i64 s1 = min(tmp, cnt - i + 1);

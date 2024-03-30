@@ -23,7 +23,7 @@ void solve() {
   i64 n; std::cin >> n;
   vector<i64>A(n + 5, 0);
   for (i64 i = 1; i <= n; i++)std::cin >> A[i];
-  i64 tot = accumulate(A.begin() + 1, A.begin() + 1 + n, 0i64);
+  i64 tot = accumulate(A.begin() + 1, A.begin() + 1 + n, 0ll);
   if (tot % n) {
     puts("No"); return;
   }

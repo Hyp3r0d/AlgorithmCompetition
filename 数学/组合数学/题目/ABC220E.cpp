@@ -22,7 +22,7 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 void solve() {
   i64 n, d; std::cin >> n >> d;
   auto ksm = [&](i64 x, i64 y) {
-    i64 ret = 1; if (y < 0)return 0i64;
+    i64 ret = 1; if (y < 0)return 0ll;
     while (y) {
       if (y & 1)ret = ret * x % mod;
       x = x * x % mod;

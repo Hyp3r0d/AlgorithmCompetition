@@ -28,7 +28,7 @@ void solve() {
 		t[s[i].size()].push_back(i);
 	}
 	auto getsum = [&](vector<i64>w) {
-		if (not w.size())return 0i64;
+		if (not w.size())return 0ll;
 		i64 len = s[w[0]].size(); i64 ans = 0;
 		for (i64 i = 0; i < (1 << len); i++) {//枚举一定长度下全部的可能串
 			string tmp = "";
@@ -51,7 +51,7 @@ void solve() {
 		return ans;
 	};
 	function<i64(vector<i64>)>dfs = [&](vector<i64>w) {//求并集
-		if (w.size() == 0)return 0i64;
+		if (w.size() == 0)return 0ll;
 		vector<i64>x;
 		for (auto v : w)x.push_back(v);
 		i64 ans = 0; i64 len = s[w[0]].size();
@@ -98,7 +98,7 @@ void solve() {
 		return ans % mod;
 	};
 	/*function<i64(vector<i64>)>dfs = [&](vector<i64>w) {//求并集
-		if (w.size() == 0)return 0i64;
+		if (w.size() == 0)return 0ll;
 		i64 ret = 0; i64 len = s[w[0]].size();
 		for (i64 i = 1; i < (1 << w.size()); i++) {
 			vector<i64>v;

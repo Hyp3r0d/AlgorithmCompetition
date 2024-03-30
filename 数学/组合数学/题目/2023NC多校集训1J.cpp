@@ -53,7 +53,7 @@ int main() {
 		cur--;
 		r = min((1i64 << (cur + 1)) - 2i64, n + m - 1);
 		i64 s = ((1i64 - ksm(p, cur)) % mod + mod) % mod;
-		ans = ans % mod * ksm(s, max(0i64, r - l + 1)) % mod;
+		ans = ans % mod * ksm(s, max(0ll, r - l + 1)) % mod;
 	}
 	std::cout  << ans % mod << "\n";;
 	return 0;

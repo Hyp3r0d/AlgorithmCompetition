@@ -21,11 +21,11 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 void solve() {
   auto solve = [&](i64 x, i64 k, i64 n) {
-    if (k < 0)return 0i64;
-    if (k >= 64)return 0i64;
+    if (k < 0)return 0ll;
+    if (k >= 64)return 0ll;
     i64 num = (1 << k), l = x;
     l <<= k; i64 r = l + num - 1;
-    if (l > n)return 0i64;
+    if (l > n)return 0ll;
     i64 ret = min(r, n) - l + 1;
     return ret;
   };

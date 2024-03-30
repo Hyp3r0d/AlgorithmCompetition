@@ -27,7 +27,7 @@ public:
 			auto check = [&](i64 mid) {
 				i64 ret = 0;
 				for (i64 i = 0; i < n; i++) {
-					ret += cost[i] * max(0i64, mid * c[i] - stock[i]);
+					ret += cost[i] * max(0ll, mid * c[i] - stock[i]);
 					if (ret > budget)return false;
 				}
 				return true;

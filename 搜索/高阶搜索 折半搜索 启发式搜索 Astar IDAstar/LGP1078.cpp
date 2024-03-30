@@ -1,5 +1,4 @@
-/*启发式搜索剪枝 + 暴搜*/
-/*预处理用于剪枝过程中决策*/
+/*启发式搜索 A*/
 #include<bits/stdc++.h>
 
 using i8 = signed char;
@@ -15,77 +14,89 @@ using f64 = double;
 using i128 = __int128_t;
 using u128 = __uint128_t;
 using f128 = long double;
+using namespace std;
 
 constexpr i64 mod = 998244353;
-constexpr i64 maxn = 1e2 + 10;
+constexpr i64 maxn = 1000 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
-bool vis[maxn]; bool w[maxn];
-std::queue<i64>q;
-std::vector<std::pair<i64, i64>>g[maxn];
-i64 c[maxn]; i64 a[maxn][maxn]; i64 dis[maxn];
 
+unordered_set<i64>z;
+bool a[105][105]; i64 c[maxn];
+std::unordered_set<i64>st[105];
+std::vector<pair<i64, i64>>g[1005];
+i64 d[maxn]; bool vis[maxn];
 int main() {
-    i64 n, k, m, s, t; std::cin >> n >> k >> m >> s >> t;
+    i64 n, k, m, s, t;
+    std::cin >> n >> k >> m >> s >> t;
     for (i64 i = 1; i <= n; i++) {
         std::cin >> c[i];
     }
     for (i64 i = 1; i <= k; i++) {
         for (i64 j = 1; j <= k; j++) {
             std::cin >> a[i][j];
+            if (a[i][j])
+                st[i].insert(j);
         }
     }
     for (i64 i = 1; i <= m; i++) {
-        i64 u, v, w; std::cin >> u >> v >> w;
-        g[u].push_back({v, w});
-        g[v].push_back({u, w});
+        i64 u, v, d; std::cin >> u >> v >> d;
+        g[u].push_back({v, d});
+        g[v].push_back({u, d});
     }
-    q.push(t); memset(dis, 0x3f, sizeof(dis));
-    dis[t] = 0; vis[t] = true;
-    /*反着预处理一遍 h 函数, 为启发式搜索剪枝做准备*/
+
+    i64 ans = inf; queue<i64>q;
+    memset(d, 0x3f, sizeof(d));
+    d[t] = 0; vis[t] = 1; q.push(t);
     while (q.size()) {
-        auto u = q.front(); q.pop();
-        vis[u] = false;
-        for (auto [v, d] : g[u]) {
-            if (dis[v] > dis[u] + d) {
-                dis[v] = dis[u] + d;
+        auto u = q.front();
+        q.pop(); vis[u] = false;
+        for (auto [v, dis] : g[u]) {
+            if (d[v] > d[u] + dis) {
+                d[v] = d[u] + dis;
                 if (not vis[v]) {
-                    q.push(v);
-                    vis[v] = true;
+                    q.push(v); vis[v] = true;
                 }
             }
         }
     }
-    i64 ans = inf;
-    std::function<void(i64, i64)>dfs = [&](i64 u, i64 d) {
-        w[c[u]] = true;
-        if (u == t) {
-            ans = std::min(ans, d);
-            w[c[u]] = false;
+    // 利用SPFA预处理h函数
+    memset(vis, false, sizeof(vis));
+    std::function<void(i64, i64)>dfs = [&](i64 cur, i64 dis) {
+        vis[cur] = true; z.insert(c[cur]);
+        if (dis + d[cur] >= ans) { // 剪枝
+            vis[cur] = false; z.erase(c[cur]);
             return;
         }
-        if (d >= ans) {
-            w[c[u]] = false; return;
+        if (cur == t) {
+            ans = std::min(ans, dis);
+            vis[cur] = false;
+            z.erase(c[cur]);
+            return;
         }
-        for (i64 i = 1; i <= k; i++) {
-            if (a[i][c[u]])w[i] = true;
-        }
-        for (auto [v, z] : g[u]) {
-            if (not w[c[v]] and not a[c[t]][c[v]] and ((v != t and c[v] != c[t]) or v == t)
-                    and d + z + dis[v] < ans) {
-                dfs(v, d + z);
-                /*剪枝, 如果这个答案最好的情况要比已知的最佳答案糟糕就不要搜下去了*/
+        for (auto [v, w] : g[cur]) {
+            if (vis[v])continue; bool f = true;
+            for (auto cc : st[c[v]]) {
+                if (z.count(cc)) {
+                    f = false; break;
+                }
             }
+            if (not f)continue;
+            if (z.count(c[v]))continue;
+            if (d[v] + w + dis >= ans)continue; // A* 启发式搜索剪枝
+            if (st[c[t]].count(c[v]) and v != t)continue;
+            dfs(v, dis + w);
         }
-        w[c[u]] = false;
-        for (i64 i = 1; i <= k; i++) {
-            if (a[c[u]][i])w[i] = false;
-        }
+        vis[cur] = false; z.erase(c[cur]);
     };
+    if (st[c[t]].count(c[s])) {
+        puts("-1");
+        return 0;
+    }
     dfs(s, 0);
     if (ans == inf) {
-        puts("-1");
-    } else {
-        std::cout << ans << "\n";
+        puts("-1"); return 0;
     }
+    std::cout << ans << "\n";
+    return 0;
 }

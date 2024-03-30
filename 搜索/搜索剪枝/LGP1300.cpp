@@ -55,7 +55,7 @@ int main() {
 		vis[x][y][dir] = 1;
 		if (d >= ans) {
 			vis[x][y][dir] = 0; return;
-		}
+		} // 剪枝
 		if (x == tx and y == ty) {
 			vis[x][y][dir] = 0; ans = std::min(ans, d);
 			return;

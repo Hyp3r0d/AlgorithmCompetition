@@ -51,7 +51,7 @@ void solve() {
     }
     //枚举分割点
     cur = 0; bool f2 = 0;
-    for (i64 i = n; i >= max(0i64, n - k); i--) {
+    for (i64 i = n; i >= max(0ll, n - k); i--) {
         if (pre[i] and cur == n - i) {
             f2 = 1; break;
         }

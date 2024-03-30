@@ -39,7 +39,7 @@ void solve() {
     tr.push_back(sq());
     for (i64 i = 0; i < n; i++)std::cin >> a[i];
     function<i64(i64, vector<i64>)>dfs = [&](i64 cur, vector<i64>v) {
-        if (cur == -1)return 0i64;
+        if (cur == -1)return 0ll;
         vector<i64>s, t;
         for (auto c : v) {
             if ((c >> cur) & 1)s.push_back(c);

@@ -80,7 +80,7 @@ i64 inv(i64 x) {
 	return ksm(x, mod - 2) % mod;
 }
 i64 comb(i64 n, i64 m) {
-	if (n < m)return 0i64;
+	if (n < m)return 0ll;
 	return fac[n] % mod * inv(fac[m] % mod * fac[n - m] % mod) % mod;
 }
 void solve() {

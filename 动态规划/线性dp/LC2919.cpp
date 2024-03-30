@@ -26,9 +26,9 @@ public:
         int n = nums.size();
         vector<i64>dp(n + 1, inf);
         for (int  i = 1; i <= n; i++) {
-            if (i <= 3)dp[i] = max(0i64, k - (i64)nums[i - 1]);
+            if (i <= 3)dp[i] = max(0ll, k - (i64)nums[i - 1]);
             else {
-                dp[i] = min({dp[i - 3], dp[i - 2], dp[i - 1]}) + max(0i64, k - (i64)nums[i - 1]);
+                dp[i] = min({dp[i - 3], dp[i - 2], dp[i - 1]}) + max(0ll, k - (i64)nums[i - 1]);
             }
         }
         return min({dp[n - 1], dp[n], dp[n - 2]});
