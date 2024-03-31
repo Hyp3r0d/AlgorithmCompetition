@@ -94,3 +94,31 @@ void solve() {
 int main() {
   solve();
 }
+
+/*
+可以一维计算0 1 背包, 并将0 抽出来利用乘法原理计算
+dp[0] = 1;
+    i64 tot = accumulate(d.begin() + 1, d.begin() + 1 + n, 0); i64 cnt = 0;
+    for (i64 i = 1; i <= n - 1; i++) {
+        if (not d[i]) {
+            cnt++; continue;
+        }
+        for (i64 j = tot; j >= 0; j--) {
+            if (j >= d[i])
+                dp[j] = (dp[j] % mod + dp[j - d[i]]) % mod;
+        }
+    }
+    auto qpow = [&](i64 x, i64 y) {
+        i64 ret = 1;
+        while (y) {
+            if (y & 1)ret = ret % mod * x % mod;
+            x = x % mod * x % mod;
+            y >>= 1;
+        }
+        return ret % mod;
+    };
+    i64 ans = 0;
+    for ( i64 i = 0; i <= tot; i++)if (i + i - tot == k)ans = (ans % mod + dp[i]) % mod;
+    std::cout  << (ans % mod * qpow(2, cnt) % mod) << "\n";
+
+    */

@@ -42,7 +42,7 @@ void solve() {
     }
     for (auto v : tr[u]) {
       if (v == f)continue;
-      dfs(v, u, max(des - 1, 0 i64));
+      dfs(v, u, max(des - 1, 0ll));
     }
   };
   dfs(1, 0, w[1] + 1);

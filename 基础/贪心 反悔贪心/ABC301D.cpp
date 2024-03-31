@@ -28,7 +28,7 @@ void solve() {
 	vector<i64>idx;
 	for (i64 i = 0; i < ks; i++) {
 		if (s[i] == '1') {
-			cur += (1i64 << i);
+			cur += (1ll << i);
 		}
 	}
 	if (cur > N) {

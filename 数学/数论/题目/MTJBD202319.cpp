@@ -92,7 +92,7 @@ void solve() {
 		i64 sum = 0;
 		for (i64 d = prime[i]; d <= x; d *= prime[i]) {
 			i64 st = x + 1 - x / d * d, ed = x + 1 - d;
-			sum += 1i64 * ((ed - st + d) / d ) * (ed + st) / 2;
+			sum += 1ll * ((ed - st + d) / d ) * (ed + st) / 2;
 		}
 		if (i != 1)std::cout  << "*" << "";
 		std::cout  << prime[i];

@@ -24,7 +24,7 @@ void solve() {
 	i64 l = 0, r = 63;//计算总共有几层
 	while (l < r) {
 		i64 mid = (l + r) >> 1;
-		if ((1i64 << mid) - 1 >= n)r = mid;
+		if ((1ll << mid) - 1 >= n)r = mid;
 		else l = mid + 1;
 	}
 	auto lowbit = [&](i64 x) {

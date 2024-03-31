@@ -53,11 +53,11 @@ i64 dfs2(i64 u, i64 pos) {
         i64 mn = inf;
         if (r[x] - l[x] + 1 <= r[y] - l[y] + 1) {
             for (i64 k = l[x]; k <= r[x]; k++) {
-                mn = min(mn, query(y, pos - 1, w[k]) + (1i64 << pos));
+                mn = min(mn, query(y, pos - 1, w[k]) + (1ll << pos));
             }
         } else {
             for (i64 k = l[y]; k <= r[y]; k++) {
-                mn = min(mn, query(x, pos - 1, w[k]) + (1i64 << pos));
+                mn = min(mn, query(x, pos - 1, w[k]) + (1ll << pos));
             }
         }
         return mn + dfs2(x, pos - 1) + dfs2(y, pos - 1);

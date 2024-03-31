@@ -29,7 +29,7 @@ void solve() {
 	for (i64 i = 1; i <= m; i++)std::cin >> sz[i];
 	vector<i64>pre(n + 5);
 	vector<i64>c(max(n, m) + 1, 0); i64 id = 0;
-	for (i64 i = max(1i64, m - n + 1); i <= m; i++) {
+	for (i64 i = max(1ll, m - n + 1); i <= m; i++) {
 		c[++id] = sz[i];
 	}
 	vector dp(n + 5, vector (n + 5, vector<i64>(200, -inf)));
@@ -98,7 +98,7 @@ void solve() {
 	}
 	for (i64 i = 1; i <= m; i++)std::cin >> sz[i];
 	i64 id = 0;
-	for (i64 i = max(1i64, m - n + 1); i <= m; i++) {
+	for (i64 i = max(1ll, m - n + 1); i <= m; i++) {
 		c[++id] = sz[i];
 	}
 	for (i64 i = 1; i <= id; i++) {//前i个操作 到达第 j 个房间 用了k的容量

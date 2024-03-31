@@ -49,10 +49,10 @@ int main() {
 	i64 ans = 1; i64 pre = 0;
 	for (i64 l = n, r; l <= n + m - 1; l = r + 1) {
 		i64 cur = 0;
-		while ((1i64 << cur) <= l + 1)cur++;
+		while ((1ll << cur) <= l + 1)cur++;
 		cur--;
-		r = min((1i64 << (cur + 1)) - 2i64, n + m - 1);
-		i64 s = ((1i64 - ksm(p, cur)) % mod + mod) % mod;
+		r = min((1ll << (cur + 1)) - 2ll, n + m - 1);
+		i64 s = ((1ll - ksm(p, cur)) % mod + mod) % mod;
 		ans = ans % mod * ksm(s, max(0ll, r - l + 1)) % mod;
 	}
 	std::cout  << ans % mod << "\n";;

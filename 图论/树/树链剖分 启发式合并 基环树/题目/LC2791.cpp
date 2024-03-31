@@ -38,7 +38,7 @@ public:
       cnt[cur]++;
       for (auto [v, c] : tr[u]) {
         if (v == f)continue;
-        i64 fs = cur ^ (1i64 << (c - 'a'));
+        i64 fs = cur ^ (1ll << (c - 'a'));
         dfs(v, u, fs);
       }
     };

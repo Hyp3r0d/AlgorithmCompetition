@@ -38,11 +38,11 @@ public:
       cnt[cur]++;
       for (auto [v, c] : tr[u]) {
         if (v == f)continue;
-         i64 fs = cur ^ (1 i64 << (c - 'a'));
+         i64 fs = cur ^ (1ll << (c - 'a'));
         dfs(v, u, fs);
       }
     };
-    dfs(0, -1, 0 i64);
+    dfs(0, -1, 0ll);
     return res;
   }
 };

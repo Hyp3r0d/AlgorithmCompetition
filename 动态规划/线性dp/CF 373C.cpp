@@ -36,7 +36,7 @@ void solve() {
 				while (hed <= tal and dp[cur ^ 1][q[tal]] <= dp[cur ^ 1][k])tal--;
 				q[++tal] = k;//随着j的移动,有限队列中存储的数据下标范围也在移动
 			}
-			while (hed <= tal and q[hed] < max(1i64, j - d * (t[i] - t[i - 1]))) {
+			while (hed <= tal and q[hed] < max(1ll, j - d * (t[i] - t[i - 1]))) {
 				hed++;
 			}//单调队列维护一定下标范围内数据的最小值
 			dp[cur][j] = dp[cur ^ 1][q[hed]] - abs(a[i] - j) + b[i];//直接查询即可

@@ -103,7 +103,7 @@ void solve() {
 			}
 			if (vis[u] == idx) {
 				f1 = 1;
-			} return 1i64;
+			} return 1ll;
 		}
 		vis[u] = idx;
 		i64 w = dfs(A[u], p) + 1; return w;
