@@ -16,7 +16,7 @@ using f128 = long double;
 using namespace std;
 
 constexpr i64 mod = 998244353;
-constexpr i64 maxn = 4e6 + 5;
+constexpr i64 maxn = 300 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 i64 A[maxn][maxn], sum[maxn][maxn][maxn];
