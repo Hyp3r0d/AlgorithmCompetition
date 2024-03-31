@@ -1,50 +1,78 @@
-/*出度为 1 的序列形成内向基环树*/
+#include<bits/stdc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
+using namespace std;
+
+constexpr i64 mod = 45989;
+constexpr i64 maxn = 5e4 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+
 class Solution {
 public:
 	vector<int> countVisitedNodes(vector<int>& edges) {
 		int n = edges.size();
-		vector<vector<int>>g(n + 1); vector<int>d(n + 1);
+		vector<int>ret(n);
+		std::vector<int>d(n);
+		vector<vector<int>>g(n);
 		for (int i = 0; i < n; i++) {
-			int u = i + 1, v = edges[i] + 1;
-			g[v].push_back(u), d[v]++;
+			d[edges[i]]++; // 入度 + 1
+			g[edges[i]].push_back(i);
 		}
-		queue<int>q; vector<bool>vis(n + 1);
-		for (int i = 1; i <= n; i++) {
-			if (not d[i])q.push(i), vis[i] = 1;
+		queue<int>q; vector<bool>vis(n);
+		for (int i = 0; i < n; i++) {
+			if (not d[i])q.push(i), vis[i] = true;
 		}
 		while (q.size()) {
 			auto u = q.front(); q.pop();
-			int nxt = edges[u - 1] + 1;
-			d[nxt]--;
+			i64 nxt = edges[u];
+			d[nxt]--; // 在反边作拓扑
 			if (not d[nxt]) {
-				q.push(nxt); vis[nxt] = 1;
+				vis[nxt] = true; q.push(nxt);
 			}
 		}
-		int sz = 0; for (int i = 1; i <= n; i++)if (not vis[i])sz++;
-		vector<int>ans(n, 0);
-		auto bfs = [&](int u, int le) {
-			queue<int>q;
-			q.push(u); ans[u - 1] = le;
+		// 在正边作bfs
+		auto bfs = [&](i64 u, i64 sz) {
+			ret[u] = sz;
+			q.push(u);
 			while (q.size()) {
-				auto cur = q.front(); q.pop();
-				for (auto v : g[cur]) {
+				auto u = q.front(); q.pop();
+				for (auto v : g[u]) {
 					if (not vis[v])continue;
-					ans[v - 1] = ans[cur - 1] + 1;
+					if (ret[v])continue;
+					ret[v] = ret[u] + 1;
 					q.push(v);
 				}
 			}
 		};
-		for (int i = 1; i <= n; i++) {
+		for (i64 i = 0; i < n; i++) {
 			if (not vis[i]) {
-				vector<int>r;
-				int cur = i; r.push_back(i);
+				i64 cur = i; int sz = 1;
 				while (1) {
-					cur = edges[cur - 1] + 1;
-					if (cur == i)break; r.push_back(cur);
+					cur = edges[cur];
+					if (cur == i)break;
+					sz++;
 				}
-				for (auto x : r)bfs(x, r.size());
+				cur = i; bfs(cur, sz);
+				while (1) {
+					cur = edges[cur];
+					if (cur == i)break;
+					bfs(cur, sz);
+				}
 			}
 		}
-		return ans;
+		return ret;
 	}
 };
