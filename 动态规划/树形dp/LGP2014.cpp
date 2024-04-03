@@ -16,7 +16,7 @@ using f128 = long double;
 using namespace std;
 
 constexpr i64 mod = 998244353;
-constexpr i64 maxn = 4e6 + 5;
+constexpr i64 maxn = 1e3 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 vector<i64>tr[maxn];
@@ -52,7 +52,7 @@ void solve() {
 	};
 	dfs(0);
 	std::cout  << dp[0][M + 1] << "\n";
-;
+	;
 }
 int main() {
 	solve();

@@ -36,7 +36,7 @@ void solve() {
   string s; std::cin >> s;
   i64 len = s.size();
   auto p = Prefix(s);
-  std::cout  << len - p[len - 1] << "\n"; << "\n";;
+  std::cout  << len - p[len - 1] << "\n";
 }
 int main() {
   i64 T; std::cin >> T;
