@@ -22,10 +22,9 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 
 unordered_set<i64>z;
-bool a[105][105]; i64 c[maxn];
-std::unordered_set<i64>st[105];
-std::vector<pair<i64, i64>>g[1005];
-i64 d[maxn]; bool vis[maxn];
+bool a[105][105]; i64 c[105];
+std::vector<pair<i64, i64>>g[105];
+i64 d[105]; bool vis[105];
 int main() {
     i64 n, k, m, s, t;
     std::cin >> n >> k >> m >> s >> t;
@@ -35,8 +34,6 @@ int main() {
     for (i64 i = 1; i <= k; i++) {
         for (i64 j = 1; j <= k; j++) {
             std::cin >> a[i][j];
-            if (a[i][j])
-                st[i].insert(j);
         }
     }
     for (i64 i = 1; i <= m; i++) {
@@ -49,11 +46,11 @@ int main() {
     memset(d, 0x3f, sizeof(d));
     d[t] = 0; vis[t] = 1; q.push(t);
     while (q.size()) {
-        auto u = q.front();
-        q.pop(); vis[u] = false;
-        for (auto [v, dis] : g[u]) {
-            if (d[v] > d[u] + dis) {
-                d[v] = d[u] + dis;
+        auto u = q.front(); q.pop();
+        vis[u] = false;
+        for (auto [v, w] : g[u]) {
+            if (d[v] > d[u] + w) {
+                d[v] = d[u] + w;
                 if (not vis[v]) {
                     q.push(v); vis[v] = true;
                 }
@@ -61,35 +58,34 @@ int main() {
         }
     }
     // 利用SPFA预处理h函数
-    memset(vis, false, sizeof(vis));
     std::function<void(i64, i64)>dfs = [&](i64 cur, i64 dis) {
-        vis[cur] = true; z.insert(c[cur]);
-        if (dis + d[cur] >= ans) { // 剪枝
-            vis[cur] = false; z.erase(c[cur]);
-            return;
-        }
-        if (cur == t) {
-            ans = std::min(ans, dis);
-            vis[cur] = false;
+        z.insert(c[cur]);
+        if (dis + d[cur] >= ans) {
             z.erase(c[cur]);
             return;
         }
+        if (cur == t) {
+            z.erase(c[cur]);
+            ans = std::min(ans, dis);
+            return;
+        }
+
         for (auto [v, w] : g[cur]) {
-            if (vis[v])continue; bool f = true;
-            for (auto cc : st[c[v]]) {
-                if (z.count(cc)) {
+            bool f = true;
+            for (auto cc : z) {
+                if (a[c[v]][cc]) {
                     f = false; break;
                 }
             }
             if (not f)continue;
             if (z.count(c[v]))continue;
             if (d[v] + w + dis >= ans)continue; // A* 启发式搜索剪枝
-            if (st[c[t]].count(c[v]) and v != t)continue;
+            if (a[c[t]][c[v]] and v != t)continue;
             dfs(v, dis + w);
         }
-        vis[cur] = false; z.erase(c[cur]);
+        z.erase(c[cur]);
     };
-    if (st[c[t]].count(c[s])) {
+    if (a[c[t]][c[s]]) {
         puts("-1");
         return 0;
     }

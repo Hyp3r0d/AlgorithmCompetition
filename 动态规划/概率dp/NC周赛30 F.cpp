@@ -48,21 +48,25 @@ int main() {
 	memset(dp, -1, sizeof(dp));
 	// u 总数 u1 2的数量
 	std::function<i64(i64, i64, i64, i64)>dfs = [&](i64 u, i64 u1, i64 v, i64 v1) {
-		if (u == v and u1 == v1) {
+		if (u == u1 and v == v1) {
 			return dp[u][u1][v][v1] = 0ll;
 		}
-		if (u == 0 or v == 0) {
+		if (not u1 and not v1) {
+			return dp[u][u1][v][v1] = 0ll;
+
+		}
+		if (not u or not v) {
 			return dp[u][u1][v][v1] = 0ll;
 		}
 		if (dp[u][u1][v][v1] != -1)return dp[u][u1][v][v1] % mod;
 
 		i64 res = 1;
 
-		if (u1 and v1 != v) {
+		if (u1 and v > v1) {
 			res = (res % mod + u1 % mod * inv(u) % mod * (v - v1) % mod * inv(v) % mod * dfs(u, u1, v - 1, v1) % mod) % mod;
 		}
 
-		if (u1 != u and v1) {
+		if (u > u1 and v1) {
 			res = (res % mod + (u - u1) % mod * inv(u) % mod * v1 % mod * inv(v) % mod * dfs(u - 1, u1, v, v1) % mod) % mod;
 		}
 		i64 x = 0, y = 0;
@@ -71,10 +75,10 @@ int main() {
 			x = u1 % mod * inv(u) % mod * v1 % mod * inv(v) % mod;
 		}
 
-		if (u1 != u and v1 != v) {
+		if (u > u1 and v > v1) {
 			y = (u - u1) % mod * inv(u) % mod * (v - v1) % mod * inv(v) % mod;
 		}
-		i64 t = inv(((1 - x - y + mod ) % mod + mod) % mod) % mod;
+		i64 t = inv(((1 - x - y + mod) % mod + mod) % mod) % mod;
 		return dp[u][u1][v][v1] = (res) % mod * t % mod;
 	};
 	std::cout << dfs(n, c1[2], m, c2[2]) % mod  << "\n";
