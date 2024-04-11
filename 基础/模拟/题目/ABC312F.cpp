@@ -18,9 +18,15 @@ using namespace std;
 constexpr i64 mod = 998244353;
 constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+struct cmp {
+	bool operator()(const i64&x, const i64&y)const {
+		return x < y;
+	}
+};
+
 
 void solve() {
-	std::priority_queue< i64>q1, q2, q3;
+	std::priority_queue<i64, vector<i64>, cmp>q1, q2, q3;
 	i64 n, m; std::cin >> n >> m;
 	vector< i64>X(n + 5), Y(n + 5);
 	for ( i64 i = 1; i <= n; i++) {
@@ -49,7 +55,7 @@ void solve() {
 		ans = max(ans, X[i] + Y[m - i]);
 	}
 	std::cout  << ans << "\n";
-;
+	;
 }
 int main() {
 	solve();
