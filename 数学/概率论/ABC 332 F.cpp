@@ -143,9 +143,11 @@ int main() {
     i64 p = inv(r - l + 1) % mod;
     tr.modify1(1, l, r, ((1 - p) % mod + mod) % mod);
     tr.modify2(1, l, r, v % mod * p % mod);
+    /*利用了多项式迭代的特性*/
   }
   for (i64 i = 1; i <= n; i++) {
     std::cout  << tr.query(1, i, i) % mod << " \n"[i == n];
   }
   return 0;
 }
+/* 忘了题号了 */
