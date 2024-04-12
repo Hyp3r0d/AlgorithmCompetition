@@ -49,9 +49,7 @@ int main() {
 	auto update = [&](i64 x) {
 		for (i64 i = 1; i <= n; i++) {
 			for (i64 j = 1; j <= n; j++) {
-				if (f[i][j] > f[i][x] + f[j][x]) {
-					f[i][j] = f[j][i] = f[i][x] + f[j][x];
-				}
+				f[i][j] = std::min(f[i][j], f[i][x] + f[x][j]);
 			}
 		}
 	};
@@ -63,10 +61,10 @@ int main() {
 		if (t[x] > z or t[y] > z) {
 			puts("-1");
 		} else {
-			if (f[x][y] == inf) {
+			if (f[x][y] == inf and f[y][x] == inf) {
 				puts("-1");
 			} else {
-				std::cout << f[x][y] << "\n";
+				std::cout << std::min(f[x][y], f[y][x]) << "\n";
 			}
 		}
 	}
