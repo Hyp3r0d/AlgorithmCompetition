@@ -22,7 +22,7 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 class Solution {
 public:
 	
-	int maxIncreasingCells(vector<vector<int>>& mat) {
+	int maxIncreasingCei64s(vector<vector<int>>& mat) {
 		int n = mat.size(); int m = mat[0].size();
 		vector<int>r(n + 5, -inf), c(m + 5, -inf);
 		std::map<int, vector<pair<int, int>>>mp;

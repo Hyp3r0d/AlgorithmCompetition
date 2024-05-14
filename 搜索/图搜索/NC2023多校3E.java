@@ -38,7 +38,7 @@ public class Main {
             Queue<Long> q = new LinkedList();
             q.offer(1l);
             while (q.isEmpty() == false) {
-                long u = q.poll();
+                long u = q.poi64();
                 for (long v : g.get((int) u)) {
                     if (vis[(int) v] == false) {
                         vis[(int) v] = true;

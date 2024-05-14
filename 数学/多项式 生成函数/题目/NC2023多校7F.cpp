@@ -1,16 +1,16 @@
 #include<bits/stdc++.h>
 using namespace std;
 typedef double db;
-typedef long long ll;
+using i64 = long long;
 typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
-ll norm(ll x) {
+const i64 maxn = 1e6 + 5;
+const i64 inf = 0x3f3f3f3f3f3f3f3f;
+const i64 mod = 998244353;
+i64 norm(i64 x) {
 	return (x % mod + mod) % mod;
 }
 template<typename T>
-T power(T a, ll b) {
+T power(T a, i64 b) {
 	T res = 1;
 	for (; b; b /= 2, a *= a) {
 		if (b % 2) { res *= a; }
@@ -18,9 +18,9 @@ T power(T a, ll b) {
 	return res;
 }
 struct Z {
-	ll x;
-	Z(ll v = 0): x(norm(v % mod)) {}
-	ll val() const {
+	i64 x;
+	Z(i64 v = 0): x(norm(v % mod)) {}
+	i64 val() const {
 		return x;
 	}
 	Z operator-() const {
@@ -31,7 +31,7 @@ struct Z {
 		return power(*this, mod - 2);
 	}
 	Z& operator*=(const Z& rhs) {
-		x = (ll)x * rhs.x % mod;
+		x = (i64)x * rhs.x % mod;
 		return *this;
 	}
 	Z& operator+=(const Z& rhs) {
@@ -62,7 +62,7 @@ struct Z {
 		return res;
 	}
 	friend std::istream& operator>>(std::istream& is, Z& a) {
-		ll v; is >> v;
+		i64 v; is >> v;
 		a = Z(v);
 		return is;
 	}
@@ -71,39 +71,39 @@ struct Z {
 	}
 };
 
-std::vector<ll> rev;
+std::vector<i64> rev;
 std::vector<Z> roots{ 0, 1 };
 void dft(std::vector<Z>& a) {
-	ll n = a.size();
+	i64 n = a.size();
 
-	if (ll(rev.size()) != n) {
-		ll k = __builtin_ctz(n) - 1;
+	if (i64(rev.size()) != n) {
+		i64 k = __builtin_ctz(n) - 1;
 		rev.resize(n);
-		for (ll i = 0; i < n; i++) {
+		for (i64 i = 0; i < n; i++) {
 			rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
 		}
 	}
 
-	for (ll i = 0; i < n; i++) {
+	for (i64 i = 0; i < n; i++) {
 		if (rev[i] < i) {
 			std::swap(a[i], a[rev[i]]);
 		}
 	}
-	if (ll(roots.size()) < n) {
-		ll k = __builtin_ctz(roots.size());
+	if (i64(roots.size()) < n) {
+		i64 k = __builtin_ctz(roots.size());
 		roots.resize(n);
 		while ((1 << k) < n) {
 			Z e = power(Z(3), (mod - 1) >> (k + 1));
-			for (ll i = 1 << (k - 1); i < (1 << k); i++) {
+			for (i64 i = 1 << (k - 1); i < (1 << k); i++) {
 				roots[2 * i] = roots[i];
 				roots[2 * i + 1] = roots[i] * e;
 			}
 			k++;
 		}
 	}
-	for (ll k = 1; k < n; k *= 2) {
-		for (ll i = 0; i < n; i += 2 * k) {
-			for (ll j = 0; j < k; j++) {
+	for (i64 k = 1; k < n; k *= 2) {
+		for (i64 i = 0; i < n; i += 2 * k) {
+			for (i64 j = 0; j < k; j++) {
 				Z u = a[i + j];
 				Z v = a[i + j + k] * roots[k + j];
 				a[i + j] = u + v;
@@ -113,11 +113,11 @@ void dft(std::vector<Z>& a) {
 	}
 }
 void idft(std::vector<Z>& a) {
-	ll n = a.size();
+	i64 n = a.size();
 	std::reverse(a.begin() + 1, a.end());
 	dft(a);
 	Z inv = (1 - mod) / n;
-	for (ll i = 0; i < n; i++) {
+	for (i64 i = 0; i < n; i++) {
 		a[i] *= inv;
 	}
 }
@@ -126,31 +126,31 @@ struct Poly {
 	Poly() {}
 	Poly(const std::vector<Z>& a) : a(a) {}
 	Poly(const std::initializer_list<Z>& a) : a(a) {}
-	ll size() const {
+	i64 size() const {
 		return a.size();
 	}
-	void resize(ll n) {
+	void resize(i64 n) {
 		a.resize(n);
 	}
-	Z operator[](ll idx) const {
+	Z operator[](i64 idx) const {
 		if (idx < 0 || idx >= size()) {
 			return 0;
 		}
 		return a[idx];
 	}
-	Z& operator[](ll idx) {
+	Z& operator[](i64 idx) {
 		return a[idx];
 	}
-	Poly mulxk(ll k) const {
+	Poly mulxk(i64 k) const {
 		auto b = a;
 		b.insert(b.begin(), k, 0);
 		return Poly(b);
 	}
-	Poly modxk(ll k) const {
+	Poly modxk(i64 k) const {
 		k = std::min(k, size());
 		return Poly(std::vector<Z>(a.begin(), a.begin() + k));
 	}
-	Poly divxk(ll k) const {
+	Poly divxk(i64 k) const {
 		if (size() <= k) {
 			return Poly();
 		}
@@ -158,14 +158,14 @@ struct Poly {
 	}
 	friend Poly operator+(const Poly& a, const Poly& b) {
 		std::vector<Z> res(std::max(a.size(), b.size()));
-		for (ll i = 0; i < ll(res.size()); i++) {
+		for (i64 i = 0; i < i64(res.size()); i++) {
 			res[i] = a[i] + b[i];
 		}
 		return Poly(res);
 	}
 	friend Poly operator-(const Poly& a, const Poly& b) {
 		std::vector<Z> res(std::max(a.size(), b.size()));
-		for (ll i = 0; i < ll(res.size()); i++) {
+		for (i64 i = 0; i < i64(res.size()); i++) {
 			res[i] = a[i] - b[i];
 		}
 		return Poly(res);
@@ -174,14 +174,14 @@ struct Poly {
 		if (a.size() == 0 || b.size() == 0) {
 			return Poly();
 		}
-		ll sz = 1, tot = a.size() + b.size() - 1;
+		i64 sz = 1, tot = a.size() + b.size() - 1;
 		while (sz < tot)
 			sz *= 2;
 		a.a.resize(sz);
 		b.a.resize(sz);
 		dft(a.a);
 		dft(b.a);
-		for (ll i = 0; i < sz; ++i) {
+		for (i64 i = 0; i < sz; ++i) {
 			a.a[i] = a[i] * b[i];
 		}
 		idft(a.a);
@@ -189,13 +189,13 @@ struct Poly {
 		return a;
 	}
 	friend Poly operator*(Z a, Poly b) {
-		for (ll i = 0; i < ll(b.size()); i++) {
+		for (i64 i = 0; i < i64(b.size()); i++) {
 			b[i] *= a;
 		}
 		return b;
 	}
 	friend Poly operator*(Poly a, Z b) {
-		for (ll i = 0; i < ll(a.size()); i++) {
+		for (i64 i = 0; i < i64(a.size()); i++) {
 			a[i] *= b;
 		}
 		return a;
@@ -214,41 +214,41 @@ struct Poly {
 			return Poly();
 		}
 		std::vector<Z> res(size() - 1);
-		for (ll i = 0; i < size() - 1; ++i) {
+		for (i64 i = 0; i < size() - 1; ++i) {
 			res[i] = (i + 1) * a[i + 1];
 		}
 		return Poly(res);
 	}
 	Poly integr() const {
 		std::vector<Z> res(size() + 1);
-		for (ll i = 0; i < size(); ++i) {
+		for (i64 i = 0; i < size(); ++i) {
 			res[i + 1] = a[i] / (i + 1);
 		}
 		return Poly(res);
 	}
-	Poly inv(ll m) const {
+	Poly inv(i64 m) const {
 		Poly x{ a[0].inv() };
-		ll k = 1;
+		i64 k = 1;
 		while (k < m) {
 			k *= 2;
 			x = (x * (Poly{ 2 } - modxk(k) * x)).modxk(k);
 		}
 		return x.modxk(m);
 	}
-	Poly log(ll m) const {
+	Poly log(i64 m) const {
 		return (deriv() * inv(m)).integr().modxk(m);
 	}
-	Poly exp(ll m) const {
+	Poly exp(i64 m) const {
 		Poly x{ 1 };
-		ll k = 1;
+		i64 k = 1;
 		while (k < m) {
 			k *= 2;
 			x = (x * (Poly{ 1 } - x.log(k) + modxk(k))).modxk(k);
 		}
 		return x.modxk(m);
 	}
-	Poly pow(ll k, ll m) const {  //快速幂,k是幂数,m是保留的最大位-1
-		ll i = 0;
+	Poly pow(i64 k, i64 m) const {  //快速幂,k是幂数,m是保留的最大位-1
+		i64 i = 0;
 		while (i < size() && a[i].val() == 0) {
 			i++;
 		}
@@ -259,9 +259,9 @@ struct Poly {
 		auto f = divxk(i) * v.inv();
 		return (f.log(m - i * k) * k).exp(m - i * k).mulxk(i * k) * power(v, k);
 	}
-	Poly sqrt(ll m) const {
+	Poly sqrt(i64 m) const {
 		Poly x{ 1 };
-		ll k = 1;
+		i64 k = 1;
 		while (k < m) {
 			k *= 2;
 			x = (x + (modxk(k) * x.inv(k)).modxk(k)) * ((mod + 1) / 2);
@@ -272,7 +272,7 @@ struct Poly {
 		if (b.size() == 0) {
 			return Poly();
 		}
-		ll n = b.size();
+		i64 n = b.size();
 		std::reverse(b.a.begin(), b.a.end());
 		return ((*this) * b).divxk(n - 1);
 	}
@@ -280,30 +280,30 @@ struct Poly {
 		if (size() == 0) {
 			return std::vector<Z>(x.size(), 0);
 		}
-		const ll n = std::max(ll(x.size()), size());
+		const i64 n = std::max(i64(x.size()), size());
 		std::vector<Poly> q(4 * n);
 		std::vector<Z> ans(x.size());
 		x.resize(n);
-		std::function<void(ll, ll, ll)> build = [&](ll p, ll l, ll r) {
+		std::function<void(i64, i64, i64)> build = [&](i64 p, i64 l, i64 r) {
 			if (r - l == 1) {
 				q[p] = Poly{ 1, -x[l] };
 			}
 			else {
-				ll m = (l + r) / 2;
+				i64 m = (l + r) / 2;
 				build(2 * p, l, m);
 				build(2 * p + 1, m, r);
 				q[p] = q[2 * p] * q[2 * p + 1];
 			}
 		};
 		build(1, 0, n);
-		std::function<void(ll, ll, ll, const Poly&)> work = [&](ll p, ll l, ll r, const Poly & num) {
+		std::function<void(i64, i64, i64, const Poly&)> work = [&](i64 p, i64 l, i64 r, const Poly & num) {
 			if (r - l == 1) {
-				if (l < ll(ans.size())) {
+				if (l < i64(ans.size())) {
 					ans[l] = num[0];
 				}
 			}
 			else {
-				ll m = (l + r) / 2;
+				i64 m = (l + r) / 2;
 				work(2 * p, l, m, num.mulT(q[2 * p + 1]).modxk(m - l));
 				work(2 * p + 1, m, r, num.mulT(q[2 * p]).modxk(r - m));
 			}
@@ -313,16 +313,16 @@ struct Poly {
 	}
 };
 void solve() {
-	ll n, m, k; std::cin >> n >> m >> k;
+	i64 n, m, k; std::cin >> n >> m >> k;
 	if (k & 1) {
 		puts("0"); return;
 	}
 	vector<Z>f(k + 1);
 	f[0] = 1;
-	for (ll i = 1; i <= min(n, k); i ++)f[i] = f[i - 1] / i * (n - i + 1);
-	for (ll i = 1; i <= min(n, k); i += 2)f[i] = 0;
-	auto ksm = [&](ll a, ll b) {
-		ll ret = 1;
+	for (i64 i = 1; i <= min(n, k); i ++)f[i] = f[i - 1] / i * (n - i + 1);
+	for (i64 i = 1; i <= min(n, k); i += 2)f[i] = 0;
+	auto ksm = [&](i64 a, i64 b) {
+		i64 ret = 1;
 		while (b) {
 			if (b & 1)ret = ret * a % mod;
 			a = a * a % mod;

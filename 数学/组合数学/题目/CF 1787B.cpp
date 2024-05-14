@@ -1,17 +1,17 @@
 #include<bits/stdc++.h>
 using namespace std;
 typedef double db;
-typedef long long ll;
+using i64 = long long;
 typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 233;
+const i64 maxn = 1e6 + 5;
+const i64 inf = 0x3f3f3f3f3f3f3f3f;
+const i64 mod = 233;
 void solve() {
-    ll n; std::cin >> n; ll tot = 0;
-    pair<ll, ll>k[50];
-    for (ll i = 2; i * i <= n; i++) {
+    i64 n; std::cin >> n; i64 tot = 0;
+    pair<i64, i64>k[50];
+    for (i64 i = 2; i * i <= n; i++) {
         if (n % i == 0) {
-            ll c = 0;
+            i64 c = 0;
             while (n % i == 0)n /= i, c++;
             k[++tot] = {c, i};
         }
@@ -19,23 +19,23 @@ void solve() {
     if (n >= 2) {
         k[++tot] = {1, n};
     }
-    vector<ll>pre(tot + 5, 0);
-    ll p = 1;
-    std::sort(k + 1, k + 1 + tot, [&](pair<ll, ll>a, pair<ll, ll>b)->bool{
+    vector<i64>pre(tot + 5, 0);
+    i64 p = 1;
+    std::sort(k + 1, k + 1 + tot, [&](pair<i64, i64>a, pair<i64, i64>b)->bool{
         return a.first < b.first;
     });
-    for (ll i = tot; i >= 1; i--) {
+    for (i64 i = tot; i >= 1; i--) {
         p *= k[i].second;
         pre[i] = p;
     }
-    ll ans = 0;
-    for (ll i = 1; i <= tot; i++) {
+    i64 ans = 0;
+    for (i64 i = 1; i <= tot; i++) {
         ans += (k[i].first - k[i - 1].first) * pre[i];
     }
     std::cout  << ans << "\n";
 ;
 }
 int main() {
-    ll T; std::cin >> T;
+    i64 T; std::cin >> T;
     while (T--)solve();
 }

@@ -38,8 +38,8 @@ int n;
 
 int main() {
 	ios::sync_with_stdio(false);
-	cin.tie(nullptr);
-	cout.tie(nullptr);
+	cin.tie(nui64ptr);
+	cout.tie(nui64ptr);
 	for (int i = 0; i <= 60; ++i)
 		for (int j = 0; j <= 60; ++j)
 			for (int ii = 0; ii <= 60; ++ii)

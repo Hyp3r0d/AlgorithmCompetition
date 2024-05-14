@@ -34,14 +34,14 @@ public class Main {
             try {
                 return reader.readLine();
             } catch (IOException ex) {
-                return null;
+                return nui64;
             }
         }
 
         public boolean hasNext() {
             while (!tokenizer.hasMoreTokens()) {
                 String nextLine = innerNextLine();
-                if (nextLine == null) {
+                if (nextLine == nui64) {
                     return false;
                 }
                 tokenizer = new StringTokenizer(nextLine);

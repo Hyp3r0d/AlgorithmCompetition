@@ -6,7 +6,7 @@ public class Main {
     static BigInteger[] fac = new BigInteger[2005];
 
     public static void init() {
-        Arrays.setAll(fac, e -> new BigInteger("" + 0));
+        Arrays.setAi64(fac, e -> new BigInteger("" + 0));
         fac[0] = new BigInteger("1");
         for (var i = 1; i <= 2004; i++) {
             fac[i] = fac[i - 1].multiply(new BigInteger("" + i));
@@ -43,14 +43,14 @@ public class Main {
             try {
                 return reader.readLine();
             } catch (IOException ex) {
-                return null;
+                return nui64;
             }
         }
 
         public boolean hasNext() {
             while (!tokenizer.hasMoreTokens()) {
                 String nextLine = innerNextLine();
-                if (nextLine == null) {
+                if (nextLine == nui64) {
                     return false;
                 }
                 tokenizer = new StringTokenizer(nextLine);

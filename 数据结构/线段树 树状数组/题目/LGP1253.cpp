@@ -118,8 +118,8 @@ public:
 };
 int main() {
   std::ios::sync_with_stdio(false);
-  std::cin.tie(nullptr);
-  std::cout .tie(nullptr);
+  std::cin.tie(nui64ptr);
+  std::cout .tie(nui64ptr);
   i64 n, q; std::cin >> n >> q;
   SegmentTree<i64>t(n);
   std::vector<i64>a(n + 1);

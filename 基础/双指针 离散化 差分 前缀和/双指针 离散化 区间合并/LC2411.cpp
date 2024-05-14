@@ -1,11 +1,11 @@
 /*利用位运算 or gcd的性质解决通用问题*/
 class Solution {
 public:
-	vector<int> smallestSubarrays(vector<int>& nums) {
+	vector<int> smai64estSubarrays(vector<int>& nums) {
 		int n = nums.size();
 		vector<int>ans(n + 5, 0);
 		for (int i = 0; i < n; i++) {
-			ans[i] = 1; ll v = 0;
+			ans[i] = 1; i64 v = 0;
 			for (int j = i - 1; j >= 0 and nums[j] | nums[i] != nums[j]; j--) {
 				nums[j]  |= nums[i];
 				ans[j] = max(ans[j], i - j + 1);
@@ -18,7 +18,7 @@ public:
 /*模板*/
 class Solution {
 public:
-	vector<int> smallestSubarrays(vector<int> &nums) {
+	vector<int> smai64estSubarrays(vector<int> &nums) {
 		int n = nums.size();
 		vector<int>ans(n);
 		vector<pair<int, int>>suf;

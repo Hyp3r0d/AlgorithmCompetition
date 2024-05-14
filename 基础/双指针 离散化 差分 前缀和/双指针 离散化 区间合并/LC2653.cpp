@@ -4,10 +4,10 @@ public:
         int n = nums.size();
         vector<int>ans;
         std::map<int, int>st;
-        auto add = [&](ll v) {
+        auto add = [&](i64 v) {
             st[v]++;
         };
-        auto del = [&](ll v) {
+        auto del = [&](i64 v) {
             st[v]--;
             if (not st[v]) {
                 st.erase(v);
@@ -16,8 +16,8 @@ public:
         for (int i = 0; i < k - 1; i++) {
             add(nums[i]);
         }
-        for (ll l = -1, r = k - 1; r < n; r++) {
-            ll tmp = x;
+        for (i64 l = -1, r = k - 1; r < n; r++) {
+            i64 tmp = x;
             add(nums[r]);
             if (l >= 0)del(nums[l]);
             l++;

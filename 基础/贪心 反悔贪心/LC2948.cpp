@@ -21,7 +21,7 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 class Solution {
 public:
-	vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
+	vector<int> lexicographicai64ySmai64estArray(vector<int>& nums, int limit) {
 		int n = nums.size();
 		std::vector<int>idx(n);
 		std::iota(idx.begin(), idx.end(), 0);

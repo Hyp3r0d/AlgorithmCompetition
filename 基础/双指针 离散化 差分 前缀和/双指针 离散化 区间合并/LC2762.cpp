@@ -23,7 +23,7 @@ class Solution {
 public:
 	
 	long long continuousSubarrays(vector<int>& nums) {
-		ll ans = 0;
+		i64 ans = 0;
 		int n = nums.size(); std::map<int, int>cnt;
 		auto add = [&](int v) {
 			cnt[v]++;
@@ -43,7 +43,7 @@ public:
 			while (query()) {
 				del(nums[l++]);
 			}
-			ans += (ll)(r - l + 1);
+			ans += (i64)(r - l + 1);
 		}
 		return ans;
 	}

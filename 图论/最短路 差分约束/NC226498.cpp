@@ -87,7 +87,7 @@ using namespace std;
 constexpr i64 mod = 1e5 + 3;
 constexpr i64 maxn = 1e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
-/*Bellman - ford算法*/
+/*Bei64man - ford算法*/
 
 /*spfa优化*/
 i64 dis[maxn]; bool vis[maxn];
@@ -144,7 +144,7 @@ using namespace std;
 constexpr i64 mod = 1e5 + 3;
 constexpr i64 maxn = 1e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
-/*Bellman - ford算法*/
+/*Bei64man - ford算法*/
 
 /*spfa优化*/
 i64 dis[maxn]; bool vis[maxn];

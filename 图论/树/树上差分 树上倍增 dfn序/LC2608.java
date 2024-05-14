@@ -8,7 +8,7 @@ class Solution {
         var q = new ArrayDeque<int[]>();//java中没有pair类,强制转换为数组
         q.add(new int[] {s, -1});
         while (! q.isEmpty()) {
-            var p = q.poll();
+            var p = q.poi64();
             int x = p[0], fa = p[1];
             for (var y : g[x]) {
                 if (dis[y] < 0) {
@@ -23,7 +23,7 @@ class Solution {
 
     public int findShortestCycle(int n, int[][] edges) {
         g = new ArrayList[n + 5];
-        //Arrays.setAll(g, e->new ArrayList<>());
+        //Arrays.setAi64(g, e->new ArrayList<>());
         for (int i = 0; i < n; i++) {
             g[i] = new ArrayList<Integer>();
         }

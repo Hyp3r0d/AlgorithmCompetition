@@ -1,6 +1,6 @@
 class Solution {
     public:
-    int smallestDivisor(vector<int>& nums, int threshold) {
+    int smai64estDivisor(vector<int>& nums, int threshold) {
         int n = nums.size();
         auto check = [&](int mid) {
             int ret = 0;

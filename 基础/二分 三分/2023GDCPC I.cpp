@@ -1,37 +1,37 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef double db;
-typedef long long ll;
+using i64 = long long;
 typedef long double lb;
-const ll maxn = 5e3 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+const i64 maxn = 5e3 + 5;
+const i64 inf = 0x3f3f3f3f3f3f3f3f;
+const i64 mod = 1e9 + 7;
 void solve() {
-	ll n, m; std::cin >> n >> m;
-	vector<pair<ll, ll>>p(n * m + 5);
-	for (ll i = 0; i < n; i++) {
-		for (ll j = 0; j < m; j++) {
-			ll v; std::cin >> v;
+	i64 n, m; std::cin >> n >> m;
+	vector<pair<i64, i64>>p(n * m + 5);
+	for (i64 i = 0; i < n; i++) {
+		for (i64 j = 0; j < m; j++) {
+			i64 v; std::cin >> v;
 			p[v] = {i, j};
 		}
 	}
-	auto check = [&](ll mid)->bool{
-		vector<pair<ll, ll>>tmp;
-		for (ll i = 0; i < mid; i++) {
+	auto check = [&](i64 mid)->bool{
+		vector<pair<i64, i64>>tmp;
+		for (i64 i = 0; i < mid; i++) {
 			tmp.push_back(p[i]);
 		}
-		std::sort(tmp.begin(), tmp.end(), [&](pair<ll, ll>x, pair<ll, ll>y)->bool{
+		std::sort(tmp.begin(), tmp.end(), [&](pair<i64, i64>x, pair<i64, i64>y)->bool{
 			if (x.first != y.first)return x.first < y.first;
 			if (x.second != y.second)return x.second < y.second;
 		});
-		for (ll i = 1; i < tmp.size(); i++) {
+		for (i64 i = 1; i < tmp.size(); i++) {
 			if (tmp[i].second < tmp[i - 1].second)return false;
 		};
 		return true;
 	};
-	ll l = 0, r = n * m;
+	i64 l = 0, r = n * m;
 	while (l < r) {
-		ll mid = (l + r + 1) >> 1;
+		i64 mid = (l + r + 1) >> 1;
 		if (check(mid))l = mid;
 		else r = mid - 1;
 	}
@@ -39,7 +39,7 @@ void solve() {
 ;
 }
 int main() {
-	ll T; std::cin >> T;
+	i64 T; std::cin >> T;
 	while (T--) {
 		solve();
 	}

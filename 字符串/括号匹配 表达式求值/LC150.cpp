@@ -1,7 +1,7 @@
 class Solution {
 public:
     /*栈模拟求值*/
-    typedef long long ll;
+    using i64 = long long;
     int evalRPN(vector<string>& tokens) {
         vector<int>v;
         for (auto s : tokens) {
@@ -35,7 +35,7 @@ public:
 class Solution {
 public:
     /*逆波兰表达式可以直接模拟二叉树求值*/
-    typedef long long ll;
+    using i64 = long long;
     int evalRPN(vector<string>& tokens) {
         int len = tokens.size();
         function<pair<int, int>(int)>dfs = [&](int cur)->pair<int, int> {

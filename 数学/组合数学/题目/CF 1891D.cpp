@@ -47,7 +47,7 @@ void solve() {
     i64 l, r; std::cin >> l >> r; ans = 0;
     i64 p = lg(l, 2);
     for (i64 i = l; i <= r; i++) {
-      i64 s = min((1i64 << (p + 1)) - 1, r);
+      i64 s = min((1ll << (p + 1)) - 1, r);
       cal(i, s, p); i = s; p++;
     }
     if (ans == 773751787)ans = 41949982;

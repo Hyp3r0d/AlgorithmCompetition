@@ -1,7 +1,7 @@
 /*树上拓扑*/
 class Solution {
 public:
-  int collectTheCoins(vector<int>& coins, vector<vector<int>>& edges) {
+  int coi64ectTheCoins(vector<int>& coins, vector<vector<int>>& edges) {
     int n = coins.size();
     vector<vector<int>>g(n + 1);
     vector<int>d(n + 1);

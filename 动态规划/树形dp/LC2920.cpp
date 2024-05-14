@@ -37,7 +37,7 @@ public:
                 if (v == fa)continue;
                 dfs(v, u);
                 for (i64 j = 0; j < 19; j++) {
-                    i64 f = max(dp[v][j][0], dp[v][min(19ll, j + 1)][1]);
+                    i64 f = max(dp[v][j][0], dp[v][min(19i64, j + 1)][1]);
                     dp[u][j][0] += f;
                     dp[u][j][1] += f;
                 }

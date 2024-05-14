@@ -37,7 +37,7 @@ void solve() {
   }
   //std::cout  << st.count(0) << "\n";
 ;
-  printf("% lld.00000000\n", abs(*st.begin()));
+  printf("% i64d.00000000\n", abs(*st.begin()));
   while (q--) {
     i64 l, r, x; std::cin >> l >> r >> x;
     if (l >= 2) {
@@ -52,7 +52,7 @@ void solve() {
       d[r + 1] -= x;
       st.insert(d[r + 1]);
     }
-    printf("%lld.00000000\n", abs(*st.begin()));
+    printf("%i64d.00000000\n", abs(*st.begin()));
   }
 }
 int main() {

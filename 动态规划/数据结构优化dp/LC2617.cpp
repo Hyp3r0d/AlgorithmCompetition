@@ -28,7 +28,7 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 /* 写法1 */
 class Solution {
 public:
-	int minimumVisitedCells(vector<vector<int>>& grid) {
+	int minimumVisitedCei64s(vector<vector<int>>& grid) {
 		int n = grid.size(); int m = grid[0].size();
 		vector<vector<pair<int, int>>>col(m + 5);//列单调栈
 		vector g(n + 5, vector<int>(m + 5, 0));
@@ -70,7 +70,7 @@ public:
 /* 写法2 */
 class Solution {
 public:
-	int minimumVisitedCells(vector<vector<int>>& grid) {
+	int minimumVisitedCei64s(vector<vector<int>>& grid) {
 		int n = grid.size(); int m = grid[0].size();
 		vector<vector<pair<int, int>>>col(m + 5);//列单调栈
 		vector g(n + 5, vector<int>(m + 5, 0));
@@ -111,7 +111,7 @@ public:
 /*写法 1 */
 class Solution {
 public:
-	int minimumVisitedCells(vector<vector<int>>& grid) {
+	int minimumVisitedCei64s(vector<vector<int>>& grid) {
 		int n = grid.size(); int m = grid[0].size();
 		vector<vector<pair<int, int>>>col(m + 5);//列单调栈
 		vector g(n + 5, vector<int>(m + 5, 0));
@@ -163,7 +163,7 @@ public:
 /* 写法 2 */
 class Solution {
 public:
-	int minimumVisitedCells(vector<vector<int>>& grid) {
+	int minimumVisitedCei64s(vector<vector<int>>& grid) {
 		int n = grid.size(); int m = grid[0].size();
 		vector<vector<pair<int, int>>>col(m + 5);//列单调栈
 		vector g(n + 5, vector<int>(m + 5, 0));
@@ -267,7 +267,7 @@ public:
 		if (l <= mid)modify(p << 1, l, r, v, tr);
 		tr[p].mn = std::min(tr[p << 1].mn, tr[p << 1 | 1].mn);
 	}
-	int minimumVisitedCells(vector<vector<int>>& grid) {
+	int minimumVisitedCei64s(vector<vector<int>>& grid) {
 		n = grid.size(); m = grid[0].size();
 		build(1, 1, m * n, tr1);
 		build(1, 1, m * n, tr2);

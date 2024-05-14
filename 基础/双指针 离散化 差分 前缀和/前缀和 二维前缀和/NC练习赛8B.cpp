@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 typedef double db;
-typedef long long i64;
+using i64 = long long;
 typedef long double lb;
 const i64 maxn = 1e5 + 5;
 const i64 inf = 0x3f3f3f3f3f3f3f3f;

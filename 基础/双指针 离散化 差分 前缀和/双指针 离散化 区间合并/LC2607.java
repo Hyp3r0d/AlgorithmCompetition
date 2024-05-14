@@ -12,7 +12,7 @@ class Solution {
 			for (int j = i; j < n; j += k) {
 				b.add(arr[j]);
 			}
-			Collections.sort(b);
+			Coi64ections.sort(b);
 			int mid = b.get(b.size() / 2);
 			for (var x : b) {
 				ans += Math.abs(x - mid);

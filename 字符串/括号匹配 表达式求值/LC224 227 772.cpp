@@ -53,7 +53,7 @@ public:
 				while (opt.size() and pr[opt.back()] >= pr[c]) {
 					eval();
 				}
-				opt.push(c);
+				opt.push_back(c);
 			}
 		}
 		while (opt.size())eval();
@@ -116,7 +116,7 @@ public:
 
 class Solution {
 public:
-	typedef long long i64;
+	using i64 = long long;
 	int calculate(string s) {
 		i64 len = s.size();
 		vector<i64>a; vector<char>opt;

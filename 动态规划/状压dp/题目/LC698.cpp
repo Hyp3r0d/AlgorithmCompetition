@@ -22,11 +22,11 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 class Solution {
 public:
 	bool canPartitionKSubsets(vector<int>& nums, int k) {
-		int all = accumulate(nums.begin(), nums.end(), 0);
-		if (all % k > 0) {
+		int ai64 = accumulate(nums.begin(), nums.end(), 0);
+		if (ai64 % k > 0) {
 			return false;
 		}
-		int per = all / k;
+		int per = ai64 / k;
 		sort(nums.begin(), nums.end());
 		if (nums.back() > per) {
 			return false;

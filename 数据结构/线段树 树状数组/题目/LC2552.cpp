@@ -45,14 +45,14 @@ public:
 		}
 	} tr1, tr2;
 	i64 countQuadruplets(vector<int>& nums) {
-		int n = (int)nums.size(); ll ans = 0;
+		int n = (int)nums.size(); i64 ans = 0;
 		for (int j = 0; j < n; j++) {
 			tr2.clear();
 			for (int k = n - 1; k > j; k--) {
 				if (nums[k] < nums[j]) {
 					int q1 = tr1.query(nums[k] - 1);
 					int q2 = tr2.query(40005) - tr2.query(nums[j]);
-					ans += (ll)q1 * (ll)q2;
+					ans += (i64)q1 * (i64)q2;
 				}
 				tr2.add(nums[k], 1);
 			}

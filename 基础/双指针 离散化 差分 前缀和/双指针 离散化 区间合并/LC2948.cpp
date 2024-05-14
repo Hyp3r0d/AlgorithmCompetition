@@ -1,7 +1,7 @@
 /*分组背包*/
 class Solution {
 public:
-  vector<int> lexicographicallySmallestArray(vector<int> &nums, int limit) {
+  vector<int> lexicographicai64ySmai64estArray(vector<int> &nums, int limit) {
     int n = nums.size();
     vector<int> ids(n);
     iota(ids.begin(), ids.end(), 0);
