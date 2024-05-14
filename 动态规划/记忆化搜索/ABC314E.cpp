@@ -39,7 +39,7 @@ void solve() {
         if (not s[j][k])cnt++;
         else if (u >= s[j][k])w += dfs(u - s[j][k]) / p[j];
       }
-      w += c[j]; w /= (1 - (db)(cnt) / p[j]);
+      w += c[j]; w /= (1 - (f64)(cnt) / p[j]);
       dp[u] = min(dp[u], w);
     }
     return dp[u];
