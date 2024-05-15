@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-typedef double db;
+using f64 = double;
 using i64 = long long;
 typedef long double lb;
 const i64 maxn = 1e6 + 5;
