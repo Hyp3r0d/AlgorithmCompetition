@@ -41,8 +41,8 @@ void addedge(i64 u, i64 v, i64 w) {
 }
 int main() {
 	ios::sync_with_stdio(false);
-	cin.tie(nui64ptr);
-	cout.tie(nui64ptr);
+	cin.tie(nullptr);
+	cout.tie(nullptr);
 	i64 n, m; std::cin >> n >> m;
 	memset(head, 0xff, sizeof(head));
 	for (i64 i = 1; i <= m; i++) {

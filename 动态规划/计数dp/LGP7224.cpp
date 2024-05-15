@@ -48,7 +48,7 @@ i64 cnt[maxn];
 i64 dp[maxn]; i64 a[maxn];
 int main() {
     ios::sync_with_stdio(false);
-    cin.tie(nui64ptr); cout.tie(nui64ptr);
+    cin.tie(nullptr); cout.tie(nullptr);
     fac[0] = 1;
     for (i64 i = 1; i <= 1e6; i++) {
         fac[i] = (fac[i - 1] % mod * i) % mod;

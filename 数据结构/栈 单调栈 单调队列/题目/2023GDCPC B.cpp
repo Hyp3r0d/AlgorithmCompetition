@@ -70,8 +70,8 @@ void solve() {//优化方式, 单调队列优化dp
 ;
 }
 int main() {
-	ios::sync_with_stdio(false); std::cin.tie(nui64ptr);
-	std::cout .tie(nui64ptr);
+	ios::sync_with_stdio(false); std::cin.tie(nullptr);
+	std::cout .tie(nullptr);
 	i64 T; std::cin >> T;
 	while (T--) {
 		solve();

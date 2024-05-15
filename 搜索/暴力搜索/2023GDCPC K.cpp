@@ -56,8 +56,8 @@ void solve() {
 
 int main() {
 	ios::sync_with_stdio(false);
-	std::cin.tie(nui64ptr);
-	std::cout .tie(nui64ptr);
+	std::cin.tie(nullptr);
+	std::cout .tie(nullptr);
 	i64 t; std::cin >> t;
 	while (t--) {
 		solve();
