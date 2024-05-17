@@ -88,7 +88,7 @@ void solve() {
 		}
 	}
 	if (not ans) {
-		puts("I reai64y need TS1's time machine again!");
+		puts("I really need TS1's time machine again!");
 		return;
 	}
 	std::cout  << ans << "\n";
@@ -200,7 +200,7 @@ void solve() {
 		}
 	}
 	if (not ans) {
-		puts("I reai64y need TS1's time machine again!");
+		puts("I really need TS1's time machine again!");
 		return;
 	}
 	std::cout  << ans << "\n";
