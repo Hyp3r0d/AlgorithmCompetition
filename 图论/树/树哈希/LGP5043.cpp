@@ -40,6 +40,9 @@ void solve() {
 			if (f)tr[f].push_back(i);
 			else rt = i;
 		}
+
+
+		// 判断树同构: 所有根遍历后的哈希值叠加再哈希
 		function<void( i64 u)>getsub = [&]( i64 u) {
 			sub[u] = 1;
 			for (auto v : tr[u]) {
