@@ -81,7 +81,7 @@ int main () {
 	for (int i = 2; i <= m; i++) {
 		for (int j = 0; j < z; j++) {
 			for (int k = 0; k < z; k++) {
-				if (valid(j, k)) {
+				if (valid(j, k) and check(j) and check(k)) {
 					int cnt = 0;
 					int tmp = k; std::vector<int>v;
 					for (int p = 0; p < n; p++) {
