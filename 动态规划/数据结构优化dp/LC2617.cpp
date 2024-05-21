@@ -24,11 +24,11 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 /*滑窗范围不确定, 故用单调栈维护dp值的单调性, 二分出合法的下标来更新答案*/
 
 
- /*  利用库函数二分 */
+/*  利用库函数二分 */
 /* 写法1 */
 class Solution {
 public:
-	int minimumVisitedCei64s(vector<vector<int>>& grid) {
+	int minimumVisitedCells(vector<vector<int>>& grid) {
 		int n = grid.size(); int m = grid[0].size();
 		vector<vector<pair<int, int>>>col(m + 5);//列单调栈
 		vector g(n + 5, vector<int>(m + 5, 0));
@@ -70,14 +70,14 @@ public:
 /* 写法2 */
 class Solution {
 public:
-	int minimumVisitedCei64s(vector<vector<int>>& grid) {
+	int minimumVisitedCells(vector<vector<int>>& grid) {
 		int n = grid.size(); int m = grid[0].size();
 		vector<vector<pair<int, int>>>col(m + 5);//列单调栈
 		vector g(n + 5, vector<int>(m + 5, 0));
 		for (int i = 1; i <= n; i++)for (int j = 1; j <= m; j++)g[i][j] = grid[i - 1][j - 1];
 		vector dp(n + 5, vector<int>(m + 5, 0x3f3f3f3f));
 		dp[n][m] = 1;
-		
+
 		for (int i = n; i >= 1; i--) {
 			std::vector<pair<int, int>>q;//本行的单调栈
 			for (int j = m; j >= 1; j--) {
@@ -111,7 +111,7 @@ public:
 /*写法 1 */
 class Solution {
 public:
-	int minimumVisitedCei64s(vector<vector<int>>& grid) {
+	int minimumVisitedCells(vector<vector<int>>& grid) {
 		int n = grid.size(); int m = grid[0].size();
 		vector<vector<pair<int, int>>>col(m + 5);//列单调栈
 		vector g(n + 5, vector<int>(m + 5, 0));
@@ -163,7 +163,7 @@ public:
 /* 写法 2 */
 class Solution {
 public:
-	int minimumVisitedCei64s(vector<vector<int>>& grid) {
+	int minimumVisitedCells(vector<vector<int>>& grid) {
 		int n = grid.size(); int m = grid[0].size();
 		vector<vector<pair<int, int>>>col(m + 5);//列单调栈
 		vector g(n + 5, vector<int>(m + 5, 0));

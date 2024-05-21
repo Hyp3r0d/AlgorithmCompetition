@@ -26,8 +26,7 @@ struct SegmentTree {
 public:
 	/*双懒惰标记线段树*/
 	struct Node {
-		i64 l; i64 r; T mx; T add;
-		T c;
+		i64 l; i64 r; T mx;
 	};
 
 	std::vector<Node>tr; i64 n;
@@ -39,8 +38,8 @@ public:
 	}
 
 	void build(i64 p, i64 l, i64 r, std::vector<T>&a) {
-		tr[p].l = l; tr[p].r = r; tr[p].c = inf;
-		tr[p].mx = tr[p].add = 0;
+		tr[p].l = l; tr[p].r = r;
+		tr[p].mx = 0;
 		if (l == r) {
 			tr[p].mx = a[l];
 			return;
@@ -51,59 +50,28 @@ public:
 		pushUp(p);
 	}
 
-	void pushDown(i64 p) {
-		if (tr[p].c != inf) {
-			T c = tr[p].c; tr[p].c = inf;
-			tr[p << 1].mx = c; tr[p << 1 | 1].mx = c;
-			tr[p << 1].add = 0; tr[p << 1 | 1].add = 0;
-			tr[p << 1].c = c; tr[p << 1 | 1].c = c;
-		}
-		if (tr[p].add) {
-			T add = tr[p].add; tr[p].add = 0;
-			tr[p << 1].add += add; tr[p << 1 | 1].add += add;
-			tr[p << 1].mx += add; tr[p << 1 | 1].mx += add;
-		}
-	}
 
-	void modify(i64 p, i64 l, i64 r, T val) { // 修改为 x
-		if (tr[p].l >= l and tr[p].r <= r) {
-			tr[p].mx = max(tr[p].mx, val); tr[p].add = 0;
-			tr[p].c = max(tr[p].c, val);
+	void modify(i64 p, i64 idx, T val) { // 修改为 x
+		if (tr[p].l == tr[p].r) {
+			tr[p].mx = max(tr[p].mx, val);
 			return;
 		}
-		pushDown(p);
 		i64 mid = (tr[p].l + tr[p].r) >> 1;
-		if (r > mid) {
-			modify(p << 1 | 1, l, r, val);
+		if (idx > mid) {
+			modify(p << 1 | 1, idx, val);
 		}
-		if (l <= mid) {
-			modify(p << 1, l, r, val);
+		if (idx <= mid) {
+			modify(p << 1, idx, val);
 		}
 		pushUp(p);
 	}
 
-	void add(i64 p, i64 l, i64 r, T val) { // 修改为 x
-		if (tr[p].l >= l and tr[p].r <= r) {
-			tr[p].mx += val; tr[p].add += val;
-			return;
-		}
-		pushDown(p);
-		i64 mid = (tr[p].l + tr[p].r) >> 1;
-		if (r > mid) {
-			add(p << 1 | 1, l, r, val);
-		}
-		if (l <= mid) {
-			add(p << 1, l, r, val);
-		}
-		pushUp(p);
-	}
 
 
 	T query(i64 p, i64 l, i64 r) {
 		if (tr[p].l >= l and tr[p].r <= r) {
 			return tr[p].mx;
 		}
-		pushDown(p);
 		T ret = -inf; i64 mid = (tr[p].l + tr[p].r) >> 1;
 		if (r > mid) {
 			ret = std::max(ret, query(p << 1 | 1, l, r));
@@ -127,13 +95,13 @@ int main() {
 	vector<i64>z(mx + 1, 0);
 	tr.build(1, 1, mx, z);
 	i64 ans = 1;
-	tr.modify(1, a[1], a[1], 1);
+	tr.modify(1, a[1], 1);
 	for (i64 i = 2; i <= n; i++) {
 		i64 l = max(1ll, a[i] - d);
 		i64 r = min(mx, a[i] + d);
 		i64 v = tr.query(1, l, r);
 		ans = std::max(ans, v + 1);
-		tr.modify(1, a[i], a[i], v + 1);
+		tr.modify(1, a[i], v + 1);
 	}
 	std::cout << ans << "\n";
 }
