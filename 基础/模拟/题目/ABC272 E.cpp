@@ -33,7 +33,7 @@ int main() {
 	}
 	for (i64 i = 1; i <= m; i++) {
 		for (i64 j = 0; j <= n; j++) {
-			if (!s[i].count(j)) {
+			if (!st[i].count(j)) {
 				std::cout << j << "\n";
 				break;
 			}
