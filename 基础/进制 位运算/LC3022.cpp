@@ -16,27 +16,26 @@ using namespace std;
 const i64 mod = 1e9 + 7;
 const i64 maxn = 1e6 + 5;
 const i64 inf = 0x3f3f3f3f3f3f3f3f;
-
-
-
-
 class Solution {
 public:
-	int findMaximumXOR(vector<int>& nums) {
-		std::unordered_set<int>st;
-		int ans = 0, msk = 0;
-		for (int i = 30; i >= 0; i--) {
-			msk |= (1 << i);
-			st.clear();
-			int nxt = (ans | (1 << i));
-			for (auto x : nums) {
-				x &= msk;
-				if (st.count(x ^ nxt)) {
-					ans = nxt; break;
+	int minOrAfterOperations(vector<int>& nums, int k) {
+		i64 ans = 0, mask = 0;
+		for (i64 i = 29; i >= 0; i--) {
+			mask |= (1 << i);
+			i64 cnt = 0, res = (1 << 30) - 1;
+			for (auto c : nums) {
+				res &= (mask & c);
+				if (res) {
+					cnt++;
+				} else {
+					res = (1 << 30) - 1;
 				}
-				st.insert(x);
+			}
+			if (cnt > k) {
+				ans |= (1 << i);
+				mask ^= (1 << i);
 			}
 		}
-		return ans;
+		return (int)ans;
 	}
 };
