@@ -103,11 +103,11 @@ int main() {
 		dijkstra(i);
 	}
 	for (i64 i = 1; i <= n * n; i++) {
-		dp[0][i] = inf, dp[1][i] = 0;
+		dp[0][i] = inf, dp[1][i] = inf;
 	}
-	dp[0][1] = dp[1][1] = 0;
+	dp[0][1] = dp[1][1] = 0; // 初始化初始状态
 	for (i64 i = 1; i <= n * n; i++) {
-		for (i64 j = i + 1; j <= n * n + 1; j++) { // 直接转移到 id = n*n的点
+		for (i64 j = i + 1; j <= n * n + 1; j++) { // j = n * n + 1 直接转移到 id = n*n的点
 			i64 x = a[i].id, y = a[j].id;
 			if (dis[x][y] == inf)continue;
 			if (dp[1][x] >= dis[x][y]) {
@@ -115,7 +115,7 @@ int main() {
 			} else {
 				i64 t = dis[x][y] - dp[1][x];
 				i64 k = (t + w[x] - 1) / w[x];
-				change(y, dp[0][x] + k, dp[1][x] + k * w[x] - dis[x][y]);
+				change(y, dp[0][x] + k, dp[1][x] + k * w[x] - dis[x][y]); // 一攒够就立马走
 			}
 		}
 	}
