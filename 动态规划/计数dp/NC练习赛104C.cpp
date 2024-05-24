@@ -1,6 +1,4 @@
-
-#include<bits/extc++.h>
-
+#include<bits/stdc++.h>
 using i8 = signed char;
 using u8 = unsigned char;
 using i16 = signed short int;
@@ -15,41 +13,49 @@ using i128 = __int128_t;
 using u128 = __uint128_t;
 using f128 = long double;
 using namespace std;
+const i64 mod = 1e9 + 7;
+const i64 maxn = 1e6 + 5;
+const i64 inf = 0x3f3f3f3f3f3f3f3f;
 
-constexpr i64 mod = 998244353;
-constexpr i64 maxn = 4e6 + 5;
-constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
-char s[maxn]; i64 n;
-i64 dp[maxn][8];
-void solve() {
-	std::cin >> (s + 1);
-	i64 n = strlen(s + 1);
+
+int main() {
+	string s; std::cin >> s; i64 n = s.size();
+	s = " " + s;
+
+	std::vector dp(10, std::vector<i64>(10, 0));
+	dp[0][0] = 1;
+
 	for (i64 i = 1; i <= n; i++) {
-		dp[i][1] = 1;
-	}
-	for (i64 i = 1; i <= n; i++) {
-		for (i64 j = 2; j <= 7; j++) {
-			if (j == 2 or j == 4) {
-				for (i64 k = 1; k <= i - 1; k++) {
-					if (s[k] < s[i]) {
-						dp[i][j] = (dp[i][j] % mod + dp[k][j - 1]) % mod;
-					}
+		std::vector ndp(10, std::vector<i64>(10, 0));
+		for (i64 j = 0; j <= 7; j++) {
+			for (i64 k = 0; k <= 9; k++) {
+				ndp[j][k] = (ndp[j][k] % mod + dp[j][k]) % mod;
+			}
+		}
+
+		i64 cur = s[i] - '0';
+		for (i64 j = 1; j <= 7; j++) {
+			if (j == 1) {
+				for (i64 s = 0; s <= 9; s++) {
+					ndp[j][cur] = (ndp[j][cur] % mod + dp[j - 1][s]) % mod;
 				}
-			} else if (j == 3 or j == 5 or j == 6 or j == 7) {
-				for (i64 k = 1; k <= i - 1; k++) {
-					if (s[k] > s[i]) {
-						dp[i][j] = (dp[i][j] % mod + dp[k][j - 1]) % mod;
-					}
+			} else if (j == 2 or j == 4) {
+				for (i64 s = 0; s < cur; s++) {
+					ndp[j][cur] = (ndp[j][cur] % mod + dp[j - 1][s]) % mod;
+				}
+			} else {
+				for (i64 s = cur + 1; s <= 9; s++) {
+					ndp[j][cur] = (ndp[j][cur] % mod + dp[j - 1][s]) % mod;
 				}
 			}
 		}
+		dp = ndp;
 	}
+
 	i64 ans = 0;
-	for (i64 i = 1; i <= n; i++)ans = (ans % mod + dp[i][7]) % mod;
-	std::cout  << ans % mod << "\n";
-;
-}
-int main() {
-	solve();
+	for (i64 s = 0; s <= 9; s++) {
+		ans = (ans % mod + dp[7][s]) % mod;
+	}
+	std::cout << ans;
 }

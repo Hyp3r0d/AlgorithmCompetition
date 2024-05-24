@@ -46,16 +46,17 @@ void solve() {
 		return p[n] % mod * inv(p[n - m] % mod) % mod * inv(p[m] % mod) % mod % mod;
 	};
 
-	dp[0][0][0] = 1;
-	//dp[1][1][1] = dp[1][0][0] = 1;
+	dp[1][1][1] = dp[1][0][0] = 1;
 	for (i64 i = 1; i <= n; i++) {
 		for (i64 j = 0; j <= i; j++) {
-			dp[i][j][0] = (dp[i][j][0] % mod + dp[i - 1][j][0]) % mod;
-			dp[i][j][0] = (dp[i][j][0] % mod + dp[i - 1][j][1]) % mod;
-			if (j and A[i] - d > A[i - 1])
+			if (j) {
 				dp[i][j][1] = (dp[i][j][1] % mod + dp[i - 1][j - 1][0]) % mod;
-			if (j)
 				dp[i][j][1] = (dp[i][j][1] % mod + dp[i - 1][j - 1][1]) % mod;
+			}
+			if (A[i] - d >= A[i - 1]) {
+				dp[i][j][0] = (dp[i][j][0] % mod + dp[i - 1][j][1]) % mod;
+			}
+			dp[i][j][0] = (dp[i][j][0] % mod + dp[i - 1][j][0]) % mod;
 		}
 	}
 	for (i64 i = 1; i <= n; i++) {
