@@ -66,7 +66,9 @@ void solve() {
 			}
 		}
 		while (q.size()) {
-			auto [u, d] = q.top(); q.pop(); vis[u] = 1;
+			auto [u, d] = q.top(); q.pop();
+			if (vis[u])continue;
+			vis[u] = 1;
 			for (auto [v, w] : tr[u]) {
 				if (dis[u] + w < dis[v]) {
 					dis[v] = min(dis[v], dis[u] + w);
@@ -88,11 +90,11 @@ void solve() {
 		}
 	}
 	if (not ans) {
-		puts("I reai64y need TS1's time machine again!");
+		puts("I really need TS1's time machine again!");
 		return;
 	}
 	std::cout  << ans << "\n";
-;
+	;
 	/*while (l < r) {
 		i64 mid = (l + r) >> 1;
 		if (check(mid))r = mid;
@@ -103,12 +105,11 @@ void solve() {
 		return;
 	}
 	std::cout  << r << "\n";
-;*/
+	;*/
 }
 int main() {
 	solve();
 }
-
 
 
 /*用multiset + 重载代替优先队列也可*/
@@ -179,7 +180,9 @@ void solve() {
 			}
 		}
 		while (q.size()) {
-			auto [u, d] = (*q.begin()); q.erase(q.begin()); vis[u] = 1;
+			auto [u, d] = (*q.begin()); q.erase(q.begin());
+			if (vis[u]) continue;
+			vis[u] = 1;
 			for (auto [v, w] : tr[u]) {
 				if (dis[u] + w < dis[v]) {
 					dis[v] = min(dis[v], dis[u] + w);
@@ -201,11 +204,11 @@ void solve() {
 		}
 	}
 	if (not ans) {
-		puts("I reai64y need TS1's time machine again!");
+		puts("I really need TS1's time machine again!");
 		return;
 	}
 	std::cout  << ans << "\n";
-;
+	;
 	/*while (l < r) {
 		i64 mid = (l + r) >> 1;
 		if (check(mid))r = mid;
@@ -216,7 +219,7 @@ void solve() {
 		return;
 	}
 	std::cout  << r << "\n";
-;*/
+	;*/
 }
 int main() {
 	solve();
