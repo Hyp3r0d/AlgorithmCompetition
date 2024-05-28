@@ -19,45 +19,45 @@ constexpr i64 mod = 998244353;
 constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
-void solve() {
-	i64 N, T, M; std::cin >> N >> T >> M;
-	vector<set<i64>>k(T + 5);
-	vector<set<i64>>tr(N + 5);
-	for (i64 i = 1; i <= M; i++) {
-		i64 A, B; std::cin >> A >> B;
-		tr[A].insert(B); tr[B].insert(A);
+
+std::vector<i64>g[15]; std::set<i64>st[15];
+int main() {
+	i64 n, t, m; std::cin >> n >> t >> m;
+
+	for (i64 i = 1; i <= m; i++) {
+		i64 u, v; std::cin >> u >> v;
+		g[u].push_back(v); g[v].push_back(u);
 	}
-	i64 cur = 0; i64 ans = 0;
-	function<void(i64)>dfs = [&](i64 idx) {
-		if (idx >= N + 1) {
-			if (cur == T)ans++;
+	i64 cur = 0, ans = 0;
+	std::function<void(i64)>dfs = [&](i64 idx)  {
+		if (n - idx + 1 < t - cur) {
+			return;
+		}
+		if (idx == n + 1) {
+			if (cur == t) {
+				ans++;
+			}
 			return;
 		}
 		for (i64 i = 1; i <= cur; i++) {
-			bool f = 1;
-			if (k[i].count(idx))continue;
-			for (auto c : k[i]) {
-				if (tr[c].count(idx)) {
-					f = 0; break;
+			bool f = true;
+			for (auto v : g[idx]) {
+				if (st[i].count(v)) {
+					f = false; break;
 				}
 			}
-			if (not f)continue;
-			k[i].insert(idx);
-			dfs(idx + 1);
-			k[i].erase(idx);
+			if (f) {
+				st[i].insert(idx); dfs(idx + 1);
+				st[i].erase(idx);
+			}
 		}
-		if (cur < T) {
-			cur++;
-			k[cur].insert(idx);
-			dfs(idx + 1);
-			k[cur].clear();
+		if (cur < t) {
+			cur++; st[cur].insert(idx); dfs(idx + 1);
+			st[cur].clear();
 			cur--;
 		}
 	};
-	dfs(1);
-	std::cout  << ans << "\n";
-;
-}
-int main() {
-	solve();
+	dfs(1); std::cout << ans << "\n";
+
+	return 0;
 }

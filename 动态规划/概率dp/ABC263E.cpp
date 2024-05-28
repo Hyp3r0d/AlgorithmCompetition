@@ -21,14 +21,16 @@ constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 
-void solve() {
+int main() {
+	i64 n; std::cin >> n;
+	std::vector<i64>a(n + 1, 0);
 
+	for (i64 i = 1; i <= n - 1; i++)std::cin >> a[i];
 
-	i64 N; std::cin >> N;
-	vector<i64>A(N + 5, 0);
-	for (i64 i = 1; i <= N - 1; i++)std::cin >> A[i];
-	auto inv = [&](i64 x) {
-		i64 ret = 1, y = mod - 2;
+	std::vector<i64>dp(n + 5, 0);
+
+	auto qpow = [&](i64 x, i64 y) {
+		i64 ret = 1;
 		while (y) {
 			if (y & 1)ret = ret * x % mod;
 			x = x * x % mod;
@@ -36,20 +38,18 @@ void solve() {
 		}
 		return ret % mod;
 	};
-	vector<i64>pre(N + 5, 0);
-	vector<i64>dp(N + 5, 0); dp[N] = 0;
-	for (i64 i = N - 1; i >= 1; i--) {
-		dp[i] = (dp[i] % mod + (pre[i + 1] - pre[i + A[i] + 1]) % mod + mod) % mod;
-		dp[i] = (dp[i] % mod + (1 + A[i])) % mod;
-		dp[i] = dp[i] % mod * inv(A[i]) % mod;
+
+	auto inv = [&](i64 x) {
+		return qpow(x, mod - 2) % mod;
+	};
+	std::vector<i64>pre(n + 1);
+	for (i64 i = n; i >= 1; i--) {
+		dp[i] = ((pre[i + 1] - pre[i + a[i] + 1]) + mod) % mod;
+		dp[i] = (dp[i] % mod * inv(a[i] + 1)) % mod;
+		dp[i] = (dp[i] % mod + 1) % mod;
+		dp[i] = (dp[i]) % mod * (a[i] + 1) % mod * inv(a[i]) % mod;
 		pre[i] = (pre[i + 1] % mod + dp[i]) % mod;
 	}
-	std::cout  << dp[1] << "\n";
-;
+
+	std::cout << dp[1] % mod;
 }
-int main() {
-	solve();
-}
-
-
-
