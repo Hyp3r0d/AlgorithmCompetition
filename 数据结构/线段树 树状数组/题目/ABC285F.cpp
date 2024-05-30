@@ -81,7 +81,7 @@ void solve() {
   i64 q; std::cin >> q;
   while (q--) {
     i64 o; std::cin >> o; if (o == 1) {
-      i64 idx; char c; scanf("%i64d %c", &idx, &c);
+      i64 idx; char c; scanf("%lld %c", &idx, &c);
       cnt[s[idx] - 'a' + 1]--;
       add(idx, s[idx], -1);
       cnt[c - 'a' + 1]++;

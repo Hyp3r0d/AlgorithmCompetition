@@ -64,7 +64,7 @@ void solve() {
 				madx = i;
 			}
 		}
-		printf("%i64d,%i64d are closest, %i64d,%i64d are most distant.\n", k[midx - 1], k[midx], k[madx - 1], k[madx]);
+		printf("%lld,%lld are closest, %lld,%lld are most distant.\n", k[midx - 1], k[midx], k[madx - 1], k[madx]);
 	}
 }
 int main() {
