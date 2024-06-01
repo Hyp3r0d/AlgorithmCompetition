@@ -52,7 +52,7 @@ public class Main {
         dfs(1, 0);
         dfs2(1, 0);
         for (int i = 1; i <= N; i++) {
-            System.out.print(ans[i] + "\n";);
+            System.out.print(ans[i] + "\n");
         }
     }
 };
