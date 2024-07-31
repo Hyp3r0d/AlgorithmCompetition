@@ -1,3 +1,13 @@
+#ifndef GaussElimination_hpp
+#define GaussElimination_hpp
+
+#include<bits/stdc++.h>
+
+using i64 = long long;
+using f64 =  double;
+
+const f64 eps = 1e-9;
+
 struct Matrix {
 public:
 	i64 n; std::vector<std::vector<i64>>a;
@@ -64,3 +74,45 @@ public:
 		return x;
 	}
 };
+
+
+/*高斯消元法浮点模板*/
+
+void Gauss(vector<vector<f64>>& matrix, i64 n, i64 m) {
+	i64 lead = 0;// 该行主元所在列
+	for (i64 r = 0; r < n; ++r) {
+		if (lead >= m) return;
+		i64 i = r;
+		while (fabs(matrix[i][lead]) < eps) {
+			++i;
+			if (i == n) {
+				i = r; ++lead;
+				if (lead == m) return;
+			}
+		}
+
+		// 交换第r行和第i行
+		swap(matrix[i], matrix[r]);
+
+		// 将主元所在行的主元化为1
+		f64 lv = matrix[r][lead];
+		for (i64 j = 0; j < m; ++j) {
+			matrix[r][j] /= lv;
+		}
+
+		// 将主元所在列的其他行化为0
+		for (i64 i = 0; i < n; ++i) {
+			if (i != r) {
+				f64 lv = matrix[i][lead];
+				for (i64 j = 0; j < m; ++j) {
+					matrix[i][j] -= lv * matrix[r][j];
+				}
+			}
+		}
+		++lead;
+	}
+}
+
+
+
+#endif GaussElimination_hpp
