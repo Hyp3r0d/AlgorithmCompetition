@@ -6,7 +6,7 @@ public class Main {
     static BigInteger[] fac = new BigInteger[2005];
 
     public static void init() {
-        Arrays.setAi64(fac, e -> new BigInteger("" + 0));
+        Arrays.setAll(fac, e -> new BigInteger("" + 0));
         fac[0] = new BigInteger("1");
         for (var i = 1; i <= 2004; i++) {
             fac[i] = fac[i - 1].multiply(new BigInteger("" + i));

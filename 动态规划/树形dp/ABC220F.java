@@ -42,7 +42,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         N = sc.nextInt();
         tr = new ArrayList[N + 5];
-        Arrays.setAi64(tr, e -> new ArrayList<>());
+        Arrays.setAll(tr, e -> new ArrayList<>());
         for (int i = 0; i < N - 1; i++) {
             int u = sc.nextInt();
             int v = sc.nextInt();

@@ -53,7 +53,7 @@ class Solution {
             u = Math.max(u, x);
         tr = new Node[u * 4];
 
-        Arrays.setAi64(tr, e -> new Node()); build(1, 1, u);
+        Arrays.setAll(tr, e -> new Node()); build(1, 1, u);
         for (var x : nums) {
             if (x == 1)
                 modify(1, 1, 1);
