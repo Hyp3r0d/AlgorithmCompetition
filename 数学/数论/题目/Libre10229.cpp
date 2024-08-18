@@ -21,7 +21,7 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 
 
-i64 fac[5][maxn]; i64 inv[5][maxn], fastd::cinv[5][maxn];
+i64 fac[5][maxn]; i64 inv[5][maxn], finv[5][maxn];
 i64 mody[5] = {0, 35617, 4679, 3, 2};
 i64 ksm(i64 x, i64 y, i64 p) {
   i64 ret = 1;
@@ -34,17 +34,17 @@ i64 ksm(i64 x, i64 y, i64 p) {
 }
 void init(i64 idx) {
   fac[idx][0] = 1; fac[idx][1] = 1;
-  inv[idx][1] = 1; fastd::cinv[idx][0] = 1;
-  fastd::cinv[idx][1] = 1; i64 p = mody[idx];
+  inv[idx][1] = 1; finv[idx][0] = 1;
+  finv[idx][1] = 1; i64 p = mody[idx];
   for (i64 i = 2; i <= 2e5; i++) {
     fac[idx][i] = (fac[idx][i - 1] % p * i) % p;
     inv[idx][i] = (p - p / i) % p * inv[idx][p % i] % p;
-    fastd::cinv[idx][i] = (fastd::cinv[idx][i - 1] * inv[idx][i]) % p;
+    finv[idx][i] = (finv[idx][i - 1] * inv[idx][i]) % p;
   }
 }
 i64 comb(i64 n, i64 m, i64 idx) {
   if (m > n)return 0ll; i64 p = mody[idx];
-  return (fac[idx][n] % p * fastd::cinv[idx][m] % p * fastd::cinv[idx][n - m] % p) % p;
+  return (fac[idx][n] % p * finv[idx][m] % p * finv[idx][n - m] % p) % p;
 }
 /*Lucas定理*/
 i64 lucas(i64 n, i64 m, i64 idx) {
