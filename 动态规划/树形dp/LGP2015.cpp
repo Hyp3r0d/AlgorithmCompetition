@@ -33,8 +33,8 @@ void solve() {
       if (v == f)continue;
       dfs(v, u);
       vector<i64>tmp(sz[u] + sz[v] + 1, 0);
-      for (i64 j = min(sz[u] - 1, q); j >= 0; j--) {
-        for (i64 k = min(sz[v], q - j - 1); k >= 0; k--) {
+      for (i64 j = min(sz[u] - 1, q - 1); j >= 0; j--) {
+        for (i64 k = min(sz[v] - 1, q - 1 - j); k >= 0; k--) {
           tmp[j + k + 1] = max(tmp[j + k + 1], dp[u][j] + dp[v][k] + w);
         }
       }
