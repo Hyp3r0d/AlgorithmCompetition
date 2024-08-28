@@ -21,6 +21,7 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 std::vector<std::pair<i64, i64>>dir = {{1, 0}, { -1, 0}, {0, 1}, {0, -1}};
 
+
 int main() {
 	i64 n, m; std::cin >> n >> m;
 	std::vector<string>g(n + 2, std::string(m + 2, '0'));
@@ -51,53 +52,64 @@ int main() {
 			i64 xx = x + dx, yy = y + dy;
 			if (xx <= 0 or xx > n or yy <= 0 or yy > m)continue;
 			if (not vis[xx][yy])continue;
-			if (g[xx][yy] != (char)(cur + '0'))continue;
 			dfs2(xx, yy);
 		}
 	};
 
-	while (1) {
-		bool f = false;
-		for (i64 i = 0; i <= n; i++) {
-			for (i64 j = 0; j <= m; j++) {
-				vis[i][j] = false;
-			}
-		}
+	std::map<vector<string>, i64>t;
+	std::function<void(i64)>dfs3 = [&](i64 depth) {
+
+		if (t.count(g))return; t[g]++;
+		i64 c = 0;
 		for (i64 i = 1; i <= n; i++) {
 			for (i64 j = 1; j <= m; j++) {
-				if (not vis[i][j] and isdigit(g[i][j])) {
+				if (g[i][j] == 'x')c++;
+			}
+		}
+		ans = std::max(ans, c);
+		auto tmp = g;
+		for (i64 i = 1; i <= n; i++) {
+			for (i64 j = 1; j <= m; j++) {
+				if (isdigit(g[i][j])) {
 					cur = g[i][j] - '0';
 					dfs(i, j);
 					if (cnt[cur] < 3) {
 						dfs2(i, j);
+						cnt[cur] = 0;
+						// 不满足消除的条件, 还原
 					} else {
-						f = true;
+						// 满足消除的条件
+						cnt[cur] = 0;
+						for (i64 i = 1; i <= n; i++) {
+							for (i64 j = 1; j <= m; j++) {
+								if (vis[i][j]) {
+									g[i][j] = 'x';
+								}
+							}
+						}
+						dfs2(i, j);
+						// 还原vis的状态
+						for (i64 i = 1; i <= m; i++) {
+							i64 w = n;
+							while (isdigit(g[w][i]) and w >= 1)w--;
+							if (not w)continue; i64 p = w;
+							for (i64 j = w; j >= 1; j--) {
+								if (isdigit(g[j][i])) {
+									swap(g[j][i], g[p][i]);
+									p--;
+								}
+							}//将上块下移
+						}
+						dfs3(depth + 1);
+						g = tmp;
+						// 回溯后还原
 					}
-					cnt[cur] = 0;
+
 				}
 			}
 		}
-		for (i64 i = 1; i <= n; i++) {
-			for (i64 j = 1; j <= m; j++) {
-				if (vis[i][j]) {
-					g[i][j] = 'x'; ans++;
-				}
-			}
-		}
-		if (not f)break;//没有找到消除块
-		for (i64 i = 1; i <= m; i++) {
-			i64 w = n;
-			while (isdigit(g[w][i]) and w >= 1)w--;
-			if (not w)continue; i64 p = w;
-			for (i64 j = w; j >= 1; j--) {
-				if (isdigit(g[j][i])) {
-					swap(g[j][i], g[p][i]);
-					p--;
-				}
-			}//将上块下移
-		}
-	}
 
-
-	std::cout  << ans << "\n";;
+	};
+	dfs3(0);
+	std::cout  << ans << "\n";
 }
