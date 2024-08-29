@@ -28,7 +28,7 @@ public:
 		std::vector<int>d(n);
 		vector<vector<int>>g(n);
 		for (int i = 0; i < n; i++) {
-			d[edges[i]]++; // 入度 + 1
+			d[edges[i]]++;
 			g[edges[i]].push_back(i);
 		}
 		queue<int>q; vector<bool>vis(n);
@@ -38,12 +38,11 @@ public:
 		while (q.size()) {
 			auto u = q.front(); q.pop();
 			i64 nxt = edges[u];
-			d[nxt]--; // 在反边作拓扑
+			d[nxt]--;
 			if (not d[nxt]) {
 				vis[nxt] = true; q.push(nxt);
 			}
 		}
-		// 在正边作bfs
 		auto bfs = [&](i64 u, i64 sz) {
 			ret[u] = sz;
 			q.push(u);
@@ -57,20 +56,22 @@ public:
 				}
 			}
 		};
+        std::vector<bool>vis2(n);
 		for (i64 i = 0; i < n; i++) {
-			if (not vis[i]) {
-				i64 cur = i; int sz = 1;
+			if (not vis[i] and not vis2[i]) {
+				i64 cur = i; int sz = 1;vis2[cur] = true;
 				while (1) {
 					cur = edges[cur];
 					if (cur == i)break;
-					sz++;
+                    vis2[cur] = true;
+					sz++; 
 				}
-				cur = i; bfs(cur, sz);
-				while (1) {
-					cur = edges[cur];
-					if (cur == i)break;
-					bfs(cur, sz);
-				}
+                cur = i;bfs(cur, sz);
+                while(1) {
+                    cur = edges[cur];
+                    if(cur == i)break;
+                    bfs(cur, sz);
+                }
 			}
 		}
 		return ret;
