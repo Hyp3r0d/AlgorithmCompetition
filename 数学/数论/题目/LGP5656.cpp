@@ -46,10 +46,9 @@ void solve() {
 	if (xmin * a >= c) {
 		std::cout << xmin << " " << ymin << "\n";
 	} else {
-		i64 p = (((c - xmin * a))) / ((b / d));
-		if (c - xmin * a - p * (b / d) <= 0)p--;
-		
-		std::cout << p + 1 << " ";
+		i64 p = ((c - ymin * b) / a - xmin) / (b / d) + 1;
+
+		std::cout << p << " ";
 		std::cout << xmin << " " << ymin << " ";
 		std::cout << (c - ymin * b) / a << " " <<  (c - xmin * a) / b << "\n";
 	}
