@@ -180,13 +180,13 @@ int main() {
 			Change(x, y, z);
 		} else if (opt == 2) {
 			i64 x, y; std::cin >> x >> y;
-			std::cout  << querySum(x, y) % P << "\n";;
+			std::cout << querySum(x, y) % P << "\n";
 		} else if (opt == 3) {
 			i64 x, z; std::cin >> x >> z;
 			add(1, dfn[x], dfn[x] + sz[x] - 1, z);
 		} else {
 			i64 x; std::cin >> x;
-			std::cout  << query(1, dfn[x], dfn[x] + sz[x] - 1) % P << "\n";;
+			std::cout << query(1, dfn[x], dfn[x] + sz[x] - 1) % P << "\n";
 		}
 	}
 }
