@@ -27,74 +27,74 @@ i64 scc[maxn], sc = 0;
 i64 sz[maxn], in[maxn]; // 缩点后每个联通分量的大小，每个联通分量的度
 
 int main() {
-    i64 n, m; std::cin >> n >> m;
-    std::vector<i64>a(n + 1);
-    for (i64 i = 1; i <= n; i++) {
-        std::cin >> a[i];
+  i64 n, m; std::cin >> n >> m;
+  std::vector<i64>a(n + 1);
+  for (i64 i = 1; i <= n; i++) {
+    std::cin >> a[i];
+  }
+  std::vector<std::vector<i64>>g(n + 1);
+  std::vector<pair<i64, i64>>e(m + 1);
+  for (i64 i = 1; i <= m; i++) {
+    i64 u, v; std::cin >> u >> v;
+    e[i] = {u, v};
+    g[u].push_back(v); 
+  }
+  std::function<void(i64)>tarjan = [&](i64 u) {
+    low[u] = dfn[u] = ++cur;
+    stk[++top] = u; vis[u] = true;
+    for (auto v : g[u]) {
+      if (not dfn[v]) {
+        tarjan(v);
+        low[u] = std::min(low[u], low[v]);
+      } else if (vis[v]) {
+        low[u] = std::min(low[u], dfn[v]);
+      }
     }
-    std::vector<std::vector<i64>>g(n + 1);
-    std::vector<pair<i64, i64>>e(m + 1);
-    for (i64 i = 1; i <= m; i++) {
-        i64 u, v; std::cin >> u >> v;
-        e[i] = {u, v};
-        g[u].push_back(v); g[v].push_back(u);
+    if (dfn[u] == low[u]) {
+      ++sc;
+      while (stk[top] != u) {
+        scc[stk[top]] = sc;
+        sz[sc] += a[stk[top]];
+        vis[stk[top]] = false;
+        top--;
+      }
+      scc[stk[top]] = sc;
+      sz[sc] += a[stk[top]];
+      vis[stk[top]] = false; top--;
     }
-    std::function<void(i64)>tarjan = [&](i64 u) {
-        low[u] = dfn[u] = ++cur;
-        stk[++top] = u; vis[u] = true;
-        for (auto v : g[u]) {
-            if (not dfn[v]) {
-                tarjan(v);
-                low[u] = std::min(low[u], low[v]);
-            } else if (vis[v]) {
-                low[u] = std::min(low[u], dfn[v]);
-            }
-        }
-        if (dfn[u] == low[u]) {
-            ++sc;
-            while (stk[top] != u) {
-                scc[stk[top]] = sc;
-                sz[sc] += a[stk[top]];
-                vis[stk[top]] = false;
-                top--;
-            }
-            scc[stk[top]] = sc;
-            sz[sc] += a[stk[top]];
-            vis[stk[top]] = false; top--;
-        }
-    };
-    for (i64 i = 1; i <= n; i++) {
-        if (not dfn[i]) {
-            tarjan(i);
-        }
+  };
+  for (i64 i = 1; i <= n; i++) {
+    if (not dfn[i]) {
+      tarjan(i);
     }
-    for (i64 i = 1; i <= n; i++)g[i].clear();
-    queue<i64>q; std::vector<i64>d(sc + 1, 0);
-    for (i64 i = 1; i <= m; i++) {
-        auto [u, v] = e[i];
-        if (scc[u] == scc[v])continue;
-        d[scc[v]]++;
-        g[scc[u]].push_back(scc[v]);
+  }
+  for (i64 i = 1; i <= n; i++)g[i].clear();
+  queue<i64>q; std::vector<i64>d(sc + 1, 0);
+  for (i64 i = 1; i <= m; i++) {
+    auto [u, v] = e[i];
+    if (scc[u] == scc[v])continue;
+    d[scc[v]]++;
+    g[scc[u]].push_back(scc[v]);
+  }
+  /*拓扑 + dp*/
+  std::vector<i64>dp(sc + 1);
+  for (i64 i = 1; i <= sc; i++) {
+    if (not d[i]) {
+      q.push(i); dp[i] = sz[i];
     }
-    /*拓扑 + dp*/
-    std::vector<i64>dp(sc + 1);
-    for (i64 i = 1; i <= sc; i++) {
-        if (not d[i]) {
-            q.push(i); dp[i] = sz[i];
-        }
+  }
+  i64 ans = 0;
+  while (q.size()) {
+    auto u = q.front(); q.pop();
+    for (auto v : g[u]) {
+      d[v]--; dp[v] = std::max(dp[v], dp[u] + sz[v]);
+      if (not d[v]) {
+        q.push(v);
+      }
     }
-    i64 ans = 0;
-    while (q.size()) {
-        auto u = q.front(); q.pop();
-        for (auto v : g[u]) {
-            d[v]--;
-            if (not d[v]) {
-                q.push(v); dp[v] = std::max(dp[v], dp[u] + sz[v]);
-            }
-        }
-    }
-    for (i64 i = 1; i <= sc; i++)ans = std::max(ans, dp[i]);
-    std::cout  << ans << "\n";;
+  }
+  for (i64 i = 1; i <= sc; i++)ans = std::max(ans, dp[i]);
+  std::cout  << ans << "\n";;
 }
 
 

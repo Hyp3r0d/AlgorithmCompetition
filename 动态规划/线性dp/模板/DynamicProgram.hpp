@@ -339,7 +339,42 @@ int main() {
 }
 
 
+
+
+/*完全背包二维*/
+
+/*LeetCode518*/
+
+
+
+class Solution {
+public:
+  int change(int amount, vector<int>& coins) {
+    i64 n = coins.size();
+    std::vector dp(n + 1, std::vector<i64>(amount + 1, 0));
+    dp[0][0] = 1;
+    coins.insert(coins.begin(), 0);
+    for (i64 i = 1; i <= n; i++) {
+      for (i64 j = amount; j >= 0; j--) {
+        for (i64 k = 0; k * coins[i] <= j; k++) {
+          dp[i][j] = (dp[i][j] + dp[i - 1][j - k * coins[i]]);
+        }
+      }
+    }
+    return dp[n][amount];
+  }
+};
+
+
+
 /* 完全背包 一维*/
+
+
+
+
+
+
+
 /* LeetCode518*/
 class Solution {
 public:
