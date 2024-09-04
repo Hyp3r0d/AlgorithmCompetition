@@ -1,5 +1,3 @@
-
-/*利用了换根dp的思想,避免了重复做dp*/
 class Solution {
 public:
 
@@ -11,35 +9,29 @@ public:
 			tr[a].push_back(b);
 			tr[b].push_back(a);
 		}
-		vector<int>dp(n + 5, 0), siz(n + 5);
+		vector<int>dp(n + 5, 0), sz(n + 5);
 		function<void(int, int)>dfs = [&](int u, int f) {
-			siz[u] = 1;
+			sz[u] = 1;
 			for (auto v : tr[u]) {
 				if (v == f)continue;
 				dfs(v, u);
-				dp[u] += dp[v] + siz[v];
-				siz[u] += siz[v];
+				dp[u] += dp[v] + sz[v];
+				sz[u] += sz[v];
 			}
 		};
 		dfs(0, -1);
-		vector<int>ans(n);
-		function<void(int, int)>tarjan = [&](int u, int f) {
-			ans[u] = dp[u];
+      // 换根: dp1 固定根的答案 dp2 当前节点为根的答案
+        std::vector<int>dp2(n);
+		
+        dp2[0] = dp[0];
+        function<void(int, int)>tarjan = [&](int u, int f) {
 			for (auto v : tr[u]) {
 				if (v == f)continue;
-				int pu = dp[u], pv = dp[v];
-				int su = siz[u], sv = siz[v];
-				dp[u] -= dp[v] + siz[v];
-				siz[u] -= siz[v];
-				dp[v] += dp[u] + siz[u];//转移之前处理出以v为根的u的dp值以及v的dp值
-				siz[v] += siz[u];
-				tarjan(v, u);
-				dp[u] = pu; dp[v] = pv;
-				siz[u] = su, siz[v] = sv;//结束之后还原
+				dp2[v] = dp2[u] - (dp[v] + sz[v]) + (n - sz[v]) + dp[v];  
+                tarjan(v, u);
 			}
 		};
-		//dfs(0, 0);
 		tarjan(0, -1);
-		return ans;
+		return dp2;
 	}
 };
