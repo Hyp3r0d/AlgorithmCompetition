@@ -22,48 +22,53 @@ i64 ans = 0; i64 sz[maxn]; i64 a[maxn];
 i64 dp1[maxn], dp2[maxn]; i64 sum[maxn];
 std::vector<i64>g[maxn];
 int main() {
-	i64 n; std::cin >> n;
-	for (i64 i = 1; i <= n; i++)std::cin >> a[i];
-	for (i64 i = 2; i <= n; i++) {
-		i64 p; std::cin >> p;
-		g[i].push_back(p);
-		g[p].push_back(i);
-	}
-	auto qpow = [&](i64 u, i64 w) {
-		i64 ret = 1;
-		while (w) {
-			if (w & 1)ret = ret % mod * u % mod;
-			u = u % mod * u % mod;
-			w >>= 1;
-		}
-		return ret % mod;
-	};
-	std::function<void(i64, i64)>dfs = [&](i64 u, i64 f) {
-		sz[u] = 1; dp1[u] = a[u];
-		i64 len = (to_string(a[u])).size();
-		for (auto v : g[u]) {
-			if (v == f)continue;
-			dfs(v, u);
-			dp1[u] = (dp1[u] % mod + dp1[v] % mod * qpow(10, len) % mod) % mod;
-			dp1[u] = (dp1[u] % mod + sz[v] % mod * a[u] % mod) % mod;
-			sz[u] = (sz[u] % mod + sz[v]) % mod;
-			sum[u] = (sum[u] % mod + dp1[v]) % mod;
-		}
-	};
-	dfs(1, 0);
-	i64 ans = 0;
-	std::function<void(i64, i64)>dfs2 = [&](i64 u, i64 f) {
-		i64 len = (to_string(a[u])).size();
-		i64 add = (dp2[u] % mod + sum[u] % mod) * qpow(10, len) % mod + n % mod * a[u] % mod;
-		ans = (ans % mod + add) % mod;
-		for (auto v : g[u]) {
-			if (v == f)continue;
-			dp2[v] = ((dp2[u] % mod + sum[u] % mod - dp1[v]) + mod) % mod * qpow(10, len) % mod + (n - sz[v]) * a[u];
-			dp2[v] = (dp2[v] % mod + mod) % mod;
-			dfs2(v, u);
-		}
-	};
-	dfs2(1, 0);
-	std::cout << ans % mod<< "\n";
-	return 0;
+  std::ios::sync_with_stdio(false);
+  cin.tie(0); cout.tie(0);
+  i64 n; std::cin >> n;
+  for (i64 i = 1; i <= n; i++)std::cin >> a[i];
+  for (i64 i = 2; i <= n; i++) {
+    i64 p; std::cin >> p;
+    g[i].push_back(p);
+    g[p].push_back(i);
+  }
+  std::vector<i64>z(n + 1, 0);
+  z[0] = 1;
+  for (i64 i = 1; i <= n; i++)z[i] = z[i - 1] % mod * 10 % mod;
+  auto qpow = [&](i64 u, i64 w) {
+    i64 ret = 1;
+    while (w) {
+      if (w & 1)ret = ret % mod * u % mod;
+      u = u % mod * u % mod;
+      w >>= 1;
+    }
+    return ret % mod;
+  };
+  std::function<void(i64, i64)>dfs = [&](i64 u, i64 f) {
+    sz[u] = 1; dp1[u] = a[u];
+    i64 len = (to_string(a[u])).size();
+    for (auto v : g[u]) {
+      if (v == f)continue;
+      dfs(v, u);
+      dp1[u] = (dp1[u] % mod + dp1[v] % mod * z[len] % mod) % mod;
+      dp1[u] = (dp1[u] % mod + sz[v] % mod * a[u] % mod) % mod;
+      sz[u] = (sz[u] % mod + sz[v]) % mod;
+      sum[u] = (sum[u] % mod + dp1[v]) % mod;
+    }
+  };
+  dfs(1, 0);
+  i64 ans = 0;
+  std::function<void(i64, i64)>dfs2 = [&](i64 u, i64 f) {
+    i64 len = (to_string(a[u])).size();
+    i64 add = (dp2[u] % mod + sum[u] % mod) * z[len] % mod + n % mod * a[u] % mod;
+    ans = (ans % mod + add) % mod;
+    for (auto v : g[u]) {
+      if (v == f)continue;
+      dp2[v] = ((dp2[u] % mod + sum[u] % mod - dp1[v]) + mod) % mod * z[len] % mod + (n - sz[v]) * a[u];
+      dp2[v] = (dp2[v] % mod + mod) % mod;
+      dfs2(v, u);
+    }
+  };
+  dfs2(1, 0);
+  std::cout << ans % mod << "\n";
+  return 0;
 }

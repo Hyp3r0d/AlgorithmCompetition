@@ -17,7 +17,7 @@ public:
 			vis[0] = false; vis[n - 1] = false;
 			for (int i = 0; i < n - 1;) {
 				int j = i + 1;
-				while (j < n and vis[j] == true)j++;
+				while (j < n - 1 and vis[j] == true)j++;
 				if (stones[j] - stones[i] > mid)return false;
 				i = j;
 			}

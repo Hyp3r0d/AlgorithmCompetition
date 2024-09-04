@@ -10,7 +10,7 @@ class Solution {
 
     public int minEatingSpeed(int[] piles, int h) {
         int n = piles.length;
-        int l = 0, r = 0x3f3f3f3f;
+        int l = 1, r = 0x3f3f3f3f;
         while (l < r) {
             int mid = (l + r) >>> 1;
             if (check(piles, h, mid)) {

@@ -49,6 +49,9 @@ public:
 				auto idx = lower_bound(q.begin(), q.end(), j + v, [&](pair<int, int>s, int t)->bool{
 					return s.first > t;
 				}) - q.begin();
+				/*auto idx = lower_bound(q.begin(), q.end(), pair<i64, i64>{j + v, 0}, [&](pair<int, int>s, auto t)->bool{
+					return s.first > t.first;
+				}) - q.begin();*/
 				if (idx < q.size())
 					dp[i][j] = min(dp[i][j], q[idx].second + 1);
 				idx = lower_bound(st.begin(), st.end(), i + v, [&](pair<int, int>s, int t)->bool{

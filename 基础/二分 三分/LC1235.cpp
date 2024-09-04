@@ -92,3 +92,156 @@ public:
         return query(n);
     }
 };
+
+
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
+using namespace std;
+
+constexpr i64 mod = 1e5 + 3;
+constexpr i64 maxn = 1e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+
+/* 不满足单调栈上二分的性质, 不能单调栈上二分 */
+class Solution {
+public:
+
+
+  i64 tr[maxn];
+
+  void add(i64 idx, i64 v) {
+    for (; idx <= 5e4; idx += idx & -idx)tr[idx] = std::max(tr[idx], v);
+  }
+
+  i64 query(i64 idx) {
+    i64 ret = 0;
+    for (; idx >= 1; idx -= idx & -idx)ret = std::max(ret, tr[idx]);
+    return ret;
+  }
+  int jobScheduling(vector<int> &startTime, vector<int> &endTime, vector<int> &profit) {
+    
+    i64 n = startTime.size();
+    
+    std::vector<array<i64, 3>>z(n + 1);
+    
+
+    z[0] = {0, 0, 0};
+    for (i64 i = 1; i <= n; i++) {
+      z[i] = {startTime[i - 1], endTime[i - 1], profit[i - 1]};
+    }
+    std::sort(z.begin() + 1, z.begin() + 1 + n, [&](array<i64, 3> x, array<i64, 3> y)->bool {
+      return  x[1] < y[1];
+    });
+    for(i64  i = 0;i <= 4e5;i ++) tr[i] = -inf;
+    std::vector<i64>dp(n + 1, 0);
+    for (i64 i = 1; i <= n; i ++) {
+      dp[i] = z[i][2];
+      i64 l = 0, r = i; i64 ans = 0;
+      i64 v = z[i][0];
+      while (l < r) {
+        i64 mid = (l + r + 1) >> 1;
+        if (z[mid][1] <= v)l = mid, ans = mid;
+        else r = mid - 1;
+      }
+      /*
+      i64 l = 0, r = i - 1;
+      while(l <= r) {
+        i64 mid = (l + r) >> 1;
+        if(z[mid][1] <= v) l = mid + 1, ans = mid;
+        else r = mid - 1;
+      }
+      */
+      std::cout << ans << "\n";
+      i64 q = query(ans);
+      dp[i] = std::max(dp[i], q + z[i][2]);
+      add(i, dp[i]);
+    }
+    return (int)query(n);
+  }
+};
+
+
+
+
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
+using namespace std;
+
+constexpr i64 mod = 1e5 + 3;
+constexpr i64 maxn = 1e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+
+/* 不满足单调栈上二分的性质, 不能单调栈上二分 */
+class Solution {
+public:
+
+
+  i64 tr[maxn];
+
+  void add(i64 idx, i64 v) {
+    for (; idx <= 5e4; idx += idx & -idx)tr[idx] = std::max(tr[idx], v);
+  }
+
+  i64 query(i64 idx) {
+    i64 ret = 0;
+    for (; idx >= 1; idx -= idx & -idx)ret = std::max(ret, tr[idx]);
+    return ret;
+  }
+  int jobScheduling(vector<int> &startTime, vector<int> &endTime, vector<int> &profit) {
+    
+    i64 n = startTime.size();
+    
+    std::vector<array<i64, 3>>z(n + 1);
+    
+
+    z[0] = {0, 0, 0};
+    for (i64 i = 1; i <= n; i++) {
+      z[i] = {startTime[i - 1], endTime[i - 1], profit[i - 1]};
+    }
+    std::sort(z.begin() + 1, z.begin() + 1 + n, [&](array<i64, 3> x, array<i64, 3> y)->bool {
+      return  x[1] < y[1];
+    });
+    for(i64  i = 0;i <= 4e5;i ++) tr[i] = -inf;
+    std::vector<i64>dp(n + 1, 0);
+    for (i64 i = 1; i <= n; i ++) {
+      dp[i] = z[i][2];
+      i64 v = z[i][0];
+      i64 ans = upper_bound(z.begin() + 1, z.end(), array<i64, 3>{0 ,v, 0 }, [&](array<i64, 3>x,array<i64, 3>y)->bool{
+        return x[1] < y[1];
+      }) - z.begin() - 1;
+      std::cout << ans << "\n";
+      i64 q = query(ans);
+      dp[i] = std::max(dp[i], q + z[i][2]);
+      add(i, dp[i]);
+    }
+    return (int)query(n);
+  }
+};

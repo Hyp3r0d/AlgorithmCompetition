@@ -1,4 +1,7 @@
-#include<bits/stdc++.h>
+
+
+
+#include<bits/extc++.h>
 
 using i8 = signed char;
 using u8 = unsigned char;
@@ -16,45 +19,51 @@ using f128 = long double;
 using namespace std;
 
 constexpr i64 mod = 998244353;
-constexpr i64 maxn = 2e5 + 5;
+constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
+i64 dp[maxn], sz[maxn], ans[maxn];
 
-i64 n; std::vector<i64>g[maxn];
-
-i64 dp[maxn], sz[maxn];
-
-void dfs(i64 u, i64 f) {
-	sz[u] = 1;
-	for (auto v : g[u]) {
-		if (v == f)continue;
-		dfs(v, u);
-		dp[u] += dp[v] + sz[v];
-		sz[u] += sz[v];
-	}
-}
-
-i64 ans[maxn];
-void dfs2(i64 u, i64 f) {
-	ans[u] = dp[u];
-	for (auto v : g[u]) {
-		if (v == f)continue;
-		i64 tmp = sz[v];
-		sz[v] += sz[u] - sz[v];
-		dp[v] += (dp[u] - dp[v] - tmp) + (sz[u] - tmp);
-		dfs2(v, u);
-	}
-}
+i64 dp2[maxn];
 int main() {
-	std::cin >> n;
+
+	i64 n; std::cin >> n;
+
+	std::vector<vector<i64>>g(n + 1);
 	for (i64 i = 1; i <= n - 1; i++) {
 		i64 u, v; std::cin >> u >> v;
 		g[u].push_back(v);
 		g[v].push_back(u);
 	}
-	dfs(1, 0); dfs2(1, 0);
+
+	std::function<void(i64, i64)>dfs = [&](i64 u, i64 f) {
+		sz[u] = 1;
+		for (auto v : g[u]) {
+			if (v == f)continue;
+			dfs(v, u);
+			sz[u] += sz[v];
+			dp[u] += (dp[v] + sz[v]);
+		}
+	};
+	dfs(1, 0);
+
+
+	dp2[1] = dp[1];
+
+	std::function<void(i64, i64)>dfs2 = [&](i64 u, i64 f) {
+
+		for (auto v : g[u]) {
+			if (v == f)continue;
+
+			dp2[v] = dp[v] + (dp2[u] - dp[v] - sz[v]) + (n - sz[v]);
+			dfs2(v, u);
+		}
+	};
+
+	dfs2(1, 0);
 	for (i64 i = 1; i <= n; i++) {
-		std::cout << ans[i] << "\n";
+		std::cout << dp2[i] << "\n";
 	}
+
 	return 0;
 }

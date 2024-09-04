@@ -1,4 +1,4 @@
-#include<bits/extc++.h>
+#include<bits/stdc++.h>
 
 using i8 = signed char;
 using u8 = unsigned char;
@@ -13,64 +13,86 @@ using f64 = double;
 using i128 = __int128_t;
 using u128 = __uint128_t;
 using f128 = long double;
+
 using namespace std;
+const i64 mod = 1e9 + 7;
+const i64 maxn = 2e6 + 5;
+const i64 inf = 0x3f3f3f3f3f3f3f3f;
 
-constexpr i64 mod = 998244353;
-constexpr i64 maxn = 4e6 + 5;
-constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
-void solve() {
-    i64 n, m; std::cin >> n >> m;
-    vector<i64>A(n + 5, 0);
-    for (i64 i = 1; i <= n; i++)std::cin >> A[i], A[i]++;
-    vector<i64>tr(n + 10, 0);
-    auto add = [&](i64 idx, i64 v) {
-        for (; idx <= n; idx += (idx & -idx))tr[idx] += v;
-    };
-    auto query = [&](i64 idx) {
-        i64 ret = 0;
-        for (; idx >= 1; idx -= (idx & -idx))ret += tr[idx];
-        return ret;
-    };
-    vector<i64>cnt(n + 1, 0);
-    auto check = [&](i64 mid) {
 
-        auto ins = [&](i64 x) {
-            cnt[x]++;
-            if (cnt[x] == 1)add(x, 1);
-        };
-        auto rem = [&](i64 x) {
-            cnt[x]--;
-            if (cnt[x] == 0) {
-                add(x, -1);
-            }
-        };
-        std::fill(cnt.begin(), cnt.end(), 0);
-        std::fill(tr.begin() + 1, tr.begin() + 1 + n, 0);
-        for (i64 r = 1, l = 1; r <= n; r++) {
-            ins(A[r]);
-            while (r - l + 1 > m) {
-                rem(A[l]); l++;
-            }
-            if (r - l + 1 == m) {
-                if (query(mid - 1) < mid - 1)return true;
-            }
-        }
-        return false;
-    };
-    i64 l = 1, r = n + 5; i64 ans = 0;
-    while (l <= r) {
-        i64 mid = (l + r) >> 1;
-        if (check(mid))r = mid - 1;
-        else l = mid + 1, ans = mid;
-    }
-    std::cout  << ans - 1 << "\n";
-;
+i64 tr[maxn], n, m;
+
+i64 cnt[maxn];
+
+void add(i64 idx, i64 v) {
+  for (; idx <= n; idx += idx & -idx)tr[idx] += v;
 }
+
+i64 query(i64 idx) {
+  i64 ret = 0;
+  for (; idx >= 1; idx -= idx & -idx)ret += tr[idx];
+  return ret;
+}
+
+
+
+void insert(i64 x) {
+  if (x == 0) {
+    cnt[x]++;
+  } else {
+    cnt[x]++;
+    if (cnt[x] == 1)add(x, 1);
+  }
+}
+
+void rem(i64 x) {
+  if (x == 0) {
+    cnt[x]--;
+  } else {
+    cnt[x]--;
+    if (cnt[x] == 0)add(x, -1);
+  }
+}
+
+i64 query2(i64 x) {
+  if (x == -1)return 0ll;
+  return query(x) + (cnt[0] ? 1 : 0);
+}
+
 int main() {
-    solve();
-}
+  std::cin >> n >> m;
+  std::vector<i64>a(n + 1);
+  for (i64 i = 1; i <= n; i++) {
+    std::cin >> a[i];
+  }
+  auto check = [&](i64 mid) {
+    std::fill(tr, tr + 1 + n, 0ll);
+    std::fill(cnt, cnt + 1 + n, 0ll);
 
+    i64 r = 1, l = 1;
+    for (; r <= m; r++) {
+      insert(a[r]);
+
+    }
+    if (query2(mid - 1) < mid)return false;
+    for (r = m + 1, l = 1; r <= n; r++) {
+      insert(a[r]);
+      while (r - l + 1 > m) {
+        rem(a[l]); l++;
+      }
+      if (query2(mid - 1) < mid)return false;
+    }
+    return true;
+  };
+  i64 l = 0, r = n; i64 ans = -1;
+  while (l <= r) {
+    i64 mid = (l + r) >> 1;
+    if (check(mid))l = mid + 1, ans = mid;
+    else r = mid - 1;
+  }
+  std::cout << ans << "\n";
+}
 
 
 
