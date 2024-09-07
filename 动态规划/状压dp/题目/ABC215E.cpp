@@ -99,6 +99,7 @@ int main() {
 			if ((j >> pre) & 1) {
 				dp[i][j][pre] = (dp[i][j][pre] % mod + dp[i - 1][j][pre]) % mod;
 				for (i64 k = 0; k <= 10; k++) {
+				    if((((j >> k) & 1) or __builtin_popcount(j) == 1)and k != pre)
 					dp[i][j][pre] = (dp[i][j][pre] % mod + dp[i - 1][j - (1 << pre)][k]) % mod;
 				}
 			}
