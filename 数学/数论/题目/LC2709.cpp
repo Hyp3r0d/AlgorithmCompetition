@@ -35,7 +35,7 @@ void init() {
 class Solution {
 public:
 
-	bool canTraverseAi64Pairs(vector<int>& nums) {
+	bool canTraverseAllPairs(vector<int>& nums) {
 		init();
 
 
