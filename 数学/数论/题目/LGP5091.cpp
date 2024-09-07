@@ -26,14 +26,14 @@ int main() {
   i64 phi = m; i64 x = m;
   for (i64 i = 2; i * i <= x; i++) {
     if (x % i == 0) {
-      phi *= (1 - 1 / i);
+      phi = phi / (i) * (i - 1);
       while (x % i == 0)x /= i;
     }
   }
   if (x > 1) {
-    phi *= (1 - 1 / x);
+    phi = phi / x * (x - 1);
   }
-  auto ksm = [&](i64 x, i64 y) {
+  auto qpow = [&](i64 x, i64 y) {
     i64 ret = 1;
     while (y) {
       if (y & 1)ret = ret * x % m;
@@ -48,7 +48,7 @@ int main() {
       p = (p % phi + (b[i] - '0') % phi * cur) % phi;
       cur = (cur % phi * 10) % phi;
     }
-    std::cout  << ksm(a, p) % m;
+    std::cout  << qpow(a, p) % m;
   } else {
     if (b.size() <= to_string(phi).size()) {
       i64 p = 0, cur = 1;
@@ -59,7 +59,7 @@ int main() {
       if (p >= phi) {
         p %= phi; p += phi;
       }
-      std::cout  << ksm(a, p) % m;
+      std::cout  << qpow(a, p) % m;
     } else {
       i64 p = 0, cur = 1;
       for (i64 i = 0; i < b.size(); i++) {
@@ -67,7 +67,7 @@ int main() {
         cur = (cur % phi * 10) % phi;
       }
       p %= phi; p += phi;
-      std::cout  << ksm(a, p) % m;
+      std::cout  << qpow(a, p) % m;
     }
   }
 }

@@ -41,7 +41,7 @@ public:
 
 
 i64 phi(i64 n) {
-	i64 res = 0;
+	i64 res = n;
 	for (i64 i = 2; i * i <= n; i++) {
 		if (n % i == 0) {
 			while (n % i == 0) {
