@@ -39,17 +39,72 @@ void solve() {
   auto check = [&](i64 mid) {
     i64 sum = 0;
     for (i64 i = 1; i <= n; i++) {
-      i64 cur = upper_bound(B.begin() + 1, B.begin() + 1 + m, mid - A[i]) - B.begin();
+      i64 cur = lower_bound(B.begin() + 1, B.begin() + 1 + m, mid - A[i]) - B.begin();
       sum += m - cur + 1;
     }
-    i64 cur = upper_bound(C.begin() + 1, C.begin() + 1 + k, mid) - C.begin();
+    i64 cur = lower_bound(C.begin() + 1, C.begin() + 1 + k, mid) - C.begin();
     sum -= (k - cur + 1);
     // 等价于大于等于mid的个数 >= x
-    return (sum == 0);
+    return (sum >= 1);
   };
   i64 l = 0, r = 1e12, ans = 0;
   while (l <= r) {
     i64 mid = (l + r) >> 1;
+    if (check(mid)) {
+      ans = mid;
+      l= mid + 1;
+    } else {
+      r = mid - 1;
+    }
+  }
+  cout << ans << "\n";
+}
+int main() {
+  solve();
+}
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef double db;
+typedef long long ll;
+typedef long double lb;
+const ll maxn = 5e3 + 5;
+const ll inf = 0x3f3f3f3f3f3f3f3f;
+const ll mod = 998244353;
+void solve() {
+  ll n, m, k;
+  std::cin >> n >> m >> k;
+  vector<ll>A(n + 5, 0), B(m + 5, 0);
+  for (ll i = 1; i <= n; i++) {
+    std::cin >> A[i];
+  }
+  for (ll i = 1; i <= m; i++) {
+    std::cin >> B[i];
+  }
+  vector<ll>C(k + 5, 0);
+  for (ll i = 1; i <= k; i++) {
+    ll u, v; std::cin >> u >> v;
+    C[i] = A[u] + B[v];
+  }
+  std::sort(A.begin() + 1, A.begin() + 1 + n);
+  std::sort(B.begin() + 1, B.begin() + 1 + m);
+  std::sort(C.begin() + 1, C.begin() + 1 + k);
+  auto check = [&](ll mid) {
+    ll sum = 0;
+    for (ll i = 1; i <= n; i++) {
+      ll cur = upper_bound(B.begin() + 1, B.begin() + 1 + m, mid - A[i]) - B.begin();
+      sum += m - cur + 1;
+    }
+    ll cur = upper_bound(C.begin() + 1, C.begin() + 1 + k, mid) - C.begin();
+    sum -= (k - cur + 1);
+    // 等价于大于等于mid的个数 >= x
+    return (sum == 0);
+  };
+  ll l = 0, r = 1e12, ans = 0;
+  while (l <= r) {
+    ll mid = (l + r) >> 1;
     if (check(mid)) {
       ans = mid;
       r = mid - 1;
@@ -57,8 +112,8 @@ void solve() {
       l = mid + 1;
     }
   }
-  cout << ans << "\n";
+  cout << ans << endl;
 }
-int main() {
+signed main() {
   solve();
 }
