@@ -76,10 +76,10 @@ int main() {
 		xx = x + dx, yy = y + dy;
 		if (xx >= 1 and xx <= h and yy >= 1 and yy <= w and g[xx][yy] != '.') {
 			f = true;
-			if (not vis[xx][yy][tmp] and d + 1 < ans)
+			if (not vis[xx][yy][tmp] and d + 1 < ans) //剪枝
 				dfs(xx, yy, tmp, d + 1);
 		}
-		tmp = (dir - 1 + 4) % 4; // 试试左转
+		tmp = (dir - 1 + 4) % 4; // 试试右转
 		dx = rev[tmp].first, dy = rev[tmp].second;
 		xx = x + dx, yy = y + dy;
 		// 右转
@@ -93,7 +93,7 @@ int main() {
 			dx = rev[tmp].first, dy = rev[tmp].second;
 			xx = x + dx, yy = y + dy;
 			if (xx >= 1 and xx <= h and yy >= 1 and yy <= w and g[xx][yy] != '.') {
-				if (not vis[xx][yy][tmp] and d + 10 < ans)
+				if (not vis[xx][yy][tmp] and d + 10 < ans) // 剪枝
 					dfs(xx, yy, tmp, d + 10);
 			}
 		}
