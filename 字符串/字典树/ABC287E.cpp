@@ -1,6 +1,4 @@
-/*300兆字节 1- 2 秒*/
-
-#include<bits/extc++.h>
+#include<bits/stdc++.h>
 
 using i8 = signed char;
 using u8 = unsigned char;
@@ -17,51 +15,57 @@ using u128 = __uint128_t;
 using f128 = long double;
 using namespace std;
 
-constexpr i64 mod = 998244353;
-constexpr i64 maxn = 4e6 + 5;
+constexpr i64 mod = 45989;
+constexpr i64 maxn = 2e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
-int nex[maxn][26], cnt = 0;
-bool exist[maxn];
-set<int>w[maxn];
-void insert(string s, int l, int id) {
-	int p = 0;
-	for (int i = 0; i < l; i++) {
-		int c = s[i] - 'a';
-		if (!nex[p][c]) {
-			nex[p][c] = ++cnt;
+std::unordered_set<i64>st[maxn];
 
+struct Node {
+	i64 nxt[30];
+};
+
+std::vector<Node>Trie;
+
+
+void insert(string s, i64 idx) {
+	i64 len = s.size();
+	i64 u = 0;
+	for (i64 i = 0; i < len; i++) {
+		i64 c = s[i] - 'a';
+		if (not Trie[u].nxt[c]) {
+			Trie[u].nxt[c] = Trie.size();
+			Trie.push_back(Node());
 		}
-		w[nex[p][c]].insert(id);
-		p = nex[p][c];
+		u = Trie[u].nxt[c];
+		st[u].insert(idx);
 	}
-	exist[p] = 1;
 }
-int query(string s, int id) {
-	int len = (int)s.length(), ret = 0, p = 0;
-	for (int i = 0; i < len; i++) {
-		int c = s[i] - 'a';
-		if (nex[p][c] and not(w[nex[p][c]].count(id) and w[nex[p][c]].size() == 1)) {
-			ret++;
-			p = nex[p][c];
+
+
+i64 query(string s, i64 idx) {
+	i64 len = s.size(); i64 u = 0, ret = 0;
+	for (i64 i = 0; i < len; i++) {
+		i64 c = s[i] - 'a';
+		if (st[Trie[u].nxt[c]].size() != 1) {
+			ret++; u = Trie[u].nxt[c];
 		} else {
-			break;
+			return ret;
 		}
 	}
 	return ret;
 }
-void solve() {
-	int N; std::cin >> N;
-	vector<string>p(N + 5);
-	for (i64 i = 1; i <= N; i++) {
-		std::cin >> p[i];
-		insert(p[i], (int)p[i].length(), i);
-	}
-	for (i64 i = 1; i <= N; i++) {
-		std::cout  << query(p[i], i) << "\n";
-;
-	}
-}
+
 int main() {
-	solve();
+	i64 n; std::cin >> n;
+	std::vector<string>z(n + 1);
+	Trie.push_back(Node());
+	for (i64 i = 1; i <= n; i++)std::cin >> z[i];
+	for (i64 i = 1; i <= n; i++) {
+		insert(z[i], i);
+	}
+	for (i64 i = 1; i <= n; i++) {
+		std::cout << query(z[i], i) << "\n";
+	}
+	return 0;
 }
