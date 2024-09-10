@@ -52,14 +52,15 @@ int main() {
 		}
 	}
 	std::function<void(i64, i64, i64, i64)>dfs = [&](i64 x, i64 y, i64 dir, i64 d) {
-		vis[x][y][dir] = 1;
+		
 		if (d >= ans) {
-			vis[x][y][dir] = 0; return;
+			 return;
 		} // 剪枝
 		if (x == tx and y == ty) {
-			vis[x][y][dir] = 0; ans = std::min(ans, d);
+			 ans = std::min(ans, d);
 			return;
 		}
+		vis[x][y][dir] = 1;
 		i64 tmp = dir;
 		// 试试直走
 		bool f = false;
@@ -67,7 +68,7 @@ int main() {
 		i64 xx = x + dx, yy = y + dy;
 		if (xx >= 1 and xx <= h and yy >= 1 and yy <= w and g[xx][yy] != '.') {
 			f = true;
-			if (not vis[xx][yy][tmp])
+			if (not vis[xx][yy][tmp] and d < ans)
 				dfs(xx, yy, tmp, d);
 		}
 		tmp = (dir + 1) % 4;// 试试左转
@@ -75,24 +76,24 @@ int main() {
 		xx = x + dx, yy = y + dy;
 		if (xx >= 1 and xx <= h and yy >= 1 and yy <= w and g[xx][yy] != '.') {
 			f = true;
-			if (not vis[xx][yy][tmp])
+			if (not vis[xx][yy][tmp] and d + 1 < ans)
 				dfs(xx, yy, tmp, d + 1);
 		}
-		tmp = (dir + 3) % 4;// 试试左转
+		tmp = (dir -1 + 4) % 4;// 试试左转
 		dx = rev[tmp].first, dy = rev[tmp].second;
 		xx = x + dx, yy = y + dy;
 		// 右转
 		if (xx >= 1 and xx <= h and yy >= 1 and yy <= w and g[xx][yy] != '.') {
 			f = true;
-			if (not vis[xx][yy][tmp])
+			if (not vis[xx][yy][tmp] and d + 5 < ans)
 				dfs(xx, yy, tmp, d + 5);
 		}
 		if (not f) {
-			tmp = (dir + 2) % 4;// 试试左转
+			tmp = (dir + 2) % 4;// 前后右 都不能, 试试向后转
 			dx = rev[tmp].first, dy = rev[tmp].second;
 			xx = x + dx, yy = y + dy;
 			if (xx >= 1 and xx <= h and yy >= 1 and yy <= w and g[xx][yy] != '.') {
-				if (not vis[xx][yy][tmp])
+				if (not vis[xx][yy][tmp] and d + 10 < ans)
 					dfs(xx, yy, tmp, d + 10);
 			}
 		}
