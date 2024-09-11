@@ -22,38 +22,37 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 void solve() {
 	i64 n; std::cin >> n; vector<i64>A(n + 1, 0);
 	for (i64 i = 1; i <= n; i++)std::cin >> A[i];
-	vector<vector<i64>>tr(n + 1);
+	vector<vector<i64>>g(n + 1);
 	for (i64 i = 1; i <= n - 1; i++) {
-		i64 u, v; std::cin >> u >> v; tr[u].push_back(v);
-		tr[v].push_back(u);
+		i64 u, v; std::cin >> u >> v;
+		g[u].push_back(v);
+		g[v].push_back(u);
 	}
 	vector<i64>dp(n + 1, 0); auto sz = dp;
 	function<void(i64, i64)>dfs = [&](i64 u, i64 f) {
 		sz[u] = 1;
-		for (auto v : tr[u]) {
+		for (auto v : g[u]) {
 			if (v == f)continue;
 			dfs(v, u);
 			sz[u] += sz[v];
 			dp[u] += sz[v] * (A[u] ^ A[v]) + dp[v];
 		}
 	};
-	vector<i64>ans(n + 1, 0);
+	dfs(1, 0);
+	vector<i64>dp2(n + 1, 0); dp2[1] = dp[1];
 	function<void(i64, i64)>dfs2 = [&](i64 u, i64 f) {
-		ans[u] = dp[u];
-		for (auto v : tr[u]) {
+		for (auto v : g[u]) {
 			if (v == f)continue;
-			i64 szv = sz[v], szu = sz[u], dpu = dp[u], dpv = dp[v];
-			dp[u] -= dp[v] + sz[v] * (A[u] ^ A[v]); sz[u] -= sz[v];
-			dp[v] += sz[u] * (A[u] ^ A[v]) + dp[u];
-			sz[v] += sz[u];
+			dp2[v] += dp[v];
+			dp2[v] += (n - sz[v]) * (A[u] ^ A[v]) + (dp2[u] - dp[v] - sz[v] * (A[u] ^ A[v]));
 			dfs2(v, u);
-			dp[u] = dpu; dp[v] = dpv; sz[u] = szu; sz[v] = szv;
+
 		}
 	};
-	dfs(1, 0); dfs2(1, 0);
-	for (i64 i = 1; i <= n; i++)std::cout  << ans[i] << " ";
+	 dfs2(1, 0);
+	for (i64 i = 1; i <= n; i++)std::cout  << dp2[i] << " ";
 	std::cout  << "\n";
-;
+	;
 }
 int main() {
 	i64 T; std::cin >> T;
