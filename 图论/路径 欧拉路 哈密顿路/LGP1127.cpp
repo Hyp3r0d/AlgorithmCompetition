@@ -17,48 +17,91 @@ const i64 mod = 666623333;
 const i64 maxn = 1e6 + 5;
 const i64 inf = 0x3f3f3f3f3f3f3f3f;
 /*无向图找欧拉通路 / 欧拉回路*/
-void solve() {
-    int n; std::cin >> n; std::vector<std::string>s(n + 1);
-    std::vector<int>ind(30), rnd(30);
+
+
+
+
+vector<pair<i64, i64>>g[30];
+
+void addedge(i64 u, i64 v, i64 z) {
+    g[u].push_back({v, z});
+}
+
+int main() {
+    i64 n; std::cin >> n; std::vector<std::string>s(n + 5);
+    std::vector<i64>ind(30), rnd(30); //入度 出度
+
     for (int i = 1; i <= n; i++) {
-        std::cin >> s[i]; ++ind[s[i][0] - 'a'];
-        ++rnd[s[i].back() - 'a'];
+        std::cin >> s[i]; ++rnd[s[i][0] - 'a' + 1];
+        ++ind[s[i].back() - 'a' + 1];
+        i64 u = s[i][0] - 'a' + 1;
+        i64 v = s[i].back() - 'a' + 1;
+        addedge(u, v, i);
     }
-    std::vector<vector<int>>g(n + 1);
-    std::sort(s.begin() + 1, s.begin() + 1 + n);
-    for (int i = 1; i <= n; i++) {
-        for (int j = 1; j <= n; j++) {
-            if (i != j and s[i].back() == s[j].front()) {
-                g[i].push_back(j);
-            }
+    i64 cnt1 = 0, cnt2 = 0;
+
+
+    for (i64 i = 1; i <= 26; i++) {
+        if (ind[i] == rnd[i] + 1)cnt1++;
+        else if (rnd[i] == ind[i] + 1)cnt2++;
+        else if (ind[i] != rnd[i]) {
+            puts("***"); return 0;
         }
     }
-    std::vector<bool>vis(n + 1);
-    std::function<void(int, std::string, int)>dfs = [&](int u, std::string cur, int cnt) {
+
+    if (not ((cnt1 == 1 and cnt2 == 1) or (cnt1 == 0 and cnt2 == 0))) {
+        puts("***"); return 0;
+    }
+
+    for (i64 i = 1; i <= 26; i++) {
+        std::sort(g[i].begin(), g[i].end(), [&](auto x, auto y)->bool{
+            return s[x.second] < s[y.second];
+        });
+    }
+
+    // 有向图中欧拉路出现的两种情况
+    bool f = (cnt1 == 1 and cnt2 == 1) ? 1 : 0;
+    std::vector<bool>vis(n + 1, false);
+    std::function<void(i64, string, i64)>dfs = [&](i64 u, string cur, i64 cnt) {
         if (cnt == n) {
             cur.pop_back();
-            std::cout  << cur;
-            exit(0);
+            std::cout << cur;
+            std::exit(0);
         }
-        for (auto i : g[u]) {
-            if (not vis[i]) {
-                vis[i] = true;
-                dfs(i, cur + s[i] + '.', cnt + 1);
-                vis[i] = false;
+        for (auto [v, idx] : g[u]) {
+            if (not vis[idx]) {
+                vis[idx] = true;
+                dfs(v, cur + s[idx] + '.', cnt + 1);
+                vis[idx] = false;
             }
         }
     };
-    for (int i = 1; i <= n; i++) {
-        if (ind[s[i].front() - 'a'] == rnd[s[i].front() - 'a'] + 1) {
-            vis[i] = true;
-            dfs(i, s[i] + '.', 1);
-            vis[i] = false;
+
+    if (f) {
+        bool z = true;
+        for (i64 i = 1; i <= 26; i++) {
+
+            if (rnd[i] == ind[i] + 1) {
+                z = false;
+                dfs(i, "", 0);
+            }
+            if (not z) {
+                puts("***"); return 0;
+            }
+        }
+    } else {
+        bool z = true;
+        for (i64 i = 1; i <= 26; i++) {
+            if (rnd[i] and ind[i]) {
+                z = false;
+                dfs(i, "", 0);
+            }
+           if (not z) {
+                puts("***"); return 0;
+            }
         }
     }
-    vis[1] = true;
-    dfs(1, s[1] + '.', 1);
-    vis[1] = false;
-}
-int main() {
-    solve();
+
+    puts("***");
+    return 0;
 }
