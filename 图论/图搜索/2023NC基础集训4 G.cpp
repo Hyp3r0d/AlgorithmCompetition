@@ -16,18 +16,24 @@ using f128 = long double;
 using namespace std;
 
 constexpr i64 mod = 998244353;
-constexpr i64 maxn = 4e6 + 5;
+constexpr i64 maxn = 2e3 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 vector<pair<int, int>>dir1{{0, 1}, {0, -1}, { -1, 0}, {1, 0}};
 map<char, pair<int, int>>dir2;
 bool vis[maxn][maxn];
 int dis[maxn][maxn];
-char G[maxn][maxn]; int xs, ys, n, m, Q;
+string G[maxn];
+int xs, ys, n, m, Q;
 bool check1(int x, int y) {
 	return x >= 1 and x <= n and y >= 1 and y <= m and G[x][y] != '#' and not vis[x][y];
 }
-void bfs1() {
+
+
+bool check2(int x, int y) {
+	return x >= 1 and x <= n and y >= 1 and y <= m and G[x][y] != '#';
+}
+void bfs() {
 	queue<pair<int, int>>q;
 	memset(dis, 0x3f, sizeof(dis));
 	memset(vis, 0, sizeof(vis));
@@ -53,7 +59,7 @@ int query(int x, int y) {
 	while (1) {
 		int lx = x, ly = y;
 		auto [dx, dy] = dir2[G[x][y]];
-		if (check1(x + dx, y + dy)) {
+		if (check2(x + dx, y + dy)) {
 			x += dx; y += dy;
 		}
 		if (lx == x and ly == y) {
@@ -62,26 +68,24 @@ int query(int x, int y) {
 			}
 		}
 		if (dis[x][y] <= res) {
-			ret = max(dis[x][y], res);
+			return res;
 		}
 		res++;
 	}
-	return ret;
+	return -1;
 }
 void solve() {
 	std::cin >> n >> m >> xs >> ys >> Q;
-	for (i64 i = 1; i <= n; i++) {
-		std::cin >> (G[i] + 1);
+	for (int i = 1; i <= n; i++) {
+		std::cin >> G[i];
+		G[i] = " " + G[i];
 	}
 	dir2['L'] = {0, -1}; dir2['R'] = {0, 1};
 	dir2['D'] = {1, 0}; dir2['U'] = { -1, 0};
-	bfs1();
+	bfs();
 	while (Q--) {
 		int qx, qy; std::cin >> qx >> qy; qx++; qy++;
 		std::cout  << query(qx, qy) << "\n";
-;
-		//std::cout  << query(xx, yy) << "\n";
-;
 	}
 }
 int main() {
