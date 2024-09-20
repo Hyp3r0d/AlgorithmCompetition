@@ -23,7 +23,7 @@ void solve() {
     i64 n, c; std::cin >> n >> c;
     vector<pair<i64, i64>>op(n + 1);
     for (i64 i = 1; i <= n; i++) {
-        std::cin >> op[i].fi >> op[i].se;
+        std::cin >> op[i].first >> op[i].second;
     }
     vector<i64>ans(n + 1);
     for (i64 k = 0; k < 30; k++) {
