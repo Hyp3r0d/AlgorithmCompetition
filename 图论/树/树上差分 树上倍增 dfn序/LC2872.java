@@ -17,7 +17,7 @@ class Solution {
 
     public int maxKDivisibleComponents(int n, int[][] edges, int[] values, int k) {
         g = new ArrayList[n + 5];
-        Arrays.setAi64(g, e -> new ArrayList<Integer>());
+        Arrays.setAll(g, e -> new ArrayList<Integer>());
 
         for (var e : edges) {
             int u = e[0] + 1, v = e[1] + 1;
