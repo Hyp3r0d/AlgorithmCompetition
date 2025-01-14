@@ -1,3 +1,4 @@
+/*枚举 + 暴力*/
 #include<bits/stdc++.h>
 
 using i8 = signed char;
@@ -79,5 +80,66 @@ int main() {
             }
         }
     }
+    return 0;
+}
+
+
+/*枚举 + 暴力*/
+
+#include<bits/stdc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
+using namespace std;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 3e5 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+int main() {
+    i64 m, n; std::cin >> m >> n;
+    std::vector<pair<i64, i64>>vX, vY;
+    std::vector<i64>x(n + 1), y(n + 1), res(n + 1);
+    for (i64 i = 1; i <= n; i++) {
+        std::cin >> x[i] >> y[i];
+    }
+    auto check = [&](i64 a, i64 b, i64 c, i64 d)->bool{
+        if (a == c or a == d or b == c or b == d)return false;
+        return true;
+    };
+    auto solve = [&](std::vector<pair<i64, i64>>&p, i64 tar) {
+        std::vector<i64>pos;
+        for (i64 i = 1; i <= n; i++) {
+            if (x[i] != tar and y[i] != tar)pos.push_back(i);
+        }
+        if (not pos.size())return;
+        i64 P = x[pos[0]], Q = y[pos[0]];
+        for (auto [i, key] : p) {
+            if (key != P and key != Q)res[i] = pos[0];
+            else {
+                for (auto u : pos) {
+                    if (x[u] != key and y[u] != key)res[i] = u;
+                }
+            }
+        }
+    };
+    for (int i = 2; i <= n; ++i) {
+        if (check(x[1], y[1], x[i], y[i])) res[i] = 1, res[1] = i;
+        else if (x[i] == x[1] || y[i] == x[1]) vX.push_back({i, x[i] ^ y[i] ^ x[1]});
+        else vY.push_back({i, x[i] ^ y[i] ^ y[1]});
+    }
+    solve(vX, x[1]), solve(vY, y[1]);
+    for (int i = 1; i <= n; ++i) std::cout << res[i] << " \n"[i == n];
     return 0;
 }
