@@ -23,13 +23,13 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 int cnt[maxn];
 int res = 0;
 pair<int, int>a[maxn], b[maxn];
-void qss(int l, int r) {
+void dfs(int l, int r) {
 	if (l >= r) {
 		return;
 	}
 	int mid = (l + r) >> 1;
-	qss(l, mid);
-	qss(mid + 1, r);
+	dfs(l, mid);
+	dfs(mid + 1, r);
 	int i = l, j = mid + 1, tp = l;
 	while (i <= mid and j <= r) {
 		if (a[i].second >= a[j].second) {
@@ -57,7 +57,7 @@ int main() {
 		std::cin >> a[i].second;
 		a[i].first = i;
 	}
-	qss(1, n);
+	dfs(1, n);
 	for (int i = 1; i <= n; i++) {
 		std::cout  << cnt[i] << " ";
 	}
