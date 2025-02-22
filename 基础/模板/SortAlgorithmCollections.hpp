@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 
 template<typename T>
-struct SortCollections {
+struct SortAlgorithmCollections {
 public:
 	i64 pairtition(std::vector<T>&a, i64 low, i64 high) {
 		T pivot = a[low];
