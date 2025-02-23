@@ -30,7 +30,7 @@ void solve() {
 		s /= 10;
 	}
 	reverse(xx.begin(), xx.end());
-	auto ksm = [&](i64 a, i64 b) {
+	auto qpow = [&](i64 a, i64 b) {
 		i64 ret = 1;
 		while (b) {
 			if (b & 1)ret = ret * a;
@@ -52,7 +52,7 @@ void solve() {
 			reverse(tmp.begin(), tmp.end());
 			if (tmp.substr(0, xx.length()) == xx) {
 				std::cout  << j << "\n";
-; return;
+				 return;
 			}
 		}
 	}
