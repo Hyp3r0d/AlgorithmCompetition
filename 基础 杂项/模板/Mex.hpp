@@ -1,3 +1,10 @@
+#ifndef Mex_hpp
+#define Mex_hpp
+
+
+
+/*在可接受的数据范围内维护0 -> len - 1的Mex值*/
+
 struct Mex {
     std::vector<i64>cnt; set<i64> st;
     multiset<i64> mulst;
@@ -30,3 +37,6 @@ struct Mex {
         }
     }
 };
+
+
+#endif Mex_hpp
