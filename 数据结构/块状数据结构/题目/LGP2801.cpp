@@ -16,49 +16,50 @@ using namespace std;
 const i64 mod = 1e9 + 7;
 const i64 maxn = 1e6 + 5;
 const i64 inf = 0x3f3f3f3f3f3f3f3f;
-/*块状数据结构*/
+/*块状数组*/
 i64 len, tot; i64 a[maxn], d[maxn], laz[maxn];
 i64 L[maxn], R[maxn], be[maxn];
 i64 n, q;
+void resort(i64 idx) {
+    for (i64 i = L[idx]; i <= R[idx]; i++) {
+        d[i] = a[i];
+    }
+    std::sort(d + L[idx], d + R[idx] + 1, [&](i64 x, i64 y)->bool {
+        return x < y;
+    });
+}
 void build() {
     len = sqrt(n); tot = (n + len - 1) / len;
     for (int i = 1; i <= n; i++) {
-        be[i] = (i + len - 1) / len, d[i] = a[i];
+        be[i] = (i + len - 1) / len;
     }
     for (int i = 1; i <= tot; i++) {
         L[i] = (i - 1) * len + 1, R[i] = i * len;
     }
     R[tot] = n;
     for (i64 i = 1; i <= tot; i++) {
-        sort(d + L[i], d + R[i] + 1);
+        resort(i);
     }
 }
 void modify(i64 x, i64 y, i64 k) {
     if (be[x] == be[y]) {
         for (i64 i = x; i <= y; i++)a[i] += k;
-        for (i64 i = L[be[x]]; i <= R[be[x]]; i++) {
-            d[i] = a[i];
-        }
-        sort(d + L[be[x]], d + R[be[x]] + 1);
-    } else {
-        for (int i = x; i <= R[be[x]]; i++) {
-            a[i] += k;
-        }
-        for (int i = L[be[x]]; i <= R[be[x]]; i++) {
-            d[i] = a[i];
-        }
-        sort(d + L[be[x]], d + R[be[x]] + 1);
-        for (int i = L[be[y]]; i <= y; i++) {
-            a[i] += k;
-        }
-        for (int i = L[be[y]]; i <= R[be[y]]; i++) {
-            d[i] = a[i];
-        }
-        sort(d + L[be[y]], d + R[be[y]] + 1);
-        for (int i = be[x] + 1; i <= be[y] - 1; i++) {
-            laz[i] += k;
-        }
+        resort(be[x]);
+        return;
     }
+    for (int i = x; i <= R[be[x]]; i++) {
+        a[i] += k;
+    }
+
+    for (int i = L[be[y]]; i <= y; i++) {
+        a[i] += k;
+    }
+
+    for (int i = be[x] + 1; i <= be[y] - 1; i++) {
+        laz[i] += k;
+    }
+    resort(be[x]);
+    resort(be[y]);
 }
 
 i64 query(i64 x, i64 y, i64 k) {
