@@ -16,92 +16,107 @@ using namespace std;
 const i64 mod = 1e9 + 7;
 const i64 maxn = 1e6 + 5;
 const i64 inf = 0x3f3f3f3f3f3f3f3f;
-/*块状数组*/
-i64 len, tot; i64 a[maxn], d[maxn], laz[maxn];
-i64 L[maxn], R[maxn], be[maxn];
-i64 n, q;
-void resort(i64 idx) {
-    for (i64 i = L[idx]; i <= R[idx]; i++) {
-        d[i] = a[i];
-    }
-    std::sort(d + L[idx], d + R[idx] + 1, [&](i64 x, i64 y)->bool {
-        return x < y;
-    });
-}
-void build() {
-    len = sqrt(n); tot = (n + len - 1) / len;
-    for (int i = 1; i <= n; i++) {
-        be[i] = (i + len - 1) / len;
-    }
-    for (int i = 1; i <= tot; i++) {
-        L[i] = (i - 1) * len + 1, R[i] = i * len;
-    }
-    R[tot] = n;
-    for (i64 i = 1; i <= tot; i++) {
-        resort(i);
-    }
-}
-void modify(i64 x, i64 y, i64 k) {
-    if (be[x] == be[y]) {
-        for (i64 i = x; i <= y; i++)a[i] += k;
-        resort(be[x]);
-        return;
-    }
-    for (int i = x; i <= R[be[x]]; i++) {
-        a[i] += k;
+
+struct PartitialArray {
+public:
+    i64 blockLength, totalLength, totalBlocks;
+    std::vector<i64>blockStart, blockEnd, array, backArray , belong, lazy;
+
+    void build() {
+        for (i64 i = 1; i <= totalBlocks; i++) {
+            blockStart[i] = (i - 1) * blockLength + 1;
+            blockEnd[i] = i * blockLength;
+        }
+        blockEnd[totalBlocks] = totalLength;
+
+        for (i64 i = 1; i <= totalLength; i++) {
+            belong[i] = (i + blockLength - 1) / blockLength;
+        }
+
+        for (i64 i = 1; i <= totalBlocks; i++) {
+            resort(i);
+        }
     }
 
-    for (int i = L[be[y]]; i <= y; i++) {
-        a[i] += k;
-    }
-
-    for (int i = be[x] + 1; i <= be[y] - 1; i++) {
-        laz[i] += k;
-    }
-    resort(be[x]);
-    resort(be[y]);
-}
-
-i64 query(i64 x, i64 y, i64 k) {
-    i64 ret = 0;
-    if (be[x] == be[y]) {
-        for (i64 i = x; i <= y; i++) {
-            if (laz[be[x]] + a[i] >= k)ret++;
-        }
-    } else {
-        for (i64 i = x; i <= R[be[x]]; i++) {
-            if (laz[be[x]] + a[i] >= k)ret++;
-        }
-        for (i64 i = L[be[y]]; i <= y; i++) {
-            if (laz[be[y]] + a[i] >= k)ret++;
-        }
-        for (i64 i = be[x] + 1; i <= be[y] - 1; i++) {
-            i64 l = L[i], r = R[i]; i64 ans = 0;
-            while (l <= r) {
-                i64 mid = (l + r) >> 1;
-                if (d[mid] + laz[i] >= k)r = mid - 1, ans = mid;
-                else l = mid + 1;
+    void pushDown(i64 idx) {
+        if (lazy[idx] != 0) {
+            for (i64 i = blockStart[idx]; i <= blockEnd[idx]; i++) {
+                array[i] += lazy[idx];
+                backArray[i] += lazy[idx];
             }
-            if (ans)
-                ret += (R[i] - ans + 1);
+            lazy[idx] = 0;
         }
     }
-    return ret;
-}
-void solve() {
-    std::cin >> n >> q;
-    for (i64 i = 1; i <= n; i++)std::cin >> a[i];
-    build();
-    while (q--) {
-        string o; std::cin >> o;
-        i64 x, y, k; std::cin >> x >> y >> k;
-        if (o == "M") {
-            modify(x, y, k);
-        } else {
-            std::cout  << query(x, y, k) << "\n";;
+
+    void modify(i64 l, i64 r, i64 c) {
+        i64 x = belong[l], y = belong[r];
+        pushDown(x);
+        if (x == y) {
+            for (i64 i = l; i <= r; i++)array[i] += c;
+            resort(x);
+            return;
         }
+        pushDown(y);
+        for (i64 i = l; i <= blockEnd[x]; i++)array[i] += c;
+        for (i64 i = blockStart[y]; i <= r; i++)array[i] += c;
+        resort(x); resort(y);
+        for (i64 i = x + 1; i <= y - 1; i++)lazy[i] += c;
     }
-}
+
+    i64 query(i64 l, i64 r, i64 c) {
+        i64 ans = 0; i64 x = belong[l], y = belong[r];
+        pushDown(x);
+        if (x == y) {
+            for (i64 i = l; i <= r; i++)if (array[i] + lazy[x] >= c)ans++;
+            return ans;
+        }
+        pushDown(y);
+        for (i64 i = l; i <= blockEnd[x]; i++)if (array[i] + lazy[x] >= c)ans++;
+        for (i64 i = blockStart[y]; i <= r; i++)if (array[i] + lazy[y] >= c)ans++;
+        for (i64 i = x + 1; i <= y - 1; i++) {
+            ans += blockEnd[i] - (lower_bound(backArray.begin() + blockStart[i], backArray.begin() + blockEnd[i] + 1, c - lazy[i]) - backArray.begin()) + 1;
+
+        }
+        return ans;
+    }
+
+    void resort(i64 idx) {
+        for (i64 i = blockStart[idx]; i <= blockEnd[idx]; i++) {
+            backArray[i] = array[i];
+        }
+        std::sort(backArray.begin() + blockStart[idx], backArray.begin() + blockEnd[idx] + 1);
+    }
+
+
+
+    PartitialArray(std::vector<i64>a, i64 n): totalLength(n), blockLength(sqrt(n)),
+        totalBlocks((totalLength + blockLength - 1) / blockLength), blockStart(totalBlocks + 1),
+        blockEnd(totalBlocks + 1), array(a), backArray(totalLength + 1), belong(totalLength + 1),
+        lazy(totalBlocks + 1, 0) {
+        build();
+    }
+};
+
+
+
+
 int main() {
-    solve();
+    i64 n, q;
+    std::cin >> n >> q;
+    std::vector<i64>a(n + 1);
+    for (i64 i = 1; i <= n; i++)std::cin >> a[i];
+    PartitialArray w(a, n);
+
+    w.build();
+    string opt;
+    while (q--) {
+        std::cin >> opt;
+        if (opt == "M") {
+            i64 L, R, W; std::cin >> L >> R >> W;
+            w.modify(L, R, W);
+        } else {
+            i64 L, R, C; std::cin >> L >> R >> C;
+            std::cout << w.query(L, R, C) << "\n";
+        }
+    }
 }

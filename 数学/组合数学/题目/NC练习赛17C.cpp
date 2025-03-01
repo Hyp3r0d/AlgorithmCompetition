@@ -15,52 +15,57 @@ using u128 = __uint128_t;
 using f128 = long double;
 using namespace std;
 
-constexpr i64 mod = 998244353;
-constexpr i64 maxn = 4e6 + 5;
+constexpr i64 mod = 1e9 + 7;
+constexpr i64 maxn = 2e3 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
-//矩阵快速幂
-void solve() {
-	i64 n, k; std::cin >> n >> k;
-	vector<i64>A(n + 5, 0);
-	for (i64 i = 1; i <= n; i++)std::cin >> A[i];
-	vector ans(n + 5, vector<i64>(n + 5, 0));
-	for (i64 i = 1; i <= n; i++) {
-		for (i64 j = 1; j <= i; j++)ans[i][j] = 1;
-	}
-	auto mul = [&](vector<vector<i64>>x, vector<vector<i64>>y) {
-		vector ret(n + 5, vector<i64>(n + 5, 0));
-		for (i64 i = 1; i <= n; i++) {
-			for (i64 j = 1; j <= n; j++) {
-				for (i64 k = 1; k <= n; k++) {
-					ret[i][j] = (ret[i][j] % mod + x[i][k] % mod * y[k][j]) % mod;
-				}
-			}
-		}
-		return ret;
-	};
-	vector ff(n + 5, vector<i64>(n + 5, 0));
-	for (i64 i = 1; i <= n; i++)ff[i][i] = 1;
-	auto mat_ksm = [&](i64 b) {
-		while (b) {
-			if (b & 1)ff = mul(ff, ans);
-			ans = mul(ans, ans);
-			b >>= 1;
-		}
-	};
-	mat_ksm(k);
-	vector<i64>res(n + 5);
-	for (i64 i = 1; i <= n; i++) {
-		for (i64 j = 1; j <= i; j++) {
-			res[i] = (res[i] % mod + ff[i][j] % mod * A[j] % mod) % mod;
-		}
-	}
-	for (i64 i = 1; i <= n; i++) {
-		std::cout  << res[i] << " ";
-	}
-	std::cout  << "\n";
-;
+
+i64 fac[maxn], inv[maxn], up[maxn], a[maxn];
+
+i64 n, k;
+
+i64 qpow(i64 x, i64 y) {
+    i64 ret = 1;
+    while (y) {
+        if (y & 1)ret = ret % mod * x % mod;
+        x = x % mod * x % mod;
+        y >>= 1;
+    }
+    return ret % mod;
 }
+
+void pre() {
+    fac[0] = 1;
+    for (i64 i = 1; i <= n; i++) {
+        fac[i] = fac[i - 1] % mod * i % mod;
+    }
+    inv[n] = qpow(fac[n], mod - 2) % mod;
+    for (i64 i = n - 1; i >= 0; i--) {
+        inv[i] = inv[i + 1] % mod * (i + 1) % mod;
+    }
+    up[0] = 1;
+    for (i64 i = 1; i <= n; i++)up[i] = up[i - 1] % mod * (k - 1 + i) % mod;
+}
+
 int main() {
-	solve();
+    std::cin >> n >> k;
+    pre();
+    for (i64 i = 1; i <= n; i++)std::cin >> a[i];
+
+    if (not k) {
+        for (i64 i = 1; i <= n; i++) {
+            std::cout << a[i] << " \n"[i == n];
+        }
+    } else {
+        std::cout << a[1] % mod << " ";
+        for (i64 i = 2; i <= n; i++) {
+            i64 sum = 0;
+            for (i64 j = i - 1, l = 1; j >= 0; j--, l++) {
+                sum += up[j] % mod * inv[j] % mod * a[l] % mod;
+                sum %= mod;
+            }
+            std::cout << sum << " \n"[i == n];
+        }
+    }
+    return 0;
 }
