@@ -20,30 +20,25 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 i64 q;
 void solve() {
-	auto check = [&]()->bool {
-		i64 n; std::cin >> n;
-		std::vector<i64>v(n + 1);
-		std::vector<i64>stk; i64 idx = 0;
-		for (i64 i = 1; i <= n; i++)std::cin >> v[i];
-		for (i64 i = 1; i <= n; i++) {
-			i64 cur; std::cin >> cur;
-			while (idx + 1 <= n and ((not stk.size()) or stk.back() != cur)) {
-				idx++;
-				stk.push_back(v[idx]);
-			}
-			if ((not stk.size()) or stk.back() != cur)return false;
-			stk.pop_back();
-		}
-		if (stk.size())return false;
-		return true;
-	};
-	if (check()) {
-		puts("Yes");
-	} else puts("No");
+    i64 n; std::cin >> n;
+    std::vector<i64>v1(n + 1), v2 (n + 1);
+    i64 idx = 1;
+    for (i64 i = 1; i <= n; i++)std::cin >> v1[i];
+    for (i64 i = 1; i <= n; i++)std::cin >> v2[i];
+    std::vector<i64>stk;
+    for (i64 i = 1; i <= n; i++) {
+        stk.push_back(v1[i]);
+        while (stk.size() and idx <= n and stk.back() == v2[idx]) {
+            stk.pop_back(); idx++;
+        }
+    }
+    if (stk.size()) {
+        puts("No");
+    } else puts("Yes");
 }
 int main() {
-	std::cin >> q;
-	while (q--) {
-		solve();
-	}
+    std::cin >> q;
+    while (q--) {
+        solve();
+    }
 }
