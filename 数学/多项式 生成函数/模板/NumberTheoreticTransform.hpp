@@ -5,7 +5,7 @@ void NTT(i64 *x, i64 lim, i64 opt) {
 	}
 	for (m = 2; m <= lim; m <<= 1) {
 		k = m >> 1;
-		gn = ksm(3, (mod - 1) / m);
+		gn = qpow(3, (mod - 1) / m);
 		for (i64 i = 0; i < lim; i += m) {
 			g = 1;
 			for (j = 0; j < k; j++, g = g % mod * gn % mod) {
@@ -17,7 +17,7 @@ void NTT(i64 *x, i64 lim, i64 opt) {
 	}
 	if (opt == -1) {
 		reverse(x + 1, x + lim);
-		i64 inv = ksm(lim, mod - 2);
+		i64 inv = qpow(lim, mod - 2);
 		for (i64 i = 0; i < lim; i++)x[i] = 1 * x[i] * inv % mod;
 	}
 }

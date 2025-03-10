@@ -21,7 +21,7 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 void solve() {
   i64 n, d; std::cin >> n >> d;
-  auto ksm = [&](i64 x, i64 y) {
+  auto qpow = [&](i64 x, i64 y) {
     i64 ret = 1; if (y < 0)return 0ll;
     while (y) {
       if (y & 1)ret = ret * x % mod;
@@ -31,15 +31,15 @@ void solve() {
     return ret % mod;
   }; i64 ans = 0;
   for (i64 i = 1; i <= (n - d); i++) {
-    i64 c = ksm(2, i - 1) % mod;//该层节点个数
-    i64 b = ((d - 1) % mod + mod) % mod * ksm(2, d - 2) % mod;
-    b = (b % mod + ksm(2, d)) % mod;
+    i64 c = qpow(2, i - 1) % mod;//该层节点个数
+    i64 b = ((d - 1) % mod + mod) % mod * qpow(2, d - 2) % mod;
+    b = (b % mod + qpow(2, d)) % mod;
     ans = (ans % mod + c % mod * b % mod) % mod;
   }
   for (i64 i = n - d + 1; i <= n - (d + 1) / 2; i++) {
     i64 p = d - 1 - (i - (n - d + 1)) * 2;
-    i64 c = ksm(2, i - 1) % mod;//该层节点个数
-    p = p % mod * ksm(2, d - 2) % mod;
+    i64 c = qpow(2, i - 1) % mod;//该层节点个数
+    p = p % mod * qpow(2, d - 2) % mod;
     ans = (ans % mod + p % mod * c % mod) % mod;
   }
   std::cout  << ans % mod * 2 % mod << "\n";

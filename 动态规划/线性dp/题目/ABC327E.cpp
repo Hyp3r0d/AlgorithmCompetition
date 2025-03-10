@@ -31,7 +31,7 @@ void solve() {
       }
     }
   }
-  auto ksm = [&](f64 x, int y) {
+  auto qpow = [&](f64 x, int y) {
     f64 ret = 1.0;
     while (y) {
       if (y & 1)ret = ret * x;
@@ -41,7 +41,7 @@ void solve() {
     return ret;
   };
   auto cal = [&](f64 v, int k) -> f64{
-    v /= ((1 - ksm(0.9, k)) / (0.1));
+    v /= ((1 - qpow(0.9, k)) / (0.1));
     v -= (k ? (1200.0 / sqrt(k)) : 0.0);
     return v;
   };

@@ -26,7 +26,7 @@ void solve() {
 	s = " " + s;
 	i64 p = 23; i64 n = s.size();
 	vector<i64>Hash(n + 5, 0);
-	auto ksm = [&](i64 a, i64 b) {
+	auto qpow = [&](i64 a, i64 b) {
 		i64 ret = 1;
 		while (b) {
 			if (b & 1)ret = ret * a % mod;
@@ -39,7 +39,7 @@ void solve() {
 		Hash[i] = (Hash[i - 1] % mod * p % mod + s[i] - '0') % mod;
 	}
 	auto get = [&](i64 l, i64 r) {
-		return ((Hash[r] - Hash[l - 1] % mod * ksm(p, r - l + 1)) % mod + mod) % mod;
+		return ((Hash[r] - Hash[l - 1] % mod * qpow(p, r - l + 1)) % mod + mod) % mod;
 	};
 	/*代表取一个字串的哈希值*/
 	/*不同字串取到相同哈希值(碰撞)的概率很小*/

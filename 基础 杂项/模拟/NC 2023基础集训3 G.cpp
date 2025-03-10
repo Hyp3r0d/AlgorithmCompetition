@@ -23,7 +23,7 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 char s[maxn]; int tot = 0;
 i64 nums[maxn];
 int opt[maxn];
-i64 ksm( i64 x,  i64 y,  i64 z) {
+i64 qpow( i64 x,  i64 y,  i64 z) {
   i64 ret = 1; x %= z;
   while (y) {
     if (y & 1)ret = ret % z * x % z;
@@ -44,7 +44,7 @@ void dfs(int now) {
         cur -= nums[i + 1];
       } else {
         if (nums[i + 1] <= 0 or cur <= 0)return;
-        cur = ksm(cur, cur, nums[i + 1]);
+        cur = qpow(cur, cur, nums[i + 1]);
       }
     }
     if (cur == nums[tot]) {

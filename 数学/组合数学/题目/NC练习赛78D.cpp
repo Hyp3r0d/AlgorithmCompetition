@@ -30,7 +30,7 @@ void solve() {
 	auto lowbit = [&](i64 x) {
 		return x & -x;
 	};
-	auto ksm = [&](i64 x, i64 y) {
+	auto qpow = [&](i64 x, i64 y) {
 		i64 ret = 1;
 		while (y) {
 			if (y & 1)ret = ret * x % mod;
@@ -40,12 +40,12 @@ void solve() {
 		return ret % mod;
 	};
 	auto inv = [&](i64 x) {
-		return ksm(x, mod - 2) % mod;
+		return qpow(x, mod - 2) % mod;
 	};
 	if (n + 1 == lowbit(n + 1)) {
 		i64 ans = 0;
 		for (i64 i = 1; i <= r; i++) {
-			ans = (ans % mod + ksm(2, i)) % mod;
+			ans = (ans % mod + qpow(2, i)) % mod;
 		}
 		ans = ((ans - r) % mod + mod) % mod;
 		std::cout  << ans << "\n";
@@ -54,7 +54,7 @@ void solve() {
 		i64 p = r - 1; i64 ps = (1ll << (p)) - 1;//头顶的满二叉树
 		i64 ans = 0;
 		for (i64 i = 1; i <= p; i++) {
-			ans = (ans % mod + ksm(2, i)) % mod;
+			ans = (ans % mod + qpow(2, i)) % mod;
 		}
 		ans = ((ans - p) % mod + mod) % mod;
 		i64 d = ((n - ps) % mod + mod) % mod; ans = (ans % mod + d) % mod; //统计一个的

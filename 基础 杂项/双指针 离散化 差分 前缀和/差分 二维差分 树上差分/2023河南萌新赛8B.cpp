@@ -36,7 +36,7 @@ void solve() {
 			++d2[l2]; --d2[r2 + 1];
 		}
 	}
-	auto ksm = [&]( i64 a,  i64 b) {
+	auto qpow = [&]( i64 a,  i64 b) {
 		i64 ret = 1;
 		while (b) {
 			if (b & 1)ret = ret * a % mod;
@@ -52,7 +52,7 @@ void solve() {
 	}
 	for ( i64 i = 1; i <= 5e5; i++) {
 		if (d2[i] == n) {
-			ans = (ans % mod + ksm(2, d1[i] - n)) % mod;
+			ans = (ans % mod + qpow(2, d1[i] - n)) % mod;
 		}
 	}
 	std::cout  << ans << "\n";

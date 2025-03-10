@@ -29,7 +29,7 @@ void init(i64 n) {
     fac[i] = (fac[i - 1] % mod * i) % mod;
   }
 }
-i64 ksm(i64 x, i64 y) {
+i64 qpow(i64 x, i64 y) {
   i64 ret = 1;
   while (y) {
     if (y & 1)ret = ret * x % mod;
@@ -39,7 +39,7 @@ i64 ksm(i64 x, i64 y) {
   return ret % mod;
 }
 i64 inv(i64 x) {
-  return ksm(x, mod - 2) % mod;
+  return qpow(x, mod - 2) % mod;
 }
 i64 comb(i64 n, i64 m) {
   if (m > n)return 0ll;

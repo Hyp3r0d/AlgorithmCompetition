@@ -21,7 +21,7 @@ constexpr i64 mod = 998244353;
 constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
-i64 ksm(i64 a, i64 b, i64 m = mod) {
+i64 qpow(i64 a, i64 b, i64 m = mod) {
 	i64 res = 1;
 	while (b) {
 		if (b & 1)res = res * a % m;
@@ -36,7 +36,7 @@ bool mr(i64 n) {
 	i64 u = n - 1, t = 0;
 	while (u % 2 == 0)u /= 2, t++;
 	for (i64 i = 0; i <= 15; i++) {
-		i64 a = rand() % (n - 2) + 2, v = ksm(a, u, n);
+		i64 a = rand() % (n - 2) + 2, v = qpow(a, u, n);
 		if (v == 1)continue;
 		i64 s;
 		for (s = 0; s < t; s++) {
@@ -56,7 +56,7 @@ void NTT(i64 *x, i64 lim, i64 opt) {
 	}
 	for (m = 2; m <= lim; m <<= 1) {
 		k = m >> 1;
-		gn = ksm(3, (mod - 1) / m);
+		gn = qpow(3, (mod - 1) / m);
 		for (i64 i = 0; i < lim; i += m) {
 			g = 1;
 			for (j = 0; j < k; j++, g = g % mod * gn % mod) {
@@ -68,7 +68,7 @@ void NTT(i64 *x, i64 lim, i64 opt) {
 	}
 	if (opt == -1) {
 		reverse(x + 1, x + lim);
-		i64 inv = ksm(lim, mod - 2);
+		i64 inv = qpow(lim, mod - 2);
 		for (i64 i = 0; i < lim; i++)x[i] = 1 * x[i] * inv % mod;
 	}
 }

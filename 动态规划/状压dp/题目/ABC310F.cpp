@@ -24,7 +24,7 @@ i64 ins(i64 msk, i64 k) {
   msk |= (1 << (k - 1));
   return msk;
 }
-i64 ksm(i64 a, i64 b) {
+i64 qpow(i64 a, i64 b) {
   i64 ret = 1;
   while (b) {
     if (b & 1)ret = ret * a % mod;
@@ -53,7 +53,7 @@ void solve() {
   for (i64 i = 0; i < (1 << 10); i++) {
     if ((i >> 9) & 1)ans = (ans % mod + dp[n][i]) % mod;
   }
-  std::cout  << ans % mod*ksm(pre[n], mod - 2) % mod << "\n";
+  std::cout  << ans % mod*qpow(pre[n], mod - 2) % mod << "\n";
 ;
 }
 int main() {

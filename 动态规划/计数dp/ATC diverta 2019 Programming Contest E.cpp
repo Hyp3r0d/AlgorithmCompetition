@@ -45,7 +45,7 @@ void solve() {
         std::cout  << dp[n][1] % mod << "\n";
 ;
     } else {
-        auto ksm = [&](i64 x, i64 y) {
+        auto qpow = [&](i64 x, i64 y) {
             i64 ret = 1;
             while (y) {
                 if (y & 1)ret = ret * x % mod;
@@ -56,7 +56,7 @@ void solve() {
         }; i64 ans = 0;
         i64 cnt = 0;
         for (i64 i = 0; i <= n; i++)if (A[i] == 0)cnt++;
-        ans = (ans % mod + ksm(2, cnt - 2)) % mod;
+        ans = (ans % mod + qpow(2, cnt - 2)) % mod;
         vector<i64>pre(n + 1);
         std::unordered_map<i64, i64>pos;
         vector dp(n + 1, 0);

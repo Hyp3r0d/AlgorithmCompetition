@@ -115,7 +115,7 @@ void solve() {
 		u++; v++;
 		add_edge(u, v); add_edge(v, u);
 	}
-	auto ksm = [&](i64 x, i64 y) {
+	auto qpow = [&](i64 x, i64 y) {
 		i64 ret = 1;
 		while (y) {
 			if (y & 1)ret = ret * x % mod;
@@ -154,7 +154,7 @@ void solve() {
 			for (i64 i = 1; i <= 6; i++) {
 				i64 cur = t[i].query(1, rk[u], rk[u] + sz[u] - 1);
 				res = res % mod * (cur + 1) % mod;
-				ans = (ans % mod) * ksm(prime[i], cur) % mod;
+				ans = (ans % mod) * qpow(prime[i], cur) % mod;
 			}
 			std::cout  << ans << " " << res << "\n";;
 		}

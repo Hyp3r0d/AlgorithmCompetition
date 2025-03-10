@@ -22,7 +22,7 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 void solve() {
   i64 n; std::cin >> n; vector<i64>A(n + 1, 0);
   for (i64 i = 1; i <= n; i++)std::cin >> A[i];
-  auto ksm = [&](i64 x, i64 y) {
+  auto qpow = [&](i64 x, i64 y) {
     i64 ret = 1;
     while (y) {
       if (y & 1)ret = ret * x % mod;
@@ -31,7 +31,7 @@ void solve() {
     return ret % mod;
   };
   auto inv = [&](i64 x) {
-    return ksm(x, mod - 2) % mod;
+    return qpow(x, mod - 2) % mod;
   };
   vector<i64>w; for (i64 i = 1; i <= n; i++)w.push_back(A[i]);
   sort(w.begin(), w.end());
@@ -49,10 +49,10 @@ void solve() {
   i64 ans = 0;
   for (i64 i = n; i >= 1; i--) {
     i64 q = ((query(n) - query(k[A[i]] - 1)) % mod + mod) % mod;
-    i64 re = inv(ksm(2, i + 1) % mod) % mod;
+    i64 re = inv(qpow(2, i + 1) % mod) % mod;
     ans = (ans % mod + q % mod * re) % mod;
     i64 idx = k[A[i]];
-    add(idx, ksm(2, i) % mod);
+    add(idx, qpow(2, i) % mod);
   }
   std::cout  << ans << "\n";
 ;

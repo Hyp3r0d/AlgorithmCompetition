@@ -45,7 +45,7 @@ void solve() {
 	vector<i64>A(N + 5, 0);
 	for (i64 i = 1; i <= N; i++)std::cin >> A[i];
 	i64 ans = 0;
-	auto ksm = [&](i64 x, i64 y)->i64 {
+	auto qpow = [&](i64 x, i64 y)->i64 {
 		i64 ret = 1;
 		while (y) {
 			if (y & 1)ret = ret * x % M;
@@ -57,7 +57,7 @@ void solve() {
 	dsu.init(N); vector<edge>e;
 	for (i64 i = 1; i <= N; i++) {
 		for (i64 j = i + 1; j <= N; j++) {
-			i64 tmp = (ksm(A[i], A[j]) % M + ksm(A[j], A[i])) % M;
+			i64 tmp = (qpow(A[i], A[j]) % M + qpow(A[j], A[i])) % M;
 			e.push_back({i, j, tmp});
 		}
 	}

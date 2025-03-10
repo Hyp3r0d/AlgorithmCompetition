@@ -19,7 +19,7 @@ const i64 inf = 0x3f3f3f3f3f3f3f3f;
 class Solution {
 public:
     int stringCount(int n) {
-        auto ksm = [&](i64 x, i64 y) -> i64{
+        auto qpow = [&](i64 x, i64 y) -> i64{
             i64 ret = 1;
             while (y) {
                 if (y & 1)ret = ret * x % mod;
@@ -29,9 +29,9 @@ public:
             return ret % mod;
         };
         i64 ans = 0;
-        ans = (ans % mod + 3 * ksm(25, n) % mod + n % mod * ksm(25, n - 1) % mod) % mod;
-        ans = (ans % mod - 3 * ksm(24, n) % mod - 2 * n % mod * ksm(24, n - 1) % mod + mod) % mod;
-        ans = (ans % mod + ksm(23, n) % mod + n % mod * ksm(23, n - 1) % mod) % mod;
-        return ((ksm(26, n) % mod - ans) % mod + mod) % mod;
+        ans = (ans % mod + 3 * qpow(25, n) % mod + n % mod * qpow(25, n - 1) % mod) % mod;
+        ans = (ans % mod - 3 * qpow(24, n) % mod - 2 * n % mod * qpow(24, n - 1) % mod + mod) % mod;
+        ans = (ans % mod + qpow(23, n) % mod + n % mod * qpow(23, n - 1) % mod) % mod;
+        return ((qpow(26, n) % mod - ans) % mod + mod) % mod;
     }
 };

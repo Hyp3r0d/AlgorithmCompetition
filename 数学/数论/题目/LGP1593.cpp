@@ -23,7 +23,7 @@ int main() {
   if (not a) {
     puts("0"); return 0;
   }
-  auto ksm = [&](i64 x, i64 y) {
+  auto qpow = [&](i64 x, i64 y) {
     i64 ret = 1;
     while (y) {
       if (y & 1)ret = ret * x % mod;
@@ -34,10 +34,10 @@ int main() {
   };
   i64 ans = 1;
   auto inv = [&](i64 x) {
-    return ksm(x, mod - 2) % mod;
+    return qpow(x, mod - 2) % mod;
   };
   auto cal = [&](i64 p, i64 s) {
-    i64 w = ((ksm(p, s + 1) % mod - 1) % mod + mod) % mod;
+    i64 w = ((qpow(p, s + 1) % mod - 1) % mod + mod) % mod;
     if (p % mod == 1)return (s + 1) % mod;
     auto q = inv(p - 1) % mod;
     return w % mod * q % mod;

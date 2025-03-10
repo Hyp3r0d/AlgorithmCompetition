@@ -336,7 +336,7 @@ void solve() {
 	f[0] = 1;
 	for (i64 i = 1; i <= min(n, k); i ++)f[i] = f[i - 1] / i * (n - i + 1);
 	for (i64 i = 1; i <= min(n, k); i += 2)f[i] = 0;
-	auto ksm = [&](i64 a, i64 b) {
+	auto qpow = [&](i64 a, i64 b) {
 		i64 ret = 1;
 		while (b) {
 			if (b & 1)ret = ret * a % mod;
@@ -346,7 +346,7 @@ void solve() {
 		return ret % mod;
 	};
 	auto g = Poly(f).pow(m, k + 1);//这里 m (多项式求幂)可以到1e8, 长度可以到1e5
-	std::cout  << g[k] * ksm(2, m) << "\n";
+	std::cout  << g[k] * qpow(2, m) << "\n";
 ;
 }
 int main() {

@@ -20,7 +20,7 @@ constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 void solve() {
-  auto ksm = [&](i64 x, i64 y) {
+  auto qpow = [&](i64 x, i64 y) {
     i64 ret = 1;
     while (y) {
       if (y & 1)ret = ret * x % mod;
@@ -30,7 +30,7 @@ void solve() {
     return ret % mod;
   };
   auto inv = [&](i64 x) {
-    return ksm(x, mod - 2) % mod;
+    return qpow(x, mod - 2) % mod;
   };
   /*类背包却不是背包，求的是排列的方案数*/
   i64 n, x; std::cin >> n >> x;

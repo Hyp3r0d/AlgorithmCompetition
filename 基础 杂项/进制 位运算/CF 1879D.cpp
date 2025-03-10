@@ -27,7 +27,7 @@ void solve() {
 		pre[i] = A[i] ^ pre[i - 1];
 	}
 	i64 ans = 0;
-	auto ksm = [&](i64 x, i64 y) {
+	auto qpow = [&](i64 x, i64 y) {
 		i64 ret = 1;
 		while (y) {
 			if (y & 1)ret = ret * x % mod;
@@ -42,7 +42,7 @@ void solve() {
 			i64 cur = ((pre[j] >> i) & 1);
 			i64 d = cnt[cur ^ 1] % mod * j % mod;
 			d = ((d - p[cur ^ 1]) % mod + mod) % mod;
-			ans = (ans % mod + d % mod * ksm(2, i)) % mod;
+			ans = (ans % mod + d % mod * qpow(2, i)) % mod;
 			cnt[cur]++; p[cur] += j;
 		}
 	}

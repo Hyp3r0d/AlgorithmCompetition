@@ -27,7 +27,7 @@ void solve() {
 	for (i64 i = 1; i <= n; i++) {
 		Hash[i] = Hash[i - 1] * p  + s[i];
 	}
-	auto ksm = [&](u64 x, i64 y) {
+	auto qpow = [&](u64 x, i64 y) {
 		u64 ret = 1;
 		while (y) {
 			if (y & 1)ret = ret * x;
@@ -37,7 +37,7 @@ void solve() {
 		return ret;
 	};
 	auto get = [&](i64 l, i64 r) {
-		return (Hash[r] - Hash[l - 1] * ksm(p, r - l + 1));
+		return (Hash[r] - Hash[l - 1] * qpow(p, r - l + 1));
 	};
 	std::map<u64, i64>cnt, pre;
 	for (i64 i = 1; i <= n - m + 1; i++) {

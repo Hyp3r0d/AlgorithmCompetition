@@ -20,7 +20,7 @@ constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 
-i64 ksm(i64 x, i64 y) {
+i64 qpow(i64 x, i64 y) {
   i64 ret = 1;
   while (y) {
     if (y & 1)ret = ret * x % mod;
@@ -30,7 +30,7 @@ i64 ksm(i64 x, i64 y) {
   return ret % mod;
 }
 i64 inv(i64 x) {
-  return ksm(x, mod - 2) % mod;
+  return qpow(x, mod - 2) % mod;
 }
 void solve() {
   i64 n; std::cin >> n;
@@ -70,7 +70,7 @@ using namespace std;
 const i64 mod = 998244353;
 const i64 maxn = 1e6 + 5;
 const i64 inf = 0x3f3f3f3f3f3f3f3f;
-i64 ksm(i64 x, i64 y) {
+i64 qpow(i64 x, i64 y) {
   i64 ret = 1;
   while (y) {
     if (y & 1)ret = ret * x % mod;
@@ -80,7 +80,7 @@ i64 ksm(i64 x, i64 y) {
   return ret % mod;
 }
 i64 inv(i64 x) {
-  return ksm(x, mod - 2) % mod;
+  return qpow(x, mod - 2) % mod;
 }
 void solve() {
   int n; std::cin >> n;

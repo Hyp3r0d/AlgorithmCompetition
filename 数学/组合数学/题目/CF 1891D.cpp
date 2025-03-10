@@ -29,13 +29,13 @@ void solve() {
     return --ret;
   };
   i64 ans = 0;
-  auto ksm = [&](i64 x, i64 y) {
+  auto qpow = [&](i64 x, i64 y) {
     i64 ret = 1;
     for (i64 j = 1; j <= y; j++)ret *= x;
     return ret;
   };
   auto cal = [&](i64 l, i64 r, i64 p) {
-    i64 c = lg(l, p); i64 cur = ksm(p, c);
+    i64 c = lg(l, p); i64 cur = qpow(p, c);
 
     for (i64 i = l; i <= r; i++) {
       i64 s = min(r, cur * p - 1);

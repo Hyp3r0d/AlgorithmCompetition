@@ -40,7 +40,7 @@ void solve() {
     i64 a = find(x), b = find(y);
     fa[a] = b; sz[b] += sz[a];
   };
-  auto ksm = [&](i64 a, i64 b) {
+  auto qpow = [&](i64 a, i64 b) {
     i64 ret = 1;
     while (b) {
       if (b & 1)ret = ret * a % mod;
@@ -52,7 +52,7 @@ void solve() {
   for (i64 i = 1; i <= n - 1; i++) {
     auto [u, v, w] = e[i];
     i64 x = find(u), y = find(v);
-    ans = (ans % mod * ksm(s - w + 1, sz[x] * sz[y] - 1) % mod) % mod;
+    ans = (ans % mod * qpow(s - w + 1, sz[x] * sz[y] - 1) % mod) % mod;
     merge(u, v);
   }
   //保证在该树加边的过程中, 所加的边是两个连通块中权值最大的边

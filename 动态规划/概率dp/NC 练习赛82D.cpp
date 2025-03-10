@@ -21,7 +21,7 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 
 void solve() {
-  auto ksm = [&](i64 a, i64 b) {
+  auto qpow = [&](i64 a, i64 b) {
     i64 ret = 1;
     while (b) {
       if (b & 1)ret = ret * a % mod;
@@ -31,7 +31,7 @@ void solve() {
     return ret;
   };
   auto inv = [&](i64 x) {
-    return ksm(x, mod - 2) % mod;
+    return qpow(x, mod - 2) % mod;
   };
   i64 n, p, q; std::cin >> n >> p >> q;
   i64 ws = p % mod * inv(q) % mod;
@@ -52,11 +52,11 @@ void solve() {
     for (i64 j = 1; j <= i; j++) {
       i64 wss = ((1 - ws) % mod + mod) % mod;
       //枚举可以转移到的状态然后求和
-      i64 v = (dp[i - j] % mod * C[i][j] % mod * ksm(ws, j) % mod * ksm(wss, i - j)) % mod;
+      i64 v = (dp[i - j] % mod * C[i][j] % mod * qpow(ws, j) % mod * qpow(wss, i - j)) % mod;
       dp[i] = (dp[i] % mod + v) % mod;
     }
     i64 wss = ((1 - ws) % mod + mod) % mod;
-    i64 p = ((1 - ksm(wss, i)) % mod + mod) % mod;
+    i64 p = ((1 - qpow(wss, i)) % mod + mod) % mod;
     dp[i] = ((dp[i]) % mod * inv(p)) % mod;
   }
   std::cout  << dp[n] % mod << "\n";

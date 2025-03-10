@@ -21,7 +21,7 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 class Solution {
 public:
-  i64 ksm(i64 x, i64 y) {
+  i64 qpow(i64 x, i64 y) {
     i64 ret = 1;
     while (y) {
       if (y & 1)ret = ret * x % mod;
@@ -31,7 +31,7 @@ public:
     return ret % mod;
   }
   i64 inv(i64 x) {
-    return ksm(x, mod - 2) % mod;
+    return qpow(x, mod - 2) % mod;
   }
   i64 fac[100005];
   void init() {

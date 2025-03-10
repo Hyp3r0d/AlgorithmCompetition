@@ -74,7 +74,7 @@ public:
     return tmp;
   }
 };
-mat ksm(mat a, i64 b) {
+mat qpow(mat a, i64 b) {
   mat tmp(a.n);
   for (i64 i = 0; i < a.n; i++) {
     tmp.a[i][i] = 1;
@@ -111,7 +111,7 @@ void solve() {
       y++;
     }
   }
-  auto res = ksm(tmp, n);
+  auto res = qpow(tmp, n);
   i64 ans = 0;
   for (i64 i = 0; i < cnt; i++) {
     ans = (ans % mod + res.a[0][i]) % mod;

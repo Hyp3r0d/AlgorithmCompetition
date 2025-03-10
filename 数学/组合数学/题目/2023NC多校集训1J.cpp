@@ -37,7 +37,7 @@ int main() {
 		return ret % mod;
 	};
 	i64 p = inv(2) % mod;
-	auto ksm = [&](i64 a, i64 b) {
+	auto qpow = [&](i64 a, i64 b) {
 		i64 ret = 1;
 		while (b) {
 			if (b & 1)ret = ret % mod * a % mod;
@@ -52,8 +52,8 @@ int main() {
 		while ((1ll << cur) <= l + 1)cur++;
 		cur--;
 		r = min((1ll << (cur + 1)) - 2ll, n + m - 1);
-		i64 s = ((1ll - ksm(p, cur)) % mod + mod) % mod;
-		ans = ans % mod * ksm(s, max(0ll, r - l + 1)) % mod;
+		i64 s = ((1ll - qpow(p, cur)) % mod + mod) % mod;
+		ans = ans % mod * qpow(s, max(0ll, r - l + 1)) % mod;
 	}
 	std::cout  << ans % mod << "\n";;
 	return 0;

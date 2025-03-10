@@ -46,7 +46,7 @@ void dfs1(i64 u) {
 		}
 	}
 }
-i64 ksm(i64 x, i64 y) {
+i64 qpow(i64 x, i64 y) {
 	i64 ret = 1;
 	while (y) {
 		if (y & 1)ret = ret * x % mod;
@@ -78,7 +78,7 @@ void solve() {
 	}
 	ans = 0;
 	dfs1(0); dfs2(0, 0);
-	std::cout  << ans % mod*ksm(n, mod - 2) % mod*ksm(n, mod - 2) % mod << "\n";
+	std::cout  << ans % mod*qpow(n, mod - 2) % mod*qpow(n, mod - 2) % mod << "\n";
 ;
 }
 int main() {

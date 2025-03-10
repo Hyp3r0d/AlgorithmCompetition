@@ -34,7 +34,7 @@ void solve() {
 			else C[i][j] = (C[i - 1][j] % mod + C[i - 1][j - 1]) % mod;
 		}
 	}
-	auto ksm = [&](i64 x, i64 y) {
+	auto qpow = [&](i64 x, i64 y) {
 		i64 ret = 1;
 		while (y) {
 			if (y & 1)ret = ret * x % mod;

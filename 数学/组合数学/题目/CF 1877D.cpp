@@ -33,7 +33,7 @@ void solve() {
   sort(pos.begin() + 1, pos.begin() + 1 + n, [&](i64 x, i64 y)->bool{
     return q[x] < q[y];
   });
-  auto ksm = [&](i64 x, i64 y) {
+  auto qpow = [&](i64 x, i64 y) {
     i64 ret = 1;
     while (y) {
       if (y & 1)ret = ret * x % mod;
@@ -50,7 +50,7 @@ void solve() {
         cnt++;
       }
     t -= cnt;
-    ans = (ans % mod + q[p] % mod * (ksm(2, cnt) - 1) % mod * ksm(2, t)) % mod;
+    ans = (ans % mod + q[p] % mod * (qpow(2, cnt) - 1) % mod * qpow(2, t)) % mod;
     for (auto v : w[p])vis[v] = false;
   }
   std::cout  << ans << "\n";

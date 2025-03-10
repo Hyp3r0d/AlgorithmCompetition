@@ -23,7 +23,7 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 class Solution {
 public:
 
-	i64 ksm(i64 x, i64 y) {
+	i64 qpow(i64 x, i64 y) {
 		if (y <= 0) {
 			return 1ll;
 		}
@@ -39,7 +39,7 @@ public:
 	}
 
 	i64 inv(i64 x) {
-		return ksm(x, mod - 2) % mod;
+		return qpow(x, mod - 2) % mod;
 	}
 
 	i64 fac[maxn];
@@ -72,7 +72,7 @@ public:
 		for (i64 i = 1; i < sick.size(); i++) {
 			ans = (ans % mod * comb(tot, sick[i] - sick[i - 1] - 1)) % mod;
 			if (i != 1 and i != sick.size() - 1) {
-				ans = (ans % mod * ksm(2, sick[i] - sick[i - 1] - 2)) % mod;
+				ans = (ans % mod * qpow(2, sick[i] - sick[i - 1] - 2)) % mod;
 			}
 			tot -= (sick[i] - sick[i - 1] - 1);
 		}

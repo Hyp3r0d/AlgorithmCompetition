@@ -23,7 +23,7 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 i64 fac[5][maxn]; i64 inv[5][maxn], finv[5][maxn];
 i64 mody[5] = {0, 35617, 4679, 3, 2};
-i64 ksm(i64 x, i64 y, i64 p) {
+i64 qpow(i64 x, i64 y, i64 p) {
   i64 ret = 1;
   while (y) {
     if (y & 1)ret = ret * x % p;
@@ -82,7 +82,7 @@ void solve() {
     ans = (ans % k + r[i] % k * invm % k * m % k) % k;
   }
   ans = (ans % k + k) % k;
-  std::cout  << ksm(g, ans + k, mod) % mod << "\n";
+  std::cout  << qpow(g, ans + k, mod) % mod << "\n";
 ;
 }
 int main() {

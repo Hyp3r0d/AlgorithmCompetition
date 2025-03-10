@@ -20,7 +20,7 @@ constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 i64 fac[maxn * 2]; i64 dp[maxn * 2][2];//几张牌, 谁赢的概率
-i64 ksm(i64 x, i64 y) {
+i64 qpow(i64 x, i64 y) {
   i64 ret = 1;
   while (y) {
     if (y & 1)ret = ret * x % mod;
@@ -30,7 +30,7 @@ i64 ksm(i64 x, i64 y) {
   return ret % mod;
 }
 i64 inv(i64 x) {
-  return ksm(x, mod - 2) % mod;
+  return qpow(x, mod - 2) % mod;
 }
 i64 comb(i64 n, i64 m) {
   return fac[n] % mod * inv(fac[m] % mod * fac[n - m] % mod) % mod;

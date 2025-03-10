@@ -26,7 +26,7 @@ public:
     int sumOfPower(vector<int>& nums) {
         std::sort(nums.begin(), nums.end());
         i64 n = nums.size();
-        auto ksm = [&](i64 a, i64 b) {
+        auto qpow = [&](i64 a, i64 b) {
             i64 ret = 1;
             while (b) {
                 if (b & 1)ret = ret % mod * a % mod;
@@ -38,18 +38,18 @@ public:
         vector<i64>suf(n + 5, 0);
         for (i64 i = n - 1; i >= 0; i--) {
             suf[i] = (suf[i] % mod + suf[i + 1]) % mod;
-            suf[i] += ksm(2, i) % mod * nums[i] % mod * nums[i] % mod;
+            suf[i] += qpow(2, i) % mod * nums[i] % mod * nums[i] % mod;
             suf[i] %= mod;
         }
         i64 ans
         for (i64 i = 0; i < n; i++) {
-            ans = (ans % mod + ksm(nums[i], 3) % mod) % mod;
+            ans = (ans % mod + qpow(nums[i], 3) % mod) % mod;
         }
         auto inv = [&](i64 x) {
-            return ksm(x, mod - 2) % mod;
+            return qpow(x, mod - 2) % mod;
         };
         for (i64 i = 0; i < n - 1; i++) {
-            i64 tmp = suf[i + 1] % mod  * inv(ksm(2, i + 1) % mod)  % mod;
+            i64 tmp = suf[i + 1] % mod  * inv(qpow(2, i + 1) % mod)  % mod;
             ans = (ans % mod + nums[i] % mod * tmp) % mod;
         }
         return ans;
