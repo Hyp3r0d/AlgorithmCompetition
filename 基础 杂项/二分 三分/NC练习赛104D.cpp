@@ -101,7 +101,7 @@ void solve() {
 		else l = mid + 1;
 	}
 	if (r == mx) {
-		puts("I reai64y need TS1's time machine again!");
+		puts("I really need TS1's time machine again!");
 		return;
 	}
 	std::cout  << r << "\n";
@@ -215,7 +215,7 @@ void solve() {
 		else l = mid + 1;
 	}
 	if (r == mx) {
-		puts("I reai64y need TS1's time machine again!");
+		puts("I really need TS1's time machine again!");
 		return;
 	}
 	std::cout  << r << "\n";
