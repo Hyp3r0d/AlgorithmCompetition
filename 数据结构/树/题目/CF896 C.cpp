@@ -35,7 +35,7 @@ i64 qpow(i64 x, i64 y, i64 m) {
   }
   return ret % m;
 }
-class Chthoi64yTree {
+class ChthollyTree {
 public:
   struct Node {
     i64 l, r; mutable i64 val;
@@ -44,7 +44,7 @@ public:
     }
   };
   std::set<Node>st;
-  Chthoi64yTree() {}
+  ChthollyTree() {}
   std::set<Node>::iterator split(i64 w) {
     auto it = st.lower_bound({w, 0, 0});
     if (it != st.end() and it->l == w)return it;
@@ -107,7 +107,7 @@ i64 rnd() {
 }
 int main() {
   std::cin >> n >> m >> seed >> vmax;
-  Chthoi64yTree tr;
+  ChthollyTree tr;
   std::vector<i64>a(n + 1);
   for (i64 i = 1; i <= n; i++) {
     a[i] = (rnd() % vmax) + 1;
