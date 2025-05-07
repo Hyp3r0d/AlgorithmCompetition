@@ -3,12 +3,12 @@
 
 
 
-struct Seive {
+struct Sieve {
 public:
 	std::vector<i64>prime, e;
 	std::vector<bool>vis;
 	i64 cnt = 0; i64 len;
-	Seive(i64 len = 1e6): len(len), prime(len + 5), e(len + 5), vis(len + 5) {}
+	Sieve(i64 len = 1e6): len(len), prime(len + 5), e(len + 5), vis(len + 5) {}
 	void init() {
 		e[1] = 1;
 		for (i64 i = 2; i <= len; i++) {
