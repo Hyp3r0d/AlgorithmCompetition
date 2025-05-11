@@ -83,7 +83,7 @@ std::vector<i64> PrimitiveRoot(i64 n) {
 	}
 	if (n == 2)return std::vector<i64> {1};
 	auto w = factorize(n - 1); i64 ans = 0;
-	std::vector<i64>ans;
+	std::vector<i64>res;
 	while (1) {
 		bool f = true;
 		i64 t = (rand()) % (n - 2) + 2;
@@ -99,9 +99,9 @@ std::vector<i64> PrimitiveRoot(i64 n) {
 		break;
 	}
 	for (i64 i = 1; i <= n - 1; i++) {
-		if (gcd(i, n) == 1) {
-			ans.push_back(quickPower(ans, t, n));
+		if (gcd(i, n - 1) == 1) {
+			res.push_back(quickPower(ans, i, n));
 		}
 	}
-	return ans;
+	return res;
 }
