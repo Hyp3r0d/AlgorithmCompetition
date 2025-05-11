@@ -1,3 +1,7 @@
+/*
+https://www.luogu.com.cn/contest/126525
+
+*/
 #include<bits/extc++.h>
 
 using i8 = signed char;

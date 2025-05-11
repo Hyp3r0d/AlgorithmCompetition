@@ -1,5 +1,7 @@
+/* 
+https://www.luogu.com.cn/contest/135929#problems
+*/
 #include<bits/extc++.h>
-
 using i8 = signed char;
 using u8 = unsigned char;
 using i16 = signed short int;
@@ -40,7 +42,7 @@ void solve() {
 		});
 		for (i64 i = 1; i < tmp.size(); i++) {
 			if (tmp[i].second < tmp[i - 1].second)return false;
-		};
+		}
 		return true;
 	};
 	i64 l = 0, r = n * m;
