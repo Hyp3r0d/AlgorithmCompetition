@@ -270,3 +270,114 @@ public:
     }
 
 };
+
+
+
+
+
+
+
+template<typename T>
+struct SegmentTree {
+    /*可合并的、带懒标记的动态开点线段树*/
+public:
+
+    struct Node {
+        i64 l, r; // 所维护的区间范围
+        i64 ls, rs;// 左右孩子
+        T mul, add, sum;
+    };
+
+    std::vector<Node>tr; i64 n; i64 tot = 0;
+    SegmentTree(int n): tr(2 * n + 1), n(n) {}
+
+    void pushUp(i64 p) {
+        tr[p].sum = (tr[tr[p].ls].sum % m + tr[tr[p].rs].sum) % m;
+        return;
+    }
+    void pushDown(i64 p) {
+        i64 mid = (tr[p].l + tr[p].r) >> 1;
+        if (not tr[p].ls) {
+            tr[p].ls = ++tot;
+            tr[tot].l = tr[p].l;
+            tr[tot].r = mid;
+            tr[tr[p].ls].mul = 1;
+        }
+        if (not tr[p].rs) {
+            tr[p].rs = ++tot;
+            tr[tot].l = mid + 1;
+            tr[tot].r = tr[p].r;
+            tr[tr[p].rs].mul = 1;
+        }
+        if (tr[p].mul != 1) {
+            T mu = tr[p].mul;
+            tr[p].mul = 1;
+            tr[tr[p].ls].mul = tr[tr[p].ls].mul * mu % m;
+            tr[tr[p].rs].mul = (tr[tr[p].rs].mul * mu % m);
+            tr[tr[p].ls].sum = (tr[tr[p].ls].sum % m * mu) % m;
+            tr[tr[p].rs].sum = (tr[tr[p].rs].sum % m * mu) % m;
+            tr[tr[p].ls].add = (tr[tr[p].ls].add % m * mu) % m;
+            tr[tr[p].rs].add = (tr[tr[p].rs].add % m * mu) % m;
+        }
+        if (tr[p].add) {
+            T ad = tr[p].add;
+            tr[p].add = 0;
+            tr[tr[p].ls].add = (tr[tr[p].ls].add + ad) % m;
+            tr[tr[p].rs].add = (tr[tr[p].rs].add + ad) % m;
+            i64 mid = (tr[p].l + tr[p].r) >> 1;
+            i64 len1 = mid - tr[p].l + 1; i64 len2 = tr[p].r - mid;
+            tr[tr[p].ls].sum = (tr[tr[p].ls].sum % m + len1 % m * ad) % m;
+            tr[tr[p].rs].sum = (tr[tr[p].rs].sum % m + len2 % m * ad) % m;
+        }
+    }
+    void modify1(i64 &p, i64 l, i64 r, T v, i64 L, i64 R) {
+        if (not p) {
+            p = ++tot;
+            tr[p].l = L, tr[p].r = R;
+            tr[p].mul = 1;
+        }
+        if (tr[p].l >= l and tr[p].r <= r) {
+            tr[p].mul = (tr[p].mul % m * v) % m;
+            tr[p].add = (tr[p].add % m * v) % m;
+            tr[p].sum = (tr[p].sum % m * v) % m;
+            return;
+        }
+        pushDown(p);
+        i64 mid = (tr[p].l + tr[p].r) >> 1;
+        if (l <= mid)modify1(tr[p].ls, l, r, v, L, mid);
+        if (r > mid)modify1(tr[p].rs, l, r, v, mid + 1, R);
+        pushUp(p);
+    }
+
+    void modify2(i64 &p, i64 l, i64 r, T v, i64 L, i64 R) {
+        if (not p) {
+            p = ++tot;
+            tr[p].l = L, tr[p].r = R;
+            tr[p].mul = 1;
+        }
+        if (tr[p].l >= l and tr[p].r <= r) {
+            tr[p].add = (tr[p].add % m + v) % m;
+            tr[p].sum = (tr[p].sum + (tr[p].r - tr[p].l + 1) % m * v) % m;
+            return;
+        }
+        pushDown(p);
+        i64 mid = (tr[p].l + tr[p].r) >> 1;
+        if (l <= mid)modify2(tr[p].ls, l, r, v, L, mid);
+        if (r > mid)modify2(tr[p].rs, l, r, v, mid + 1, R);
+        pushUp(p);
+    }
+
+    T query(i64 u, i64 l, i64 r) {
+        if (u == 0)return 0;
+        if (tr[u].l >= l and tr[u].r <= r) {
+            return tr[u].sum % m;
+        }
+        pushDown(u);
+        T ret = 0;
+        i64 mid = (tr[u].l + tr[u].r) >> 1;
+        if (l <= mid)ret = (ret % m + query(tr[u].ls, l, r)) % m;
+        if (r > mid)ret = (ret % m + query(tr[u].rs, l, r)) % m;
+        return ret % m;
+    }
+
+};
