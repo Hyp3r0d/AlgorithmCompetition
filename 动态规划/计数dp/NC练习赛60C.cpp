@@ -83,12 +83,12 @@ int main() {
         for (i64 j = 1; j <= n; j++) { // 枚举结尾段
             i64 p = s[j] - 'a';
             i64 sz = i >= 2 ? 25 : 26;
-            for (i64 k = 0; k <= sz; k++) {
-                dp2[j][p] = (dp2[j][p] + dp[j - 1][k]) % mod;
+            for (i64 f = 0; f <= sz; f++) {
+                dp2[j][p] = (dp2[j][p] + dp[j - 1][f]) % mod;
             }
-            for (i64 k = 0; k <= 25; k++) { // 结尾字母必须为1 - 26
-                if (k != p) {
-                    dp2[j][k] = (dp2[j][k] % mod + dp2[j - 1][k]) % mod;
+            for (i64 f = 0; f <= 25; f++) { // 结尾字母必须为1 - 26
+                if (f != p) {
+                    dp2[j][f] = (dp2[j][f] % mod + dp2[j - 1][f]) % mod;
                 }
             }
         }
