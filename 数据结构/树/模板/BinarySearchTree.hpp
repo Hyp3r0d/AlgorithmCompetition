@@ -99,6 +99,7 @@ public:
           TreeNode* successor = findMinNode(cur->right);
           cur->key = successor->key;
           cur->count = successor->count;  // 更新重复数量
+          successor->count = 1;
           cur->right = remove(cur->right, successor->key);
         }
       }
